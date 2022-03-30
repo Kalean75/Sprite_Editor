@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/bucket.png</file>
+        <file>res/dropper.png</file>
+        <file>res/eraser.png</file>
+        <file>res/pencil.png</file>
+        <file>res/selection.png</file>
+    </qresource>
+</RCC>
