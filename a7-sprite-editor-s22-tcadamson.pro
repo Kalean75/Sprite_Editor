@@ -10,9 +10,11 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
+    panelcanvas.cpp \
     view.cpp
 
 HEADERS += \
+    panelcanvas.h \
     view.h
 
 FORMS += \
