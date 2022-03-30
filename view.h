@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QActionGroup>
+#include <QImage>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -17,7 +18,13 @@ public:
     ~View();
 
 private:
-    Ui::View *ui;
+    const int canvasDefaultScale = 8;
+    const int canvasCheckerboardSize = 8;
+    const int canvasDefaultSize = 64;
+    int canvasScale = canvasDefaultScale;
+    QSize canvasSize = QSize(canvasDefaultSize, canvasDefaultSize);
+    QImage canvas;
     QActionGroup* toolActionGroup;
+    Ui::View *ui;
 };
 #endif // VIEW_H
