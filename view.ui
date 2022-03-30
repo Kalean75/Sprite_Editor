@@ -55,7 +55,7 @@
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolbar">
    <property name="contextMenuPolicy">
     <enum>Qt::PreventContextMenu</enum>
    </property>

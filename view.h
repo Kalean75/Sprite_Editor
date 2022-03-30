@@ -2,6 +2,7 @@
 #define VIEW_H
 
 #include <QMainWindow>
+#include <QActionGroup>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -17,5 +18,6 @@ public:
 
 private:
     Ui::View *ui;
+    QActionGroup* toolActionGroup;
 };
 #endif // VIEW_H
