@@ -15,7 +15,7 @@ View::View(PanelCanvas& canvas, QWidget *parent)
     connect(&canvas, &PanelCanvas::updateCanvasLabel, this, &View::updateCanvasLabel);
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
-    ui->actionPencil->setChecked(true);
+    ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
     ui->zoomSlider->setValue(8); // canvas.setCanvasScale(8)
     canvas.setCanvasWidth(64);
     canvas.setCanvasHeight(64);
