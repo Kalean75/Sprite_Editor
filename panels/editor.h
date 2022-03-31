@@ -15,7 +15,6 @@ private:
     int canvasScale;
     QSize canvasSize;
     QPoint canvasOffset;
-    QPoint canvasOffsetBuffer;
     QImage canvas;
     enum tool
     {

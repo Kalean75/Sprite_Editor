@@ -105,7 +105,6 @@ void Editor::mouseMoved(QMouseEvent* e)
         case select:
             break;
         case move:
-            canvasOffsetBuffer = e->pos();
-            emit updateViewCanvas(canvas, canvasOffsetBuffer - canvasOffset);
+            emit updateViewCanvas(canvas, e->pos() - canvasOffset);
     }
 }
