@@ -6,7 +6,7 @@
 #include <QActionGroup>
 #include <QPainter>
 #include <QImage>
-#include "panelcanvas.h"
+#include "panels/editor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -16,7 +16,7 @@ class View : public QMainWindow
 {
     Q_OBJECT
 public:
-    View(PanelCanvas& canvas, QWidget *parent = nullptr);
+    View(Editor& editorPanel, QWidget *parent = nullptr);
     ~View();
 private:
     QActionGroup* toolActionGroup;

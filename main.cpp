@@ -1,12 +1,12 @@
 #include <QApplication>
-#include "panelcanvas.h"
+#include "panels/editor.h"
 #include "view.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    PanelCanvas canvas;
-    View w(canvas);
+    Editor editorPanel;
+    View w(editorPanel);
     w.show();
     return a.exec();
 }

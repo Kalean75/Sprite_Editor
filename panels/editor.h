@@ -1,14 +1,14 @@
-#ifndef PANELCANVAS_H
-#define PANELCANVAS_H
+#ifndef EDITOR_H
+#define EDITOR_H
 
 #include <QObject>
 #include <QImage>
 
-class PanelCanvas : public QObject
+class Editor : public QObject
 {
     Q_OBJECT
 public:
-    explicit PanelCanvas(QObject *parent = nullptr);
+    explicit Editor(QObject *parent = nullptr);
 private:
     const int canvasCheckerboardSize = 8;
     int canvasScale;
@@ -25,4 +25,4 @@ signals:
     void updateViewCanvas(const QImage&);
 };
 
-#endif // PANELCANVAS_H
+#endif // EDITOR_H

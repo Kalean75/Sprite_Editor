@@ -1,29 +1,29 @@
 #include <QDebug>
-#include "panelcanvas.h"
+#include "panels/editor.h"
 
-PanelCanvas::PanelCanvas(QObject* parent) : QObject(parent)
+Editor::Editor(QObject* parent) : QObject(parent)
 {
 }
 
-void PanelCanvas::canvasScaleChanged(int scale)
+void Editor::canvasScaleChanged(int scale)
 {
     canvasScale = scale;
     refreshCanvasImage();
 }
 
-void PanelCanvas::canvasWidthChanged(int width)
+void Editor::canvasWidthChanged(int width)
 {
     canvasSize.setWidth(width);
     refreshCanvasImage();
 }
 
-void PanelCanvas::canvasHeightChanged(int height)
+void Editor::canvasHeightChanged(int height)
 {
     canvasSize.setHeight(height);
     refreshCanvasImage();
 }
 
-void PanelCanvas::refreshCanvasImage()
+void Editor::refreshCanvasImage()
 {
     canvas = QImage(canvasSize, QImage::Format_ARGB32_Premultiplied).scaled(canvasSize * canvasScale);
     for (int x = 0; x < canvas.width(); x++)
@@ -37,12 +37,12 @@ void PanelCanvas::refreshCanvasImage()
     emit updateViewCanvas(canvas);
 }
 
-void PanelCanvas::mousePressed(Qt::MouseButton button)
+void Editor::mousePressed(Qt::MouseButton button)
 {
     qInfo() << button;
 }
 
-void PanelCanvas::mouseReleased(Qt::MouseButton button)
+void Editor::mouseReleased(Qt::MouseButton button)
 {
     qInfo() << button;
 }
