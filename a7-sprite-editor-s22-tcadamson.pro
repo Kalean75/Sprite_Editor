@@ -11,10 +11,12 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     panels/editor.cpp \
+    panels/palette.cpp \
     view.cpp
 
 HEADERS += \
     panels/editor.h \
+    panels/palette.h \
     view.h
 
 FORMS += \

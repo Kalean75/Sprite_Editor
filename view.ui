@@ -200,10 +200,10 @@
          <enum>Qt::SolidLine</enum>
         </property>
         <property name="rowCount">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="columnCount">
-         <number>5</number>
+         <number>0</number>
         </property>
         <attribute name="horizontalHeaderVisible">
          <bool>false</bool>
@@ -229,16 +229,6 @@
         <attribute name="verticalHeaderHighlightSections">
          <bool>true</bool>
         </attribute>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
        </widget>
       </item>
       <item>

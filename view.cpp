@@ -1,7 +1,7 @@
 #include "view.h"
 #include "ui_view.h"
 
-View::View(Editor& editorPanel, QWidget *parent)
+View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::View)
 {
@@ -14,28 +14,18 @@ View::View(Editor& editorPanel, QWidget *parent)
     }
     connect(ui->zoomSlider, &QSlider::valueChanged, &editorPanel, &Editor::canvasScaleChanged);
     connect(&editorPanel, &Editor::updateViewCanvas, this, &View::updateViewCanvas);
+    connect(&palettePanel, &Palette::updateViewPalette, this, &View::updateViewPalette);
     connect(this, &View::mousePressed, &editorPanel, &Editor::mousePressed);
     connect(this, &View::mouseReleased, &editorPanel, &Editor::mouseReleased);
     connect(this, &View::mouseMoved, &editorPanel, &Editor::mouseMoved);
-    // Load default palette
-    for (int i = 0; i < ui->paletteTable->columnCount(); i++)
-    {
-        int rows = ui->paletteTable->rowCount();
-        for (int j = 0; j < rows; j++)
-        {
-            QTableWidgetItem* item = new QTableWidgetItem;
-            int index = rows * i + j;
-            item->setBackground(index >= (int) palette.size() ? Qt::white : QColor("#" + palette.at(index)));
-            item->setFlags(item->flags() ^ Qt::ItemIsEditable);
-            ui->paletteTable->setItem(i, j, item);
-        }
-    }
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
     ui->zoomSlider->setValue(8); // canvas.setCanvasScale(8)
     editorPanel.canvasWidthChanged(64);
     editorPanel.canvasHeightChanged(64);
+    palettePanel.paletteColumnsChanged(5);
+    palettePanel.paletteRowsChanged(5);
 }
 
 View::~View()
@@ -43,11 +33,33 @@ View::~View()
     delete ui;
 }
 
-void View::updateViewCanvas(const QImage& canvas, QPoint offset)
+void View::updateViewCanvas(const QImage& canvas, QPoint canvasOffset)
 {
     viewCanvas = canvas;
-    viewCanvasOffset = offset;
+    viewCanvasOffset = canvasOffset;
     repaint();
+}
+
+void View::updateViewPalette(const QVector<QString>& palette, QSize paletteSize)
+{
+    QTableWidget* table = ui->paletteTable;
+    int columns = paletteSize.width();
+    int rows = paletteSize.height();
+    table->setColumnCount(columns);
+    table->setRowCount(rows);
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            QTableWidgetItem* item = new QTableWidgetItem;
+            int index = columns * i + j;
+            item->setBackground(index >= (int) palette.size() ? Qt::white : QColor("#" + palette.at(index)));
+            item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+            // This can behave destructively. Maybe enforce constraint so that table area always >= initial area
+            table->removeCellWidget(i, j);
+            table->setItem(i, j, item);
+        }
+    }
 }
 
 void View::paintEvent(QPaintEvent*)
