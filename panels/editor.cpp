@@ -1,9 +1,13 @@
 #include <QDebug>
 #include <regex>
 #include "panels/editor.h"
+#include "qpainter.h"
 
 Editor::Editor(QWidget* parent) : QWidget(parent)
 {
+    isDrawing = false;
+    currentPenWidth = 1;
+    currentColor = Qt::black;
 }
 
 void Editor::canvasScaleChanged(int scale)
@@ -68,6 +72,13 @@ void Editor::mousePressed(QMouseEvent* e)
         case move:
             canvasOffset = e->pos() - canvasOffset;
     }
+    // DELETE: Added to allow drawing on canvas
+    // Tracks mouse press position on canvas
+    if (e->button() == Qt::LeftButton)
+    {
+        lastPoint = e->pos();
+        isDrawing = true;
+    }
 }
 
 void Editor::mouseReleased(QMouseEvent* e)
@@ -88,6 +99,14 @@ void Editor::mouseReleased(QMouseEvent* e)
             canvasOffset = e->pos() - canvasOffset;
             emit updateViewCanvas(canvas, canvasOffset);
     }
+
+    // DELETE: Added to allow drawing on canvas
+    if(e->button() == Qt::LeftButton && isDrawing)
+    {
+        drawLine(e->pos());
+        isDrawing = false;
+        emit updateViewCanvas(canvas, canvasOffset);
+    }
 }
 
 void Editor::mouseMoved(QMouseEvent* e)
@@ -107,4 +126,25 @@ void Editor::mouseMoved(QMouseEvent* e)
         case move:
             emit updateViewCanvas(canvas, e->pos() - canvasOffset);
     }
+
+    // DELETE: Added to allow drawing on canvas
+    // Tracks mouse movement over canvas
+    if ((e->buttons() & Qt::LeftButton) && isDrawing)
+    {
+        drawLine(e->pos());
+        emit updateViewCanvas(canvas, canvasOffset);
+    }
+}
+
+// Canvas Drawing Implementations
+
+void Editor::drawLine(const QPoint &endPoint)
+{
+    QPainter painter(&canvas);
+    painter.setPen(QPen(currentColor, currentPenWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    painter.drawLine(lastPoint, endPoint);
+
+    int rad = (currentPenWidth / 2) + 2;
+    update(QRect(lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
+    lastPoint = endPoint;
 }

@@ -37,6 +37,16 @@ private:
     };
     tool activeTool = pencil;
     void refreshCanvas();
+
+    // Current pen settings
+    int currentPenWidth;
+    QColor currentColor;
+    QPoint lastPoint;
+
+    // Drawing controls
+    bool isDrawing;
+    void drawLine(const QPoint &endPoint);
+
 public slots:
     void canvasScaleChanged(int);
     void canvasWidthChanged(int);
@@ -45,6 +55,7 @@ public slots:
     void mousePressed(QMouseEvent*);
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
+
 signals:
     void updateViewCanvas(const QImage&, QPoint);
 };
