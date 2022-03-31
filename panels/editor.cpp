@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <regex>
 #include "panels/editor.h"
 
 Editor::Editor(QObject* parent) : QObject(parent)
@@ -8,22 +9,32 @@ Editor::Editor(QObject* parent) : QObject(parent)
 void Editor::canvasScaleChanged(int scale)
 {
     canvasScale = scale;
-    refreshCanvasImage();
+    refreshCanvas();
 }
 
 void Editor::canvasWidthChanged(int width)
 {
     canvasSize.setWidth(width);
-    refreshCanvasImage();
+    refreshCanvas();
 }
 
 void Editor::canvasHeightChanged(int height)
 {
     canvasSize.setHeight(height);
-    refreshCanvasImage();
+    refreshCanvas();
 }
 
-void Editor::refreshCanvasImage()
+void Editor::toolSelected()
+{
+    // Toolbar actions are of the form "action___" e.g. actionPencil. We can't pass this through the signal, so we
+    // retrieve the object name from the signalling action and match it
+    std::string actionName = qobject_cast<QObject*>(sender())->objectName().toStdString();
+    std::string actionID = std::regex_replace(actionName, std::regex("action([A-Za-z]+)$"), "$1");
+    actionID[0] = tolower(actionID[0]);
+    activeTool = toolResolve[actionID];
+}
+
+void Editor::refreshCanvas()
 {
     canvas = QImage(canvasSize, QImage::Format_ARGB32_Premultiplied).scaled(canvasSize * canvasScale);
     for (int x = 0; x < canvas.width(); x++)

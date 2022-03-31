@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Editor editorPanel;
-    View w(editorPanel);
-    w.show();
+    View view(editorPanel);
+    view.show();
     return a.exec();
 }

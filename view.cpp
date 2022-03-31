@@ -10,6 +10,7 @@ View::View(Editor& editorPanel, QWidget *parent)
     foreach(QAction* action, ui->toolbar->actions())
     {
         toolActionGroup->addAction(action);
+        connect(action, &QAction::triggered, &editorPanel, &Editor::toolSelected);
     }
     connect(ui->zoomSlider, &QSlider::valueChanged, &editorPanel, &Editor::canvasScaleChanged);
     connect(&editorPanel, &Editor::updateViewCanvas, this, &View::updateViewCanvas);

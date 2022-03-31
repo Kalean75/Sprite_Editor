@@ -14,11 +14,29 @@ private:
     int canvasScale;
     QSize canvasSize;
     QImage canvas;
-    void refreshCanvasImage();
+    enum tool
+    {
+        pencil,
+        eraser,
+        bucket,
+        eyedrop,
+        select
+    };
+    std::map<std::string, tool> toolResolve =
+    {
+        {"pencil", pencil},
+        {"eraser", eraser},
+        {"bucket", bucket},
+        {"eyedrop", eyedrop},
+        {"select", select}
+    };
+    tool activeTool = pencil;
+    void refreshCanvas();
 public slots:
     void canvasScaleChanged(int);
     void canvasWidthChanged(int);
     void canvasHeightChanged(int);
+    void toolSelected();
     void mousePressed(Qt::MouseButton);
     void mouseReleased(Qt::MouseButton);
 signals:
