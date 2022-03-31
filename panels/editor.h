@@ -1,15 +1,16 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
+#include <QWidget>
 #include <QObject>
 #include <QImage>
 #include <QMouseEvent>
 
-class Editor : public QObject
+class Editor : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Editor(QObject *parent = nullptr);
+    explicit Editor(QWidget *parent = nullptr);
 private:
     const int canvasCheckerboardSize = 8;
     int canvasScale;
