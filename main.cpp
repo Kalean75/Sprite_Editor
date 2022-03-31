@@ -1,7 +1,6 @@
-#include "view.h"
-
 #include <QApplication>
 #include "panelcanvas.h"
+#include "view.h"
 
 int main(int argc, char *argv[])
 {

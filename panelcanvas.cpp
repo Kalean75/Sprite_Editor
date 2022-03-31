@@ -1,23 +1,23 @@
-#include "panelcanvas.h"
 #include <QDebug>
+#include "panelcanvas.h"
 
 PanelCanvas::PanelCanvas(QObject* parent) : QObject(parent)
 {
 }
 
-void PanelCanvas::setCanvasScale(int scale)
+void PanelCanvas::canvasScaleChanged(int scale)
 {
     canvasScale = scale;
     refreshCanvasImage();
 }
 
-void PanelCanvas::setCanvasWidth(int width)
+void PanelCanvas::canvasWidthChanged(int width)
 {
     canvasSize.setWidth(width);
     refreshCanvasImage();
 }
 
-void PanelCanvas::setCanvasHeight(int height)
+void PanelCanvas::canvasHeightChanged(int height)
 {
     canvasSize.setHeight(height);
     refreshCanvasImage();
@@ -34,7 +34,7 @@ void PanelCanvas::refreshCanvasImage()
             canvas.setPixel(x, y, color.rgb());
         }
     }
-    emit updateCanvasLabel(canvas);
+    emit updateViewCanvas(canvas);
 }
 
 void PanelCanvas::mousePressed(Qt::MouseButton button)

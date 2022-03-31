@@ -16,13 +16,13 @@ private:
     QImage canvas;
     void refreshCanvasImage();
 public slots:
-    void setCanvasScale(int);
-    void setCanvasWidth(int);
-    void setCanvasHeight(int);
-    void mousePressed(Qt::MouseButton button);
-    void mouseReleased(Qt::MouseButton button);
+    void canvasScaleChanged(int);
+    void canvasWidthChanged(int);
+    void canvasHeightChanged(int);
+    void mousePressed(Qt::MouseButton);
+    void mouseReleased(Qt::MouseButton);
 signals:
-    void updateCanvasLabel(const QImage&);
+    void updateViewCanvas(const QImage&);
 };
 
 #endif // PANELCANVAS_H

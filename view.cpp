@@ -11,16 +11,16 @@ View::View(PanelCanvas& canvas, QWidget *parent)
     {
         toolActionGroup->addAction(action);
     }
-    connect(ui->zoomSlider, &QSlider::valueChanged, &canvas, &PanelCanvas::setCanvasScale);
-    connect(&canvas, &PanelCanvas::updateCanvasLabel, this, &View::updateViewCanvas);
+    connect(ui->zoomSlider, &QSlider::valueChanged, &canvas, &PanelCanvas::canvasScaleChanged);
+    connect(&canvas, &PanelCanvas::updateViewCanvas, this, &View::updateViewCanvas);
     connect(this, &View::mousePressed, &canvas, &PanelCanvas::mousePressed);
     connect(this, &View::mouseReleased, &canvas, &PanelCanvas::mouseReleased);
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
     ui->zoomSlider->setValue(8); // canvas.setCanvasScale(8)
-    canvas.setCanvasWidth(64);
-    canvas.setCanvasHeight(64);
+    canvas.canvasWidthChanged(64);
+    canvas.canvasHeightChanged(64);
 }
 
 View::~View()
