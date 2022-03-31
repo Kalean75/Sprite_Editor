@@ -36,16 +36,19 @@ void Editor::toolSelected()
 
 void Editor::refreshCanvas()
 {
-    canvas = QImage(canvasSize, QImage::Format_ARGB32_Premultiplied).scaled(canvasSize * canvasScale);
-    for (int x = 0; x < canvas.width(); x++)
+    if (canvasSize.isValid())
     {
-        for (int y = 0; y < canvas.height(); y++)
+        canvas = QImage(canvasSize, QImage::Format_ARGB32_Premultiplied).scaled(canvasSize * canvasScale);
+        for (int x = 0; x < canvas.width(); x++)
         {
-            QColor color = (x / canvasCheckerboardSize + y / canvasCheckerboardSize) % 2 == 0 ? Qt::lightGray : Qt::white;
-            canvas.setPixel(x, y, color.rgb());
+            for (int y = 0; y < canvas.height(); y++)
+            {
+                QColor color = (x / canvasCheckerboardSize + y / canvasCheckerboardSize) % 2 == 0 ? Qt::lightGray : Qt::white;
+                canvas.setPixel(x, y, color.rgb());
+            }
         }
+        emit updateViewCanvas(canvas, canvasOffset);
     }
-    emit updateViewCanvas(canvas, canvasOffset);
 }
 
 void Editor::mousePressed(QMouseEvent* e)
