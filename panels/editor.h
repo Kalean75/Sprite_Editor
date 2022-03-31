@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QImage>
+#include <QMouseEvent>
 
 class Editor : public QObject
 {
@@ -13,6 +14,8 @@ private:
     const int canvasCheckerboardSize = 8;
     int canvasScale;
     QSize canvasSize;
+    QPoint canvasOffset;
+    QPoint canvasOffsetBuffer;
     QImage canvas;
     enum tool
     {
@@ -20,7 +23,8 @@ private:
         eraser,
         bucket,
         eyedrop,
-        select
+        select,
+        move
     };
     std::map<std::string, tool> toolResolve =
     {
@@ -28,7 +32,8 @@ private:
         {"eraser", eraser},
         {"bucket", bucket},
         {"eyedrop", eyedrop},
-        {"select", select}
+        {"select", select},
+        {"move", move}
     };
     tool activeTool = pencil;
     void refreshCanvas();
@@ -37,10 +42,11 @@ public slots:
     void canvasWidthChanged(int);
     void canvasHeightChanged(int);
     void toolSelected();
-    void mousePressed(Qt::MouseButton);
-    void mouseReleased(Qt::MouseButton);
+    void mousePressed(QMouseEvent*);
+    void mouseReleased(QMouseEvent*);
+    void mouseMoved(QMouseEvent*);
 signals:
-    void updateViewCanvas(const QImage&);
+    void updateViewCanvas(const QImage&, QPoint);
 };
 
 #endif // EDITOR_H

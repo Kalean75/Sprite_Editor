@@ -16,6 +16,7 @@ View::View(Editor& editorPanel, QWidget *parent)
     connect(&editorPanel, &Editor::updateViewCanvas, this, &View::updateViewCanvas);
     connect(this, &View::mousePressed, &editorPanel, &Editor::mousePressed);
     connect(this, &View::mouseReleased, &editorPanel, &Editor::mouseReleased);
+    connect(this, &View::mouseMoved, &editorPanel, &Editor::mouseMoved);
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
@@ -29,9 +30,10 @@ View::~View()
     delete ui;
 }
 
-void View::updateViewCanvas(const QImage& canvas)
+void View::updateViewCanvas(const QImage& canvas, QPoint offset)
 {
     viewCanvas = canvas;
+    viewCanvasOffset = offset;
     repaint();
 }
 
@@ -39,17 +41,18 @@ void View::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     QPoint root = ui->canvasAnchor->mapTo(this, ui->canvasAnchor->geometry().center()) - viewCanvas.rect().center();
+    root += viewCanvasOffset;
     painter.drawImage(root.x(), root.y(), viewCanvas, 0, 0, 0, 0);
 }
 
 void View::mousePressEvent(QMouseEvent* e)
 {
-    emit mousePressed(e->button());
+    emit mousePressed(e);
 }
 
 void View::mouseReleaseEvent(QMouseEvent* e)
 {
-    emit mouseReleased(e->button());
+    emit mouseReleased(e);
 }
 
 void View::mouseMoveEvent(QMouseEvent* e)

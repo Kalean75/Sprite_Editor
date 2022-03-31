@@ -45,15 +45,64 @@ void Editor::refreshCanvas()
             canvas.setPixel(x, y, color.rgb());
         }
     }
-    emit updateViewCanvas(canvas);
+    emit updateViewCanvas(canvas, canvasOffset);
 }
 
-void Editor::mousePressed(Qt::MouseButton button)
+void Editor::mousePressed(QMouseEvent* e)
 {
-    qInfo() << button;
+    switch (activeTool)
+    {
+        case pencil:
+            break;
+        case eraser:
+            break;
+        case bucket:
+            break;
+        case eyedrop:
+            break;
+        case select:
+            break;
+        case move:
+            canvasOffset = e->pos() - canvasOffset;
+    }
 }
 
-void Editor::mouseReleased(Qt::MouseButton button)
+void Editor::mouseReleased(QMouseEvent* e)
 {
-    qInfo() << button;
+    switch (activeTool)
+    {
+        case pencil:
+            break;
+        case eraser:
+            break;
+        case bucket:
+            break;
+        case eyedrop:
+            break;
+        case select:
+            break;
+        case move:
+            canvasOffset = e->pos() - canvasOffset;
+            emit updateViewCanvas(canvas, canvasOffset);
+    }
+}
+
+void Editor::mouseMoved(QMouseEvent* e)
+{
+    switch (activeTool)
+    {
+        case pencil:
+            break;
+        case eraser:
+            break;
+        case bucket:
+            break;
+        case eyedrop:
+            break;
+        case select:
+            break;
+        case move:
+            canvasOffsetBuffer = e->pos();
+            emit updateViewCanvas(canvas, canvasOffsetBuffer - canvasOffset);
+    }
 }

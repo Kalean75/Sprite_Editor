@@ -2,7 +2,6 @@
 #define VIEW_H
 
 #include <QMainWindow>
-#include <QMouseEvent>
 #include <QActionGroup>
 #include <QPainter>
 #include <QImage>
@@ -22,15 +21,16 @@ private:
     QActionGroup* toolActionGroup;
     Ui::View *ui;
     QImage viewCanvas;
-    void updateViewCanvas(const QImage&);
+    QPoint viewCanvasOffset;
+    void updateViewCanvas(const QImage&, QPoint);
 protected:
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
 signals:
-    void mousePressed(Qt::MouseButton);
-    void mouseReleased(Qt::MouseButton);
+    void mousePressed(QMouseEvent*);
+    void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
 };
 #endif // VIEW_H
