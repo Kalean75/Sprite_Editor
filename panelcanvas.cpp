@@ -1,4 +1,5 @@
 #include "panelcanvas.h"
+#include <QDebug>
 
 PanelCanvas::PanelCanvas(QObject* parent) : QObject(parent)
 {
@@ -34,4 +35,14 @@ void PanelCanvas::refreshCanvasImage()
         }
     }
     emit updateCanvasLabel(canvas);
+}
+
+void PanelCanvas::mousePressed(Qt::MouseButton button)
+{
+    qInfo() << button;
+}
+
+void PanelCanvas::mouseReleased(Qt::MouseButton button)
+{
+    qInfo() << button;
 }
