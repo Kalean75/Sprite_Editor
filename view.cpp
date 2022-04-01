@@ -18,6 +18,7 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     connect(this, &View::mousePressed, &editorPanel, &Editor::mousePressed);
     connect(this, &View::mouseReleased, &editorPanel, &Editor::mouseReleased);
     connect(this, &View::mouseMoved, &editorPanel, &Editor::mouseMoved);
+    connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
@@ -91,6 +92,8 @@ void View::on_addFrameButton_pressed()
 {
     //TODO
     //add stuff to signal add frame
+    emit pressedAddFrame();
+    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
 }
 
 

@@ -32,6 +32,7 @@ public:
 public slots:
 
 signals:
+    //change image on frame preview
     void changeImage(QPixmap);
 
 };

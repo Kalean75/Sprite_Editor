@@ -10,6 +10,7 @@ Frame::Frame(QObject *parent)
 
 void Frame::startingFrameEditor()
 {
+    currentFrame.setIndex(totalFrames);
     Editor nextFrame;
     currentFrame = nextFrame;
     totalFrameVector.push_back(currentFrame);
@@ -32,12 +33,12 @@ Frame& Frame::operator=(const Frame other)
 }
 void Frame:: addNewFrame()
 {
+    totalFrames++;
     totalFrameVector[currentFrame.getIndex()] = currentFrame;
     Editor nextFrame;
     currentFrame = nextFrame;
     currentFrame.setIndex(totalFrames);
     totalFrameVector.push_back(nextFrame);
-    totalFrames++;
     //keep selected colors/brushes?
 }
 void Frame:: removeOldFrame()

@@ -36,6 +36,7 @@ signals:
     void mousePressed(QMouseEvent*);
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
+    void pressedAddFrame();
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
