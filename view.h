@@ -38,9 +38,11 @@ signals:
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
     void pressedAddFrame();
+    void pressedRemoveFrame();
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
     void on_frameslist_itemDoubleClicked(QListWidgetItem *item);
+    void on_frameslist_itemClicked(QListWidgetItem *item);
 };
 #endif // VIEW_H

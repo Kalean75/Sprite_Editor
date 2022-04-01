@@ -18,7 +18,9 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     connect(this, &View::mousePressed, &editorPanel, &Editor::mousePressed);
     connect(this, &View::mouseReleased, &editorPanel, &Editor::mouseReleased);
     connect(this, &View::mouseMoved, &editorPanel, &Editor::mouseMoved);
+    //Frame related
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
+    connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
@@ -101,6 +103,9 @@ void View::on_removeFrameButton_pressed()
 {
     //TODO
     //add stuff to add signal frame delete
+    //removes current row
+    emit pressedRemoveFrame();
+    ui->frameslist->takeItem(frame.currentFrame.getIndex());
 }
 
 
@@ -108,5 +113,13 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 {
     //TODO
     // Change editor to current Frame
+}
+
+
+void View::on_frameslist_itemClicked(QListWidgetItem *item)
+{
+    //TODO
+    //Change image in preview label to selected frame
+    //(double click will actually change current frame to that frame)
 }
 

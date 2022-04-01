@@ -105,6 +105,7 @@ void Editor::mousePressed(QMouseEvent* e)
     {
         lastPoint = e->pos();
         isDrawing = true;
+
     }
 }
 

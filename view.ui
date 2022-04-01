@@ -257,9 +257,9 @@
         <widget class="QPushButton" name="removeFrameButton">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>240</y>
-           <width>111</width>
+           <x>140</x>
+           <y>90</y>
+           <width>81</width>
            <height>41</height>
           </rect>
          </property>
@@ -279,9 +279,9 @@
         <widget class="QPushButton" name="addFrameButton">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>200</y>
-           <width>111</width>
+           <x>140</x>
+           <y>50</y>
+           <width>81</width>
            <height>41</height>
           </rect>
          </property>
@@ -293,8 +293,8 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>10</y>
-           <width>111</width>
+           <y>0</y>
+           <width>141</width>
            <height>191</height>
           </rect>
          </property>
@@ -308,10 +308,10 @@
         <widget class="QLabel" name="framePreview">
          <property name="geometry">
           <rect>
-           <x>120</x>
-           <y>10</y>
-           <width>131</width>
-           <height>191</height>
+           <x>0</x>
+           <y>200</y>
+           <width>241</width>
+           <height>211</height>
           </rect>
          </property>
          <property name="autoFillBackground">
