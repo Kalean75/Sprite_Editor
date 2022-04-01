@@ -11,7 +11,13 @@ class Editor : public QWidget
     Q_OBJECT
 public:
     explicit Editor(QWidget *parent = nullptr);
+    ~Editor();
+    Editor(const Editor& other);
+    Editor& operator=(const Editor other);
+    int getIndex();
+    void setIndex(int index);
 private:
+    int index;
     const int canvasCheckerboardSize = 8;
     int canvasScale;
     QSize canvasSize;

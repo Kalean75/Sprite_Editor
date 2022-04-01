@@ -10,6 +10,32 @@ Editor::Editor(QWidget* parent) : QWidget(parent)
     currentColor = Qt::black;
 }
 
+//destructor
+Editor::~Editor()
+{
+
+}
+//copy constructor
+Editor::Editor(const Editor& other)
+{
+
+}
+//assignment operator
+Editor& Editor:: operator=(const Editor other)
+{
+
+}
+
+int Editor:: getIndex()
+{
+    return index;
+}
+
+void Editor::setIndex(int index)
+{
+    this->index = index;
+}
+
 void Editor::canvasScaleChanged(int scale)
 {
     canvasScale = scale;
