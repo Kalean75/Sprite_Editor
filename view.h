@@ -8,6 +8,7 @@
 #include "panels/editor.h"
 #include "panels/palette.h"
 #include "panels/frame.h"
+#include <QListWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -40,5 +41,6 @@ signals:
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
+    void on_frameslist_itemDoubleClicked(QListWidgetItem *item);
 };
 #endif // VIEW_H

@@ -103,3 +103,10 @@ void View::on_removeFrameButton_pressed()
     //add stuff to add signal frame delete
 }
 
+
+void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
+{
+    //TODO
+    // Change editor to current Frame
+}
+
