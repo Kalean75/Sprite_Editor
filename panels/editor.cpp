@@ -8,6 +8,7 @@ Editor::Editor(QWidget* parent) : QWidget(parent)
     isDrawing = false;
     currentPenWidth = 1;
     currentColor = Qt::black;
+    index = 0;
 }
 
 //destructor

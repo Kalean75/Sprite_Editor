@@ -7,6 +7,7 @@
 #include <QImage>
 #include "panels/editor.h"
 #include "panels/palette.h"
+#include "panels/frame.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -19,6 +20,7 @@ public:
     View(Editor& editorPanel, Palette& palettePanel, QWidget *parent = nullptr);
     ~View();
 private:
+    Frame frame;
     Ui::View* ui;
     QActionGroup* toolActionGroup;
     QImage viewCanvas;
@@ -34,5 +36,8 @@ signals:
     void mousePressed(QMouseEvent*);
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
+private slots:
+    void on_addFrameButton_pressed();
+    void on_removeFrameButton_pressed();
 };
 #endif // VIEW_H

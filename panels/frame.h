@@ -29,8 +29,10 @@ public:
     void addNewFrame();
     void removeOldFrame();
 
+public slots:
 
 signals:
+    void changeImage(QPixmap);
 
 };
 

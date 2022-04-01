@@ -26,6 +26,8 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     editorPanel.canvasHeightChanged(64);
     palettePanel.paletteColumnsChanged(5);
     palettePanel.paletteRowsChanged(5);
+
+    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
 }
 
 View::~View()
@@ -84,3 +86,17 @@ void View::mouseMoveEvent(QMouseEvent* e)
 {
     emit mouseMoved(e);
 }
+
+void View::on_addFrameButton_pressed()
+{
+    //TODO
+    //add stuff to signal add frame
+}
+
+
+void View::on_removeFrameButton_pressed()
+{
+    //TODO
+    //add stuff to add signal frame delete
+}
+
