@@ -22,6 +22,11 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     //Frame related
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
+
+    // Set pen color
+    connect(ui->paletteTable, &QTableWidget::itemClicked, this, &View::setColor);
+    connect(this, &View::colorSelected, &editorPanel, &Editor::colorSelected);
+
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
@@ -134,5 +139,10 @@ void View::on_frameslist_itemClicked(QListWidgetItem *item)
     //TODO
     //Change image in preview label to selected frame
     //(double click will actually change current frame to that frame)
+}
+
+void View::setColor(QTableWidgetItem *item) {
+    QColor color = item->backgroundColor();
+    emit colorSelected(color);
 }
 

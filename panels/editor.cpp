@@ -203,3 +203,8 @@ void Editor::mouseMoved(QMouseEvent* e)
         }
     }
 }
+
+void Editor::colorSelected(QColor color)
+{
+    toolColor = color;
+}

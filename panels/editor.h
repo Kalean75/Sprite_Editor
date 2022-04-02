@@ -70,6 +70,7 @@ public slots:
     void mousePressed(QMouseEvent*);
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
+    void colorSelected(QColor);
 
 signals:
     void updateViewCanvas(const QImage&, QPoint);

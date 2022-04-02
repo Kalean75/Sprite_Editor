@@ -2,7 +2,7 @@
 #define FRAME_H
 
 #include <QObject>
-#include <Qpainter>
+#include <QPainter>
 #include "editor.h"
 #include <iostream>
 
