@@ -133,7 +133,7 @@ void Editor::mousePressed(QMouseEvent* e)
         break;
     case bucket:
         // TODO: when color selection logic is ready, replace "QColor(Qt::darkGray)" with "toolColor"
-        bucketFill(pixelColor, QColor(Qt::darkGray).rgba(), pixelIndex);
+        bucketFill(pixelColor, toolColor.rgba(), pixelIndex);
         refreshCanvas();
         break;
     case eyedrop:
