@@ -8,6 +8,7 @@
 #include "panels/editor.h"
 #include "panels/palette.h"
 #include "panels/frame.h"
+#include <QListWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -39,8 +40,12 @@ signals:
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
     void canvasAnchorChanged(QPoint);
+    void pressedAddFrame();
+    void pressedRemoveFrame();
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
+    void on_frameslist_itemDoubleClicked(QListWidgetItem *item);
+    void on_frameslist_itemClicked(QListWidgetItem *item);
 };
 #endif // VIEW_H

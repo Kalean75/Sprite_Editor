@@ -253,7 +253,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>205</width>
+          <width>250</width>
           <height>0</height>
          </size>
         </property>
@@ -266,9 +266,9 @@
         <widget class="QPushButton" name="removeFrameButton">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>200</y>
-           <width>91</width>
+           <x>140</x>
+           <y>90</y>
+           <width>81</width>
            <height>41</height>
           </rect>
          </property>
@@ -288,9 +288,9 @@
         <widget class="QPushButton" name="addFrameButton">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>200</y>
-           <width>111</width>
+           <x>140</x>
+           <y>50</y>
+           <width>81</width>
            <height>41</height>
           </rect>
          </property>
@@ -302,8 +302,8 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>10</y>
-           <width>201</width>
+           <y>0</y>
+           <width>141</width>
            <height>191</height>
           </rect>
          </property>
@@ -312,6 +312,22 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+        </widget>
+        <widget class="QLabel" name="framePreview">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>200</y>
+           <width>241</width>
+           <height>211</height>
+          </rect>
+         </property>
+         <property name="autoFillBackground">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </widget>
