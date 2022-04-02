@@ -90,14 +90,37 @@ void Editor::refreshCanvas()
     }
 }
 
-int Editor::toolPointToPixelIndex()
+int Editor::currentPixelIndex()
 {
     return toolPoint.y() * canvasSize.width() + toolPoint.x();
 }
 
+void Editor::bucketFill(QRgb color, QRgb newColor, int pixelIndex)
+{
+    int rowShift = canvasSize.width();
+    if (pixelIndex < 0 || pixelIndex >= (int) pixelBuffer.size())
+    {
+        return;
+    }
+    else if (pixelBuffer[pixelIndex] != color)
+    {
+        return;
+    }
+    else if (pixelBuffer[pixelIndex] == newColor)
+    {
+        return;
+    }
+    pixelBuffer[pixelIndex] = newColor;
+    bucketFill(color, newColor, pixelIndex + rowShift);
+    bucketFill(color, newColor, pixelIndex - rowShift);
+    bucketFill(color, newColor, pixelIndex + 1);
+    bucketFill(color, newColor, pixelIndex - 1);
+}
+
 void Editor::mousePressed(QMouseEvent* e)
 {
-    QRgb& pixelColor = pixelBuffer[toolPointToPixelIndex()];
+    int pixelIndex = currentPixelIndex();
+    QRgb& pixelColor = pixelBuffer[pixelIndex];
     switch (activeTool)
     {
     case pencil:
@@ -109,6 +132,9 @@ void Editor::mousePressed(QMouseEvent* e)
         refreshCanvas();
         break;
     case bucket:
+        // TODO: when color selection logic is ready, replace "QColor(Qt::darkGray)" with "toolColor"
+        bucketFill(pixelColor, QColor(Qt::darkGray).rgba(), pixelIndex);
+        refreshCanvas();
         break;
     case eyedrop:
         if (pixelColor != transparentPixel)
@@ -155,7 +181,7 @@ void Editor::mouseMoved(QMouseEvent* e)
     }
     if (e->buttons() & Qt::LeftButton)
     {
-        QRgb& pixelColor = pixelBuffer[toolPointToPixelIndex()];
+        QRgb& pixelColor = pixelBuffer[currentPixelIndex()];
         switch (activeTool)
         {
         case pencil:

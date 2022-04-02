@@ -49,7 +49,8 @@ private:
     // TODO: load toolColor from palette panel
     QColor toolColor = Qt::black;
     void refreshCanvas();
-    int toolPointToPixelIndex();
+    int currentPixelIndex();
+    void bucketFill(QRgb, QRgb, int);
 
 //    // Current pen settings
 //    int currentPenWidth;
