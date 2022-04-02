@@ -18,7 +18,7 @@ public:
     void setIndex(int index);
 private:
     int index;
-    const QRgb emptyPixel = qRgba(0, 0, 0, 0);
+    const QRgb transparentPixel = qRgba(0, 0, 0, 0);
     const int canvasCheckerboardSize = 8;
     int canvasScale;
     QSize canvasSize;
@@ -46,7 +46,8 @@ private:
     };
     tool activeTool = pencil;
     QPoint toolPoint;
-    QColor toolColor;
+    // TODO: load toolColor from palette panel
+    QColor toolColor = Qt::red;
     void refreshCanvas();
     int toolPointToPixelIndex();
 

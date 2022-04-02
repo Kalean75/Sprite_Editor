@@ -48,7 +48,7 @@ void Editor::canvasHeightChanged(int height)
 {
     canvasSize.setHeight(height);
     // TODO: proper logic for resizing (preserve data when expanded, clip according to new dimensions)
-    pixelBuffer.fill(emptyPixel, canvasSize.width() * canvasSize.height());
+    pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
     refreshCanvas();
 }
 
@@ -66,25 +66,6 @@ void Editor::toolSelected()
     std::string actionID = std::regex_replace(actionName, std::regex("action([A-Za-z]+)$"), "$1");
     actionID[0] = tolower(actionID[0]);
     activeTool = toolResolve[actionID];
-    switch (activeTool)
-    {
-    case pencil:
-        // TODO: load toolColor from palette panel
-        toolColor = Qt::red;
-        break;
-    case eraser:
-        // Implicit QColor cast loses alpha channel, so explicit fromRgba call is needed
-        toolColor = QColor::fromRgba(emptyPixel);
-        break;
-    case bucket:
-        break;
-    case eyedrop:
-        break;
-    case select:
-        break;
-    case move:
-        break;
-    }
 }
 
 void Editor::refreshCanvas()
@@ -97,10 +78,10 @@ void Editor::refreshCanvas()
             for (int y = 0; y < canvas.height(); y++)
             {
                 QColor color = (x / canvasCheckerboardSize + y / canvasCheckerboardSize) % 2 == 0 ? Qt::lightGray : Qt::white;
-                int pixel = (y / canvasScale) * canvasSize.width() + x / canvasScale;
-                if (pixel < (int) pixelBuffer.size() && pixelBuffer.at(pixel) != emptyPixel)
+                int pixelIndex = (y / canvasScale) * canvasSize.width() + x / canvasScale;
+                if (pixelIndex < (int) pixelBuffer.size() && pixelBuffer.at(pixelIndex) != transparentPixel)
                 {
-                    color = pixelBuffer.at(pixel);
+                    color = pixelBuffer.at(pixelIndex);
                 }
                 canvas.setPixel(x, y, color.rgba());
             }
@@ -116,16 +97,24 @@ int Editor::toolPointToPixelIndex()
 
 void Editor::mousePressed(QMouseEvent* e)
 {
+    QRgb& pixelColor = pixelBuffer[toolPointToPixelIndex()];
     switch (activeTool)
     {
     case pencil:
+        pixelColor = toolColor.rgba();
+        refreshCanvas();
+        break;
     case eraser:
-        pixelBuffer[toolPointToPixelIndex()] = toolColor.rgba();
+        pixelColor = transparentPixel;
         refreshCanvas();
         break;
     case bucket:
         break;
     case eyedrop:
+        if (pixelColor != transparentPixel)
+        {
+            toolColor = pixelColor;
+        }
         break;
     case select:
         break;
@@ -166,11 +155,15 @@ void Editor::mouseMoved(QMouseEvent* e)
     }
     if (e->buttons() & Qt::LeftButton)
     {
+        QRgb& pixelColor = pixelBuffer[toolPointToPixelIndex()];
         switch (activeTool)
         {
         case pencil:
+            pixelColor = toolColor.rgba();
+            refreshCanvas();
+            break;
         case eraser:
-            pixelBuffer[toolPointToPixelIndex()] = toolColor.rgba();
+            pixelColor = transparentPixel;
             refreshCanvas();
             break;
         case bucket:
