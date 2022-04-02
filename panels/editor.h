@@ -46,8 +46,7 @@ private:
     };
     tool activeTool = pencil;
     QPoint toolPoint;
-    // TODO: load toolColor from palette panel
-    QColor toolColor = Qt::red;
+    QColor toolColor;
     void refreshCanvas();
     int toolPointToPixelIndex();
 

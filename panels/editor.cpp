@@ -66,6 +66,25 @@ void Editor::toolSelected()
     std::string actionID = std::regex_replace(actionName, std::regex("action([A-Za-z]+)$"), "$1");
     actionID[0] = tolower(actionID[0]);
     activeTool = toolResolve[actionID];
+    switch (activeTool)
+    {
+    case pencil:
+        // TODO: load toolColor from palette panel
+        toolColor = Qt::red;
+        break;
+    case eraser:
+        // Implicit QColor cast loses alpha channel, so explicit fromRgba call is needed
+        toolColor = QColor::fromRgba(emptyPixel);
+        break;
+    case bucket:
+        break;
+    case eyedrop:
+        break;
+    case select:
+        break;
+    case move:
+        break;
+    }
 }
 
 void Editor::refreshCanvas()
@@ -81,9 +100,9 @@ void Editor::refreshCanvas()
                 int pixel = (y / canvasScale) * canvasSize.width() + x / canvasScale;
                 if (pixel < (int) pixelBuffer.size() && pixelBuffer.at(pixel) != emptyPixel)
                 {
-                    color = toolColor.rgb();
+                    color = pixelBuffer.at(pixel);
                 }
-                canvas.setPixel(x, y, color.rgb());
+                canvas.setPixel(x, y, color.rgba());
             }
         }
         emit updateViewCanvas(canvas, canvasOffset);
@@ -100,10 +119,9 @@ void Editor::mousePressed(QMouseEvent* e)
     switch (activeTool)
     {
     case pencil:
-        pixelBuffer[toolPointToPixelIndex()] = Qt::red;
-        refreshCanvas();
-        break;
     case eraser:
+        pixelBuffer[toolPointToPixelIndex()] = toolColor.rgba();
+        refreshCanvas();
         break;
     case bucket:
         break;
@@ -151,10 +169,9 @@ void Editor::mouseMoved(QMouseEvent* e)
         switch (activeTool)
         {
         case pencil:
-            pixelBuffer[toolPointToPixelIndex()] = toolColor.rgb();
-            refreshCanvas();
-            break;
         case eraser:
+            pixelBuffer[toolPointToPixelIndex()] = toolColor.rgba();
+            refreshCanvas();
             break;
         case bucket:
             break;

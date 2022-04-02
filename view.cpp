@@ -25,6 +25,7 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
+    ui->actionPencil->trigger();
     ui->zoomSlider->setValue(8); // canvas.setCanvasScale(8)
     editorPanel.canvasWidthChanged(64);
     editorPanel.canvasHeightChanged(64);
