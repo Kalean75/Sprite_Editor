@@ -25,10 +25,12 @@ private:
     QActionGroup* toolActionGroup;
     QImage viewCanvas;
     QPoint viewCanvasOffset;
+    QPoint calculateViewCanvasAnchor();
     void updateViewCanvas(const QImage&, QPoint);
     void updateViewPalette(const QVector<QString>&, QSize);
 protected:
     void paintEvent(QPaintEvent*);
+    void resizeEvent(QResizeEvent*);
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
@@ -36,6 +38,7 @@ signals:
     void mousePressed(QMouseEvent*);
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
+    void canvasAnchorChanged(QPoint);
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();

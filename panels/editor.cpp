@@ -1,14 +1,9 @@
 #include <QDebug>
 #include <regex>
 #include "panels/editor.h"
-#include "qpainter.h"
 
 Editor::Editor(QWidget* parent) : QWidget(parent)
 {
-    isDrawing = false;
-    currentPenWidth = 1;
-    currentColor = Qt::black;
-    index = 0;
 }
 
 //destructor
@@ -52,7 +47,15 @@ void Editor::canvasWidthChanged(int width)
 void Editor::canvasHeightChanged(int height)
 {
     canvasSize.setHeight(height);
+    // TODO: proper logic for resizing (preserve data when expanded, clip according to new dimensions)
+    pixelBuffer.fill(emptyPixel, canvasSize.width() * canvasSize.height());
     refreshCanvas();
+}
+
+void Editor::canvasAnchorChanged(QPoint area)
+{
+    // Canvas refresh not needed because anchor does not affect the pixel buffer
+    canvasAnchor = area;
 }
 
 void Editor::toolSelected()
@@ -75,6 +78,11 @@ void Editor::refreshCanvas()
             for (int y = 0; y < canvas.height(); y++)
             {
                 QColor color = (x / canvasCheckerboardSize + y / canvasCheckerboardSize) % 2 == 0 ? Qt::lightGray : Qt::white;
+                int pixel = (y / canvasScale) * canvasSize.width() + x / canvasScale;
+                if (pixel < (int) pixelBuffer.size() && pixelBuffer.at(pixel) != emptyPixel)
+                {
+                    color = toolColor.rgb();
+                }
                 canvas.setPixel(x, y, color.rgb());
             }
         }
@@ -82,29 +90,29 @@ void Editor::refreshCanvas()
     }
 }
 
+int Editor::toolPointToPixelIndex()
+{
+    return toolPoint.y() * canvasSize.width() + toolPoint.x();
+}
+
 void Editor::mousePressed(QMouseEvent* e)
 {
     switch (activeTool)
     {
-        case pencil:
-            break;
-        case eraser:
-            break;
-        case bucket:
-            break;
-        case eyedrop:
-            break;
-        case select:
-            break;
-        case move:
-            canvasOffset = e->pos() - canvasOffset;
-    }
-    // DELETE: Added to allow drawing on canvas
-    // Tracks mouse press position on canvas
-    if (e->button() == Qt::LeftButton)
-    {
-        lastPoint = e->pos();
-        isDrawing = true;
+    case pencil:
+        pixelBuffer[toolPointToPixelIndex()] = Qt::red;
+        refreshCanvas();
+        break;
+    case eraser:
+        break;
+    case bucket:
+        break;
+    case eyedrop:
+        break;
+    case select:
+        break;
+    case move:
+        canvasOffset = e->pos() - canvasOffset;
     }
 }
 
@@ -112,35 +120,39 @@ void Editor::mouseReleased(QMouseEvent* e)
 {
     switch (activeTool)
     {
-        case pencil:
-            break;
-        case eraser:
-            break;
-        case bucket:
-            break;
-        case eyedrop:
-            break;
-        case select:
-            break;
-        case move:
-            canvasOffset = e->pos() - canvasOffset;
-            emit updateViewCanvas(canvas, canvasOffset);
-    }
-
-    // DELETE: Added to allow drawing on canvas
-    if(e->button() == Qt::LeftButton && isDrawing)
-    {
-        drawLine(e->pos());
-        isDrawing = false;
+    case pencil:
+        break;
+    case eraser:
+        break;
+    case bucket:
+        break;
+    case eyedrop:
+        break;
+    case select:
+        break;
+    case move:
+        canvasOffset = e->pos() - canvasOffset;
         emit updateViewCanvas(canvas, canvasOffset);
     }
 }
 
 void Editor::mouseMoved(QMouseEvent* e)
 {
-    switch (activeTool)
+    QPoint canvasOrigin = canvasAnchor + canvasOffset - canvas.rect().center();
+    if (QRect(canvasOrigin, canvas.size()).contains(e->pos(), true))
     {
+        toolPoint = (e->pos() - canvasOrigin);
+        // Default QPoint divide overload rounds integers up, so we have to do manual integer division
+        toolPoint.rx() /= canvasScale;
+        toolPoint.ry() /= canvasScale;
+    }
+    if (e->buttons() & Qt::LeftButton)
+    {
+        switch (activeTool)
+        {
         case pencil:
+            pixelBuffer[toolPointToPixelIndex()] = toolColor.rgb();
+            refreshCanvas();
             break;
         case eraser:
             break;
@@ -152,26 +164,6 @@ void Editor::mouseMoved(QMouseEvent* e)
             break;
         case move:
             emit updateViewCanvas(canvas, e->pos() - canvasOffset);
+        }
     }
-
-    // DELETE: Added to allow drawing on canvas
-    // Tracks mouse movement over canvas
-    if ((e->buttons() & Qt::LeftButton) && isDrawing)
-    {
-        drawLine(e->pos());
-        emit updateViewCanvas(canvas, canvasOffset);
-    }
-}
-
-// Canvas Drawing Implementations
-
-void Editor::drawLine(const QPoint &endPoint)
-{
-    QPainter painter(&canvas);
-    painter.setPen(QPen(currentColor, currentPenWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    painter.drawLine(lastPoint, endPoint);
-
-    int rad = (currentPenWidth / 2) + 2;
-    update(QRect(lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad));
-    lastPoint = endPoint;
 }

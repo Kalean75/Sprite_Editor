@@ -18,11 +18,14 @@ public:
     void setIndex(int index);
 private:
     int index;
+    const QRgb emptyPixel = qRgba(0, 0, 0, 0);
     const int canvasCheckerboardSize = 8;
     int canvasScale;
     QSize canvasSize;
     QPoint canvasOffset;
+    QPoint canvasAnchor;
     QImage canvas;
+    QVector<QRgb> pixelBuffer;
     enum tool
     {
         pencil,
@@ -42,21 +45,26 @@ private:
         {"move", move}
     };
     tool activeTool = pencil;
+    QPoint toolPoint;
+    // TODO: load toolColor from palette panel
+    QColor toolColor = Qt::red;
     void refreshCanvas();
+    int toolPointToPixelIndex();
 
-    // Current pen settings
-    int currentPenWidth;
-    QColor currentColor;
-    QPoint lastPoint;
+//    // Current pen settings
+//    int currentPenWidth;
+//    QColor currentColor;
+//    QPoint lastPoint;
 
-    // Drawing controls
-    bool isDrawing;
-    void drawLine(const QPoint &endPoint);
+//    // Drawing controls
+//    bool isDrawing;
+//    void drawLine(const QPoint &endPoint);
 
 public slots:
     void canvasScaleChanged(int);
     void canvasWidthChanged(int);
     void canvasHeightChanged(int);
+    void canvasAnchorChanged(QPoint);
     void toolSelected();
     void mousePressed(QMouseEvent*);
     void mouseReleased(QMouseEvent*);

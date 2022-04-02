@@ -12,9 +12,10 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
         toolActionGroup->addAction(action);
         connect(action, &QAction::triggered, &editorPanel, &Editor::toolSelected);
     }
-    connect(ui->zoomSlider, &QSlider::valueChanged, &editorPanel, &Editor::canvasScaleChanged);
     connect(&editorPanel, &Editor::updateViewCanvas, this, &View::updateViewCanvas);
     connect(&palettePanel, &Palette::updateViewPalette, this, &View::updateViewPalette);
+    connect(ui->zoomSlider, &QSlider::valueChanged, &editorPanel, &Editor::canvasScaleChanged);
+    connect(this, &View::canvasAnchorChanged, &editorPanel, &Editor::canvasAnchorChanged);
     connect(this, &View::mousePressed, &editorPanel, &Editor::mousePressed);
     connect(this, &View::mouseReleased, &editorPanel, &Editor::mouseReleased);
     connect(this, &View::mouseMoved, &editorPanel, &Editor::mouseMoved);
@@ -33,6 +34,11 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
 View::~View()
 {
     delete ui;
+}
+
+QPoint View::calculateViewCanvasAnchor()
+{
+    return ui->canvasAnchor->mapTo(this, ui->canvasAnchor->geometry().center());
 }
 
 void View::updateViewCanvas(const QImage& canvas, QPoint canvasOffset)
@@ -67,9 +73,16 @@ void View::updateViewPalette(const QVector<QString>& palette, QSize paletteSize)
 void View::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
-    QPoint root = ui->canvasAnchor->mapTo(this, ui->canvasAnchor->geometry().center()) - viewCanvas.rect().center();
-    root += viewCanvasOffset;
-    painter.drawImage(root.x(), root.y(), viewCanvas, 0, 0, 0, 0);
+    QPoint origin = (calculateViewCanvasAnchor() - viewCanvas.rect().center()) + viewCanvasOffset;
+    painter.drawImage(origin.x(), origin.y(), viewCanvas, 0, 0, 0, 0);
+}
+
+void View::resizeEvent(QResizeEvent*)
+{
+    // First resize event won't get the correct layout geometry unless forcibly updated
+    ui->leftLayout->invalidate();
+    ui->leftLayout->activate();
+    emit canvasAnchorChanged(calculateViewCanvasAnchor());
 }
 
 void View::mousePressEvent(QMouseEvent* e)
