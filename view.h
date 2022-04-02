@@ -42,8 +42,9 @@ signals:
     void mouseMoved(QMouseEvent*);
     void canvasAnchorChanged(QPoint);
     void pressedAddFrame();
-    void pressedRemoveFrame();
+    void pressedRemoveFrame(int index);
     void colorSelected(QColor);
+    void selectNewFrame(int index);
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();

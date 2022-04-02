@@ -27,7 +27,12 @@ public:
     Editor currentFrame;
     //signals?
     void addNewFrame();
-    void removeOldFrame();
+    void removeOldFrame(int index);
+    void selectNewFrame(int index);
+    int gettotalFrames();
+    void settotalFrames();
+
+
 
 public slots:
 

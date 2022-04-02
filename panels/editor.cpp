@@ -9,16 +9,28 @@ Editor::Editor(QWidget* parent) : QWidget(parent)
 //destructor
 Editor::~Editor()
 {
-
+    //TODO
+    //put stuff here
 }
 //copy constructor
 Editor::Editor(const Editor& other)
 {
-
+    canvas = other.canvas;
+    index = other.index;
+    canvasSize = other.canvasSize;
+    canvasOffset = other.canvasOffset;
+    canvasAnchor = other.canvasAnchor;
+    pixelBuffer = other.pixelBuffer;
 }
 //assignment operator
-Editor& Editor:: operator=(const Editor other)
+Editor& Editor:: operator=( Editor other)
 {
+    std::swap(canvas, other.canvas);
+    std::swap(index, other.index);
+    std::swap(canvasSize, other.canvasSize);
+    std::swap(canvasOffset, other.canvasOffset);
+    std::swap(canvasAnchor, other.canvasAnchor);
+   std::swap(pixelBuffer, other.pixelBuffer);
 
 }
 

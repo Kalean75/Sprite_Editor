@@ -16,6 +16,7 @@ public:
     Editor& operator=(const Editor other);
     int getIndex();
     void setIndex(int index);
+    void refreshCanvas();
 private:
     int index;
     const QRgb transparentPixel = qRgba(0, 0, 0, 0);
@@ -48,7 +49,7 @@ private:
     QPoint toolPoint;
     // TODO: load toolColor from palette panel
     QColor toolColor = Qt::black;
-    void refreshCanvas();
+    //void refreshCanvas();
     int currentPixelIndex();
     void bucketFill(QRgb, QRgb, int);
 

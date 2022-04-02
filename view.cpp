@@ -22,6 +22,7 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     //Frame related
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
+    connect(this,&View::selectNewFrame,&frame,&Frame::selectNewFrame);
 
     // Set pen color
     connect(ui->paletteTable, &QTableWidget::itemClicked, this, &View::setColor);
@@ -119,11 +120,14 @@ void View::on_addFrameButton_pressed()
 
 void View::on_removeFrameButton_pressed()
 {
-    //TODO
-    //add stuff to add signal frame delete
     //removes current row
-    emit pressedRemoveFrame();
-    ui->frameslist->takeItem(frame.currentFrame.getIndex());
+    int index = ui->frameslist->currentRow();
+    emit pressedRemoveFrame(index);
+    //removes from the list if total is above 1
+    if(ui->frameslist->count() > 1)
+    {
+       ui->frameslist->takeItem(index);
+    }
 }
 
 
@@ -131,6 +135,8 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 {
     //TODO
     // Change editor to current Frame
+   int index = ui->frameslist->row(item);
+   emit selectNewFrame(index);
 }
 
 
@@ -142,7 +148,7 @@ void View::on_frameslist_itemClicked(QListWidgetItem *item)
 }
 
 void View::setColor(QTableWidgetItem *item) {
-    QColor color = item->backgroundColor();
-    emit colorSelected(color);
+    //QColor color = item->backgroundColor();
+    //emit colorSelected(color);
 }
 
