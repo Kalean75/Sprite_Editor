@@ -187,8 +187,8 @@ void View::on_frameslist_itemClicked(QListWidgetItem *item)
 }
 
 void View::setColor(QTableWidgetItem *item) {
-    //QColor color = item->backgroundColor();
-    //emit colorSelected(color);
+    QBrush brush = item->background();
+    emit colorSelected(brush.color());
 }
 
 void View::updatePreview()

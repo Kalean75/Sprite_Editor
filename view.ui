@@ -223,26 +223,26 @@
         <attribute name="horizontalHeaderVisible">
          <bool>false</bool>
         </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>40</number>
+        </attribute>
         <attribute name="horizontalHeaderDefaultSectionSize">
          <number>40</number>
         </attribute>
         <attribute name="horizontalHeaderHighlightSections">
          <bool>true</bool>
         </attribute>
-        <attribute name="horizontalHeaderMinimumSectionSize">
-         <number>40</number>
-        </attribute>
         <attribute name="verticalHeaderVisible">
          <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>40</number>
         </attribute>
         <attribute name="verticalHeaderDefaultSectionSize">
          <number>40</number>
         </attribute>
         <attribute name="verticalHeaderHighlightSections">
          <bool>true</bool>
-        </attribute>
-        <attribute name="verticalHeaderMinimumSectionSize">
-         <number>40</number>
         </attribute>
        </widget>
       </item>
@@ -269,9 +269,9 @@
         <widget class="QPushButton" name="removeFrameButton">
          <property name="geometry">
           <rect>
-           <x>140</x>
-           <y>90</y>
-           <width>81</width>
+           <x>130</x>
+           <y>420</y>
+           <width>111</width>
            <height>41</height>
           </rect>
          </property>
@@ -291,9 +291,9 @@
         <widget class="QPushButton" name="addFrameButton">
          <property name="geometry">
           <rect>
-           <x>140</x>
-           <y>50</y>
-           <width>81</width>
+           <x>10</x>
+           <y>420</y>
+           <width>121</width>
            <height>41</height>
           </rect>
          </property>
@@ -304,10 +304,10 @@
         <widget class="QListWidget" name="frameslist">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>141</width>
-           <height>191</height>
+           <x>10</x>
+           <y>240</y>
+           <width>231</width>
+           <height>181</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -317,30 +317,27 @@
           </sizepolicy>
          </property>
         </widget>
-        <widget class="QLabel" name="framePreview">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>200</y>
-           <width>241</width>
-           <height>211</height>
-          </rect>
-         </property>
-         <property name="autoFillBackground">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
         <widget class="QGraphicsView" name="preview">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>430</y>
-           <width>241</width>
+           <x>10</x>
+           <y>10</y>
+           <width>231</width>
            <height>181</height>
           </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>190</y>
+           <width>231</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Play Animation</string>
          </property>
         </widget>
        </widget>
@@ -355,7 +352,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="mouseTracking">
