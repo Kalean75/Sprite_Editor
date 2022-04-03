@@ -129,6 +129,8 @@ void View::on_removeFrameButton_pressed()
     {
        ui->frameslist->takeItem(index);
     }
+    //change this to signal to refresh
+       frame.currentFrame.refreshCanvas();
 }
 
 

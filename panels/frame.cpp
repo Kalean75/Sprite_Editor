@@ -108,7 +108,6 @@ void Frame:: selectNewFrame(int index)
         //debugging. Remove
         std::cout<<"index " << index<<std::endl;
         std::cout<<"CurrentFrame index " << currentFrame.getIndex()<<std::endl;
-        currentFrame.refreshCanvas();
 
         //TODO refresh displayed frame with image of new frame.
     }
