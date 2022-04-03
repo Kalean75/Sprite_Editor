@@ -33,15 +33,15 @@ public:
     void selectNewFrame(int newIndex, int oldIndex);
     int gettotalFrames();
     void settotalFrames();
-
+    void updateCurrentEditor();
 
 
 public slots:
 
+
 signals:
     //change image on frame preview
     void changeImage(QPixmap);
-
 };
 
 #endif // FRAME_H

@@ -183,6 +183,7 @@ void Editor::mouseReleased(QMouseEvent* e)
     case move:
         canvasOffset = e->pos() - canvasOffset;
         emit updateViewCanvas(canvas, canvasOffset);
+//        emit updatePreview();
     }
 }
 
@@ -224,4 +225,8 @@ void Editor::mouseMoved(QMouseEvent* e)
 void Editor::colorSelected(QColor color)
 {
     toolColor = color;
+}
+
+QImage Editor::getImage() {
+    return canvas;
 }

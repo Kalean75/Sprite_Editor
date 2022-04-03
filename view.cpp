@@ -1,5 +1,6 @@
 #include "view.h"
 #include "ui_view.h"
+#include <QGraphicsPixmapItem>
 
 View::View( Palette& palettePanel, QWidget *parent)
     : QMainWindow(parent)
@@ -24,6 +25,7 @@ View::View( Palette& palettePanel, QWidget *parent)
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
     connect(this,&View::selectNewFrame,&frame,&Frame::selectNewFrame);
+    connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreview);
 
     // Set pen color
     connect(ui->paletteTable, &QTableWidget::itemClicked, this, &View::setColor);
@@ -88,6 +90,7 @@ void View::paintEvent(QPaintEvent*)
     QPainter painter(this);
     QPoint origin = (calculateViewCanvasAnchor() - viewCanvas.rect().center()) + viewCanvasOffset;
     painter.drawImage(origin.x(), origin.y(), viewCanvas, 0, 0, 0, 0);
+    updatePreview();
 }
 
 void View::resizeEvent(QResizeEvent*)
@@ -173,8 +176,9 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 
 void View::on_frameslist_itemClicked(QListWidgetItem *item)
 {
+    updatePreview();
 //    int index = ui->frameslist->row(item);
-//    int index = ui->frameslist->currentRow();
+
 //    frame.currentFrameIndex = index;
 //    std::cout << "index of item: " << index << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
     //TODO
@@ -185,5 +189,17 @@ void View::on_frameslist_itemClicked(QListWidgetItem *item)
 void View::setColor(QTableWidgetItem *item) {
     //QColor color = item->backgroundColor();
     //emit colorSelected(color);
+}
+
+void View::updatePreview()
+{
+    frame.updateCurrentEditor();
+    int index = ui->frameslist->currentRow();
+    Editor currentPreview = frame.totalFrameVector[index];
+    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
+    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QGraphicsScene* scene = new QGraphicsScene;
+    scene->addItem(pixmapItem);
+    ui->preview->setScene(scene);
 }
 

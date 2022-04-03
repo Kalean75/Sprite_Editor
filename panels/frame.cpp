@@ -138,8 +138,13 @@ void Frame:: selectNewFrame(int newIndex, int oldIndex)
 //    }
 }
 
-int Frame:: gettotalFrames()
+int Frame::gettotalFrames()
 {
     return totalFrames;
+}
+
+void Frame::updateCurrentEditor()
+{
+    totalFrameVector[currentFrameIndex] = currentFrame;
 }
 

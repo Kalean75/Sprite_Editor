@@ -223,26 +223,26 @@
         <attribute name="horizontalHeaderVisible">
          <bool>false</bool>
         </attribute>
-        <attribute name="horizontalHeaderMinimumSectionSize">
-         <number>40</number>
-        </attribute>
         <attribute name="horizontalHeaderDefaultSectionSize">
          <number>40</number>
         </attribute>
         <attribute name="horizontalHeaderHighlightSections">
          <bool>true</bool>
         </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>40</number>
+        </attribute>
         <attribute name="verticalHeaderVisible">
          <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderMinimumSectionSize">
-         <number>40</number>
         </attribute>
         <attribute name="verticalHeaderDefaultSectionSize">
          <number>40</number>
         </attribute>
         <attribute name="verticalHeaderHighlightSections">
          <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>40</number>
         </attribute>
        </widget>
       </item>
@@ -333,6 +333,16 @@
           <string/>
          </property>
         </widget>
+        <widget class="QGraphicsView" name="preview">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>430</y>
+           <width>241</width>
+           <height>181</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
       </item>
      </layout>
@@ -345,7 +355,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="mouseTracking">

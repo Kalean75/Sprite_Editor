@@ -31,6 +31,7 @@ private:
     int currentFrameIndex;
     void updateViewCanvas(const QImage&, QPoint);
     void updateViewPalette(const QVector<QString>&, QSize);
+
 protected:
     void paintEvent(QPaintEvent*);
     void resizeEvent(QResizeEvent*);
@@ -46,11 +47,13 @@ signals:
     void pressedRemoveFrame(int index);
     void colorSelected(QColor);
     void selectNewFrame(int newIndex, int oldIndex);
+    void updateCurrentEditor(int index);
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
     void on_frameslist_itemDoubleClicked(QListWidgetItem *item);
     void on_frameslist_itemClicked(QListWidgetItem *item);
     void setColor(QTableWidgetItem *item);
+    void updatePreview();
 };
 #endif // VIEW_H

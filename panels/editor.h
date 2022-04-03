@@ -18,6 +18,7 @@ public:
     void setIndex(int index);
     //change to private
     void refreshCanvas();
+    QImage getImage();
 private:
     int index;
     const QRgb transparentPixel = qRgba(0, 0, 0, 0);
@@ -76,6 +77,7 @@ public slots:
 
 signals:
     void updateViewCanvas(const QImage&, QPoint);
+    void updatePreview();
 };
 
 #endif // EDITOR_H
