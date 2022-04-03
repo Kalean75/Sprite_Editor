@@ -14,6 +14,8 @@ private:
    int  totalFrames;
 public:
     explicit Frame(QObject *parent = nullptr);
+    int currentFrameIndex;
+    int frameNameCounter;
     std::vector<Editor> totalFrameVector;
     //copy constructor
     Frame(const Frame& other);

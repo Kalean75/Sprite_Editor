@@ -40,7 +40,8 @@ View::View( Palette& palettePanel, QWidget *parent)
 
     ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
     ui->frameslist->setCurrentRow(0);
-    currentFrameIndex = 0;
+    frame.currentFrameIndex = 0;
+    frame.frameNameCounter = 0;
 }
 
 View::~View()
@@ -117,13 +118,14 @@ void View::on_addFrameButton_pressed()
     //TODO
     //add stuff to signal add frame
     int nextIndex = ui->frameslist->currentRow() + 1;
-    int latestIndex = ui->frameslist->count();
-    emit pressedAddFrame(nextIndex, currentFrameIndex);
+    frame.frameNameCounter++;
+    int latestIndex = frame.frameNameCounter;
+    emit pressedAddFrame(nextIndex, frame.currentFrameIndex);
 
     // Add new item to frameslist and select the added item
     ui->frameslist->insertItem(nextIndex , "Frame " + QString::number(latestIndex));
-    ui->frameslist->setCurrentRow(nextIndex );
-    currentFrameIndex = nextIndex ;
+    ui->frameslist->setCurrentRow(nextIndex);
+    frame.currentFrameIndex = nextIndex ;
 //    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
 
     // Update canvas view
@@ -134,18 +136,21 @@ void View::on_addFrameButton_pressed()
 
 void View::on_removeFrameButton_pressed()
 {
-    //removes current row
-    int index = ui->frameslist->currentRow();
-    emit pressedRemoveFrame(index);
-    //remove
-    emit canvasAnchorChanged(calculateViewCanvasAnchor());
+
     //removes from the list if total is above 1
     if(ui->frameslist->count() > 1)
     {
+        //removes current row
+        int index = ui->frameslist->currentRow();
+        emit pressedRemoveFrame(index);
+        //remove
+        emit canvasAnchorChanged(calculateViewCanvasAnchor());
        ui->frameslist->takeItem(index);
-    }
-    //change this to signal to refresh
+       frame.currentFrameIndex = ui->frameslist->currentRow();
+       //change this to signal to refresh
        frame.currentFrame.refreshCanvas();
+    }
+
 }
 
 
@@ -155,8 +160,8 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
     // Change editor to current Frame
 //   int index = ui->frameslist->row(item);
    int newIndex = ui->frameslist->currentRow();
-   int oldIndex = currentFrameIndex;
-   currentFrameIndex = newIndex;
+   int oldIndex = frame.currentFrameIndex;
+   frame.currentFrameIndex = newIndex;
    std::cout << "index of item: " << newIndex << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
    emit selectNewFrame(newIndex, oldIndex);
    //remove
@@ -170,7 +175,7 @@ void View::on_frameslist_itemClicked(QListWidgetItem *item)
 {
 //    int index = ui->frameslist->row(item);
 //    int index = ui->frameslist->currentRow();
-//    currentFrameIndex = index;
+//    frame.currentFrameIndex = index;
 //    std::cout << "index of item: " << index << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
     //TODO
     //Change image in preview label to selected frame

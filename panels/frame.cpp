@@ -57,50 +57,61 @@ void Frame:: addNewFrame(int atIndex, int oldIndex)
     //update view
     //keep selected colors/brushes?
 }
-void Frame:: removeOldFrame(int index)
+void Frame:: removeOldFrame(int atIndex)
 {
+    auto it = totalFrameVector.begin();
+
+    if (atIndex < totalFrameVector.size()-1) {
+//        it = it + atIndex + 1;
+        currentFrame = totalFrameVector[atIndex+1];
+    }
+    else {
+        currentFrame = totalFrameVector[atIndex-1];
+    }
+
+    totalFrameVector.erase(it+atIndex);
     //TODO
     //ReDo this. doesn't work 100%
     //Change to remove any frame and not just last????
-    if(totalFrameVector.size() == 1)
-    {
-        //TODO
-        //Clear frame
-        return;
-    }
-    if(index == 0)
-    {
-        totalFrameVector.erase(totalFrameVector.begin());
+//    if(totalFrameVector.size() == 1)
+//    {
+//        //TODO
+//        //Clear frame
+//        return;
+//    }
+//    if(index == 0)
+//    {
+//        totalFrameVector.erase(totalFrameVector.begin());
 
-        for(int i = 0; i < (int)totalFrameVector.size(); i++)
-        {
-            totalFrameVector[i].setIndex(i);
-        }
-        currentFrame = totalFrameVector[0];
-        totalFrames--;
-                //TODO Update displayed frame
-        return;
-    }
-    if(index == (int)totalFrameVector.size() - 1)
-    {
-        currentFrame = totalFrameVector[index-1];
-        totalFrames--;
-        totalFrameVector.erase(totalFrameVector.end()-1);
-                //TODO Update displayed frame
-        return;
-    }
-    else
-    {
-        for(int i = index; i < (int)totalFrameVector.size() - 1; i++)
-        {
-            totalFrameVector[i] = totalFrameVector[i+1];
-            totalFrameVector[i].setIndex(i);
-        }
-        totalFrames--;
-        totalFrameVector.erase(totalFrameVector.end()-1);
-        //TODO Update displayed frame
-        return;
-    }
+//        for(int i = 0; i < (int)totalFrameVector.size(); i++)
+//        {
+//            totalFrameVector[i].setIndex(i);
+//        }
+//        currentFrame = totalFrameVector[0];
+//        totalFrames--;
+//                //TODO Update displayed frame
+//        return;
+//    }
+//    if(index == (int)totalFrameVector.size() - 1)
+//    {
+//        currentFrame = totalFrameVector[index-1];
+//        totalFrames--;
+//        totalFrameVector.erase(totalFrameVector.end()-1);
+//                //TODO Update displayed frame
+//        return;
+//    }
+//    else
+//    {
+//        for(int i = index; i < (int)totalFrameVector.size() - 1; i++)
+//        {
+//            totalFrameVector[i] = totalFrameVector[i+1];
+//            totalFrameVector[i].setIndex(i);
+//        }
+//        totalFrames--;
+//        totalFrameVector.erase(totalFrameVector.end()-1);
+//        //TODO Update displayed frame
+//        return;
+//    }
 }
 
 void Frame:: selectNewFrame(int newIndex, int oldIndex)
