@@ -16,6 +16,7 @@ public:
     Editor& operator=(const Editor other);
     int getIndex();
     void setIndex(int index);
+    //change to private
     void refreshCanvas();
 private:
     int index;

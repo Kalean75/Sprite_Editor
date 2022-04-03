@@ -5,20 +5,21 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::View)
 {
+    //replace (frame.currentFrame) to editorPanel to change it to old way
     ui->setupUi(this);
     toolActionGroup = new QActionGroup(ui->toolbar);
     foreach(QAction* action, ui->toolbar->actions())
     {
         toolActionGroup->addAction(action);
-        connect(action, &QAction::triggered, &editorPanel, &Editor::toolSelected);
+        connect(action, &QAction::triggered, &(frame.currentFrame), &Editor::toolSelected);
     }
-    connect(&editorPanel, &Editor::updateViewCanvas, this, &View::updateViewCanvas);
+    connect(&(frame.currentFrame), &Editor::updateViewCanvas, this, &View::updateViewCanvas);
     connect(&palettePanel, &Palette::updateViewPalette, this, &View::updateViewPalette);
-    connect(ui->zoomSlider, &QSlider::valueChanged, &editorPanel, &Editor::canvasScaleChanged);
-    connect(this, &View::canvasAnchorChanged, &editorPanel, &Editor::canvasAnchorChanged);
-    connect(this, &View::mousePressed, &editorPanel, &Editor::mousePressed);
-    connect(this, &View::mouseReleased, &editorPanel, &Editor::mouseReleased);
-    connect(this, &View::mouseMoved, &editorPanel, &Editor::mouseMoved);
+    connect(ui->zoomSlider, &QSlider::valueChanged, &(frame.currentFrame), &Editor::canvasScaleChanged);
+    connect(this, &View::canvasAnchorChanged, &(frame.currentFrame), &Editor::canvasAnchorChanged);
+    connect(this, &View::mousePressed, &(frame.currentFrame), &Editor::mousePressed);
+    connect(this, &View::mouseReleased, &(frame.currentFrame), &Editor::mouseReleased);
+    connect(this, &View::mouseMoved, &(frame.currentFrame), &Editor::mouseMoved);
     //Frame related
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
@@ -26,14 +27,14 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
 
     // Set pen color
     connect(ui->paletteTable, &QTableWidget::itemClicked, this, &View::setColor);
-    connect(this, &View::colorSelected, &editorPanel, &Editor::colorSelected);
+    connect(this, &View::colorSelected, &(frame.currentFrame), &Editor::colorSelected);
 
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
     ui->zoomSlider->setValue(16); // canvas.setCanvasScale(8)
-    editorPanel.canvasWidthChanged(32);
-    editorPanel.canvasHeightChanged(32);
+    frame.currentFrame.canvasWidthChanged(32);
+    frame.currentFrame.canvasHeightChanged(32);
     palettePanel.paletteColumnsChanged(5);
     palettePanel.paletteRowsChanged(5);
 
@@ -137,6 +138,8 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
     // Change editor to current Frame
    int index = ui->frameslist->row(item);
    emit selectNewFrame(index);
+   //change this to signal to refresh
+   frame.currentFrame.refreshCanvas();
 }
 
 

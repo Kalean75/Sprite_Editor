@@ -4,6 +4,10 @@
 
 Editor::Editor(QWidget* parent) : QWidget(parent)
 {
+    canvasSize.setHeight(32);
+    canvasSize.setWidth(32);
+    pixelBuffer.clear();
+    pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
 }
 
 //destructor

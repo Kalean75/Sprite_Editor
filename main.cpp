@@ -8,7 +8,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Editor editorPanel;
     Palette palettePanel;
-    View view(editorPanel, palettePanel);
+    Frame frame;
+    frame.currentFrame = editorPanel;
+    View view(frame.currentFrame, palettePanel);
     view.show();
     return a.exec();
 }
