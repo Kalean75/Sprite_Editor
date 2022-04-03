@@ -6,11 +6,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Editor editorPanel;
+    //Editor editorPanel;
     Palette palettePanel;
     Frame frame;
-    frame.currentFrame = editorPanel;
-    View view(frame.currentFrame, palettePanel);
+    //frame.currentFrame = editorPanel;
+    View view(palettePanel);
     view.show();
     return a.exec();
 }

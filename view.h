@@ -19,7 +19,7 @@ class View : public QMainWindow
 {
     Q_OBJECT
 public:
-    View(Editor& editorPanel, Palette& palettePanel, QWidget *parent = nullptr);
+    View(Palette& palettePanel, QWidget *parent = nullptr);
     ~View();
 private:
     Frame frame;

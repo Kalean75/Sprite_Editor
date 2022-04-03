@@ -1,7 +1,7 @@
 #include "view.h"
 #include "ui_view.h"
 
-View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
+View::View( Palette& palettePanel, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::View)
 {
@@ -33,8 +33,8 @@ View::View(Editor& editorPanel, Palette& palettePanel, QWidget *parent)
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
     ui->zoomSlider->setValue(16); // canvas.setCanvasScale(8)
-    frame.currentFrame.canvasWidthChanged(32);
-    frame.currentFrame.canvasHeightChanged(32);
+    //frame.currentFrame.canvasWidthChanged(32);
+    //frame.currentFrame.canvasHeightChanged(32);
     palettePanel.paletteColumnsChanged(5);
     palettePanel.paletteRowsChanged(5);
 
@@ -124,6 +124,8 @@ void View::on_removeFrameButton_pressed()
     //removes current row
     int index = ui->frameslist->currentRow();
     emit pressedRemoveFrame(index);
+    //remove
+    emit canvasAnchorChanged(calculateViewCanvasAnchor());
     //removes from the list if total is above 1
     if(ui->frameslist->count() > 1)
     {
@@ -140,6 +142,8 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
     // Change editor to current Frame
    int index = ui->frameslist->row(item);
    emit selectNewFrame(index);
+   //remove
+   emit canvasAnchorChanged(calculateViewCanvasAnchor());
    //change this to signal to refresh
    frame.currentFrame.refreshCanvas();
 }

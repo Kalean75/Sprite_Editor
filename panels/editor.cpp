@@ -8,6 +8,7 @@ Editor::Editor(QWidget* parent) : QWidget(parent)
     canvasSize.setWidth(32);
     pixelBuffer.clear();
     pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
+     QPoint canvasOrigin = canvasAnchor + canvasOffset - canvas.rect().center();
 }
 
 //destructor
@@ -35,7 +36,7 @@ Editor& Editor:: operator=( Editor other)
     std::swap(canvasOffset, other.canvasOffset);
     std::swap(canvasAnchor, other.canvasAnchor);
    std::swap(pixelBuffer, other.pixelBuffer);
-
+    return *this;
 }
 
 int Editor:: getIndex()

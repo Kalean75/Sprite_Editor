@@ -23,6 +23,7 @@ Frame::Frame(const Frame& other)
 {
     totalFrames = other.totalFrames;
     totalFrameVector = other.totalFrameVector;
+
     //TODO
     //insert more if needed
 }
@@ -55,17 +56,20 @@ void Frame:: addNewFrame()
 }
 void Frame:: removeOldFrame(int index)
 {
+    //TODO
+    //ReDo this. doesn't work 100%
     //Change to remove any frame and not just last????
     if(totalFrameVector.size() == 1)
     {
         //TODO
         //Clear frame
+        return;
     }
     if(index == 0)
     {
         totalFrameVector.erase(totalFrameVector.begin());
 
-        for(int i = 0; i < totalFrameVector.size(); i++)
+        for(int i = 0; i < (int)totalFrameVector.size(); i++)
         {
             totalFrameVector[i].setIndex(i);
         }
@@ -74,7 +78,7 @@ void Frame:: removeOldFrame(int index)
                 //TODO Update displayed frame
         return;
     }
-    if(index == totalFrameVector.size() - 1)
+    if(index == (int)totalFrameVector.size() - 1)
     {
         currentFrame = totalFrameVector[index-1];
         totalFrames--;
@@ -84,7 +88,7 @@ void Frame:: removeOldFrame(int index)
     }
     else
     {
-        for(int i = index; i < totalFrameVector.size() - 1; i++)
+        for(int i = index; i < (int)totalFrameVector.size() - 1; i++)
         {
             totalFrameVector[i] = totalFrameVector[i+1];
             totalFrameVector[i].setIndex(i);
