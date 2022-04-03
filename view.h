@@ -10,6 +10,7 @@
 #include "panels/frame.h"
 #include <QListWidget>
 #include <QTableWidgetItem>
+#include <Serialization.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -19,7 +20,7 @@ class View : public QMainWindow
 {
     Q_OBJECT
 public:
-    View(Palette& palettePanel, QWidget *parent = nullptr);
+    View(Palette& palettePanel, Serialization& serialization, QWidget *parent = nullptr);
     ~View();
 private:
     Frame frame;

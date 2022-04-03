@@ -9,8 +9,9 @@ int main(int argc, char *argv[])
     //Editor editorPanel;
     Palette palettePanel;
     Frame frame;
+    Serialization serialization;
     //frame.currentFrame = editorPanel;
-    View view(palettePanel);
+    View view(palettePanel, serialization);
     view.show();
     return a.exec();
 }

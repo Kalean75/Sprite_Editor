@@ -2,7 +2,7 @@
 #include "ui_view.h"
 #include <QGraphicsPixmapItem>
 
-View::View( Palette& palettePanel, QWidget *parent)
+View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::View)
 {
@@ -44,6 +44,8 @@ View::View( Palette& palettePanel, QWidget *parent)
     ui->frameslist->setCurrentRow(0);
     frame.currentFrameIndex = 0;
     frame.frameNameCounter = 0;
+
+    connect(ui->actionSaveAs, &QAction::triggered, &serialization, &Serialization::SaveAsFile);
 }
 
 View::~View()
