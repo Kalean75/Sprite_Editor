@@ -39,6 +39,8 @@ View::View( Palette& palettePanel, QWidget *parent)
     palettePanel.paletteRowsChanged(5);
 
     ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
+    ui->frameslist->setCurrentRow(0);
+    currentFrameIndex = 0;
 }
 
 View::~View()
@@ -114,8 +116,19 @@ void View::on_addFrameButton_pressed()
 {
     //TODO
     //add stuff to signal add frame
-    emit pressedAddFrame();
-    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
+    int nextIndex = ui->frameslist->currentRow() + 1;
+    int latestIndex = ui->frameslist->count();
+    emit pressedAddFrame(nextIndex, currentFrameIndex);
+
+    // Add new item to frameslist and select the added item
+    ui->frameslist->insertItem(nextIndex , "Frame " + QString::number(latestIndex));
+    ui->frameslist->setCurrentRow(nextIndex );
+    currentFrameIndex = nextIndex ;
+//    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
+
+    // Update canvas view
+    emit canvasAnchorChanged(calculateViewCanvasAnchor());
+    frame.currentFrame.refreshCanvas();
 }
 
 
@@ -140,8 +153,12 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 {
     //TODO
     // Change editor to current Frame
-   int index = ui->frameslist->row(item);
-   emit selectNewFrame(index);
+//   int index = ui->frameslist->row(item);
+   int newIndex = ui->frameslist->currentRow();
+   int oldIndex = currentFrameIndex;
+   currentFrameIndex = newIndex;
+   std::cout << "index of item: " << newIndex << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
+   emit selectNewFrame(newIndex, oldIndex);
    //remove
    emit canvasAnchorChanged(calculateViewCanvasAnchor());
    //change this to signal to refresh
@@ -151,6 +168,10 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 
 void View::on_frameslist_itemClicked(QListWidgetItem *item)
 {
+//    int index = ui->frameslist->row(item);
+//    int index = ui->frameslist->currentRow();
+//    currentFrameIndex = index;
+//    std::cout << "index of item: " << index << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
     //TODO
     //Change image in preview label to selected frame
     //(double click will actually change current frame to that frame)

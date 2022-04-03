@@ -28,6 +28,7 @@ private:
     QImage viewCanvas;
     QPoint viewCanvasOffset;
     QPoint calculateViewCanvasAnchor();
+    int currentFrameIndex;
     void updateViewCanvas(const QImage&, QPoint);
     void updateViewPalette(const QVector<QString>&, QSize);
 protected:
@@ -41,10 +42,10 @@ signals:
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
     void canvasAnchorChanged(QPoint);
-    void pressedAddFrame();
+    void pressedAddFrame(int atIndex, int oldIndex);
     void pressedRemoveFrame(int index);
     void colorSelected(QColor);
-    void selectNewFrame(int index);
+    void selectNewFrame(int newIndex, int oldIndex);
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();

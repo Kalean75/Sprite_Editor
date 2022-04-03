@@ -41,14 +41,17 @@ Frame& Frame::operator=(Frame other)
     //Add in more as needed
     return *this;
 }
-void Frame:: addNewFrame()
+void Frame:: addNewFrame(int atIndex, int oldIndex)
 {
     //adds a frame to the vector and sets current frame to new one
-    totalFrameVector[currentFrame.getIndex()] = currentFrame;
+//    totalFrameVector[currentFrame.getIndex()] = currentFrame;
+    auto it = totalFrameVector.begin();
+    totalFrameVector[oldIndex] = currentFrame;
     Editor nextFrame;
     currentFrame = nextFrame;
-    currentFrame.setIndex(totalFrames);
-    totalFrameVector.push_back(nextFrame);
+//    currentFrame.setIndex(totalFrames);
+//    totalFrameVector.push_back(nextFrame);
+    totalFrameVector.insert(it+atIndex, currentFrame);
     totalFrames++;
     //TODO
     //update view
@@ -100,26 +103,28 @@ void Frame:: removeOldFrame(int index)
     }
 }
 
-void Frame:: selectNewFrame(int index)
+void Frame:: selectNewFrame(int newIndex, int oldIndex)
 {
-    //if selecting a frame other than current
-    if(currentFrame.getIndex() != index)
-    {
-        //save current
-        totalFrameVector[currentFrame.getIndex()] = currentFrame;
-        //set current frame to index frame
-        currentFrame = totalFrameVector[index];
-        //debugging. Remove
-        std::cout<<"index " << index<<std::endl;
-        std::cout<<"CurrentFrame index " << currentFrame.getIndex()<<std::endl;
+    totalFrameVector[oldIndex] = currentFrame;
+    currentFrame = totalFrameVector[newIndex];
+//    //if selecting a frame other than current
+//    if(currentFrame.getIndex() != index)
+//    {
+//        //save current
+//        totalFrameVector[currentFrame.getIndex()] = currentFrame;
+//        //set current frame to index frame
+//        currentFrame = totalFrameVector[index];
+//        //debugging. Remove
+//        std::cout<<"index " << index<<std::endl;
+//        std::cout<<"CurrentFrame index " << currentFrame.getIndex()<<std::endl;
 
-        //TODO refresh displayed frame with image of new frame.
-    }
-    //Debugging. Remove
-    else
-    {
-       std::cout<<"CurrentFrame index " << currentFrame.getIndex()<<std::endl;
-    }
+//        //TODO refresh displayed frame with image of new frame.
+//    }
+//    //Debugging. Remove
+//    else
+//    {
+//       std::cout<<"CurrentFrame index " << currentFrame.getIndex()<<std::endl;
+//    }
 }
 
 int Frame:: gettotalFrames()

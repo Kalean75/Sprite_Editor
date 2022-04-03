@@ -26,9 +26,9 @@ public:
     int getframeNumber();
     Editor currentFrame;
     //signals?
-    void addNewFrame();
+    void addNewFrame(int atIndex, int oldIndex);
     void removeOldFrame(int index);
-    void selectNewFrame(int index);
+    void selectNewFrame(int newIndex, int oldIndex);
     int gettotalFrames();
     void settotalFrames();
 
