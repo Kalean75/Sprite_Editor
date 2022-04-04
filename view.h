@@ -60,7 +60,6 @@ private slots:
     void on_frameslist_itemClicked(QListWidgetItem *item);
     void setColor(QTableWidgetItem *item);
     void updatePreview();
-    void on_pushButton_pressed();
     void on_playButton_pressed();
     void playAnimation();
 };
