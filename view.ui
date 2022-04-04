@@ -270,7 +270,7 @@
          <property name="geometry">
           <rect>
            <x>130</x>
-           <y>460</y>
+           <y>500</y>
            <width>111</width>
            <height>41</height>
           </rect>
@@ -292,7 +292,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>460</y>
+           <y>500</y>
            <width>121</width>
            <height>41</height>
           </rect>
@@ -305,7 +305,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>280</y>
+           <y>320</y>
            <width>231</width>
            <height>181</height>
           </rect>
@@ -343,10 +343,10 @@
         <widget class="QLabel" name="label">
          <property name="geometry">
           <rect>
-           <x>80</x>
+           <x>70</x>
            <y>240</y>
            <width>49</width>
-           <height>31</height>
+           <height>16</height>
           </rect>
          </property>
          <property name="font">
@@ -365,17 +365,20 @@
         <widget class="QLineEdit" name="fps">
          <property name="geometry">
           <rect>
-           <x>130</x>
+           <x>120</x>
            <y>240</y>
-           <width>41</width>
-           <height>31</height>
+           <width>31</width>
+           <height>21</height>
           </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+           <bold>true</bold>
+          </font>
          </property>
          <property name="text">
           <string>60</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>

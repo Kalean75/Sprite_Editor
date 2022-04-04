@@ -1,8 +1,7 @@
 #include "view.h"
 #include "ui_view.h"
 #include <QGraphicsPixmapItem>
-#include <unistd.h>
-#include <QTimer>
+#include <Qtimer>
 
 View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent)
     : QMainWindow(parent)
@@ -24,15 +23,15 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(this, &View::mousePressed, &(frame.currentFrame), &Editor::mousePressed);
     connect(this, &View::mouseReleased, &(frame.currentFrame), &Editor::mouseReleased);
     connect(this, &View::mouseMoved, &(frame.currentFrame), &Editor::mouseMoved);
-
     //Frame related
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
     connect(this,&View::selectNewFrame,&frame,&Frame::selectNewFrame);
     connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreview);
 
-    //play animation
-    //connect(&(frame.currentFrame), &Editor::playSpriteAnimation, this, &Frame::playSpriteAnimation);
+    //set FPS box to only accept number between 0 - 100
+    ui->fps->setValidator( new QIntValidator(0, 60, this) );
+
     // Set pen color
     connect(ui->paletteTable, &QTableWidget::itemClicked, this, &View::setColor);
     connect(this, &View::colorSelected, &(frame.currentFrame), &Editor::colorSelected);
@@ -50,10 +49,13 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     ui->frameslist->setCurrentRow(0);
     frame.currentFrameIndex = 0;
     frame.frameNameCounter = 0;
-    //set box to only accept number between 0 - 100
-    ui->fps->setValidator( new QIntValidator(0, 60, this) );
 
+    connect(ui->actionOpen, &QAction::triggered, &serialization, &Serialization::OpenFile);
     connect(ui->actionSaveAs, &QAction::triggered, &serialization, &Serialization::SaveAsFile);
+    connect(ui->actionSave, &QAction::triggered, &serialization, &Serialization::SaveFile);
+    connect(ui->actionNew, &QAction::triggered, &serialization, &Serialization::NewFile);
+    connect(&serialization, &Serialization::openFileExplorer, this, &View::openFileExplorer);
+    connect(&serialization, &Serialization::saveFileDialog, this, &View::saveFileDialog);
 }
 
 View::~View()
@@ -212,36 +214,78 @@ void View::updatePreview()
     scene->addItem(pixmapItem);
     ui->preview->setScene(scene);
 }
-
-
+//Improve this. Rough test
 void View::playAnimation()
 {
+    //disable elements
     ui->frameslist->setEnabled(false);
-        QString fps = ui->fps->text();
-        int framesPerSecond = fps.toUInt();
-        int fpstime = 1000/framesPerSecond;
-    Editor currentPreview = frame.totalFrameVector[animindex];
+    ui->addFrameButton->setEnabled(false);
+    ui->removeFrameButton->setEnabled(false);
+    ui->playButton->setEnabled(false);
+    ui->fps->setEnabled(false);
+
+    //grabs number from fps box and sets it to proper time
+    QString fps = ui->fps->text();
+    int framesPerSecond = fps.toUInt();
+    int fpstime = 1000/framesPerSecond;
+
+    Editor currentPreview = frame.totalFrameVector[animIndex];
     QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     QGraphicsScene* scene = new QGraphicsScene;
     scene->addItem(pixmapItem);
     ui->preview->setScene(scene);
-    if( animindex < frame.gettotalFrames() - 1)
+    if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
     {
-        animindex++;
         QTimer::singleShot(fpstime,this, &View::playAnimation);
+        animIndex++;
     }
     else
     {
         ui->frameslist->setEnabled(true);
-        animindex = 0;
+        ui->addFrameButton->setEnabled(true);
+        ui->removeFrameButton->setEnabled(true);
+        ui->playButton->setEnabled(true);
+        ui->fps->setEnabled(true);
+        startAnimate = false;
     }
 
 }
 
-
 void View::on_playButton_pressed()
 {    //frame.updateCurrentEditor();
+    animIndex = 0;
+    startAnimate = true;
+    Editor currentPreview = frame.totalFrameVector[animIndex];
+    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
+    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QGraphicsScene* scene = new QGraphicsScene;
+    scene->addItem(pixmapItem);
+    ui->preview->setScene(scene);
     playAnimation();
 }
 
+void View::openFileExplorer(){
+    QFileDialog dialog(this);
+    dialog.setNameFilter("Sprite Files (*.ssp)");
+    dialog.setWindowTitle("Open Sprite");
+    if (dialog.exec()){
+        //TODO read the file
+    }
+}
+
+void View::saveFileDialog(){
+//    QFileDialog dialog(this);
+//    dialog.setFileMode(QFileDialog::AnyFile);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "/sprite", tr("Sprite File (*.ssp"));
+    if (fileName != ""){
+        QFile file(QFileInfo(fileName).absoluteFilePath());
+        if (file.open(QIODevice::WriteOnly)){
+            //TODO add info to file here
+            file.close();
+        }
+        else {
+            QMessageBox::information(this, tr("Saving File"), tr("Could not save sprite file"));
+        }
+    }
+}

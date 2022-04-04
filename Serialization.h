@@ -3,6 +3,7 @@
 #include <QString>
 #include <QObject>
 #include <QJsonObject>
+#include <QFileDialog>
 
 class Serialization : public QObject {
     Q_OBJECT
@@ -41,6 +42,9 @@ public slots:
     void OpenFile(bool checked);
     void NewFile(bool checked);
     void SaveFile(bool checked);
+signals:
+    void openFileExplorer();
+    void saveFileDialog();
 };
 
 #endif // SERIALIZATION_H

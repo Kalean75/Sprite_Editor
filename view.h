@@ -11,7 +11,7 @@
 #include <QListWidget>
 #include <QTableWidgetItem>
 #include <Serialization.h>
-#include <QTimer>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -33,8 +33,10 @@ private:
     int currentFrameIndex;
     void updateViewCanvas(const QImage&, QPoint);
     void updateViewPalette(const QVector<QString>&, QSize);
-    int animindex = 0;
-
+    void openFileExplorer();
+    void saveFileDialog();
+    int animIndex = 0;
+    bool startAnimate = false;
 protected:
     void paintEvent(QPaintEvent*);
     void resizeEvent(QResizeEvent*);
@@ -58,6 +60,7 @@ private slots:
     void on_frameslist_itemClicked(QListWidgetItem *item);
     void setColor(QTableWidgetItem *item);
     void updatePreview();
+    void on_pushButton_pressed();
     void on_playButton_pressed();
     void playAnimation();
 };
