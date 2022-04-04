@@ -213,29 +213,34 @@ void View::updatePreview()
 }
 
 
-void View::playAnimation(int index)
+void View::playAnimation()
 {
-    frame.updateCurrentEditor() ;
-    Editor currentPreview = frame.totalFrameVector[index];
+    ui->frameslist->setEnabled(false);
+        QString fps = ui->fps->text();
+        int framesPerSecond = fps.toUInt();
+        int fpstime = 1000/framesPerSecond;
+    Editor currentPreview = frame.totalFrameVector[animindex];
     QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     QGraphicsScene* scene = new QGraphicsScene;
     scene->addItem(pixmapItem);
     ui->preview->setScene(scene);
+    if( animindex < frame.gettotalFrames() - 1)
+    {
+        animindex++;
+        QTimer::singleShot(fpstime,this, &View::playAnimation);
+    }
+    else
+    {
+        ui->frameslist->setEnabled(true);
+        animindex = 0;
+    }
 
 }
 
 
 void View::on_playButton_pressed()
-{
-    //frame.updateCurrentEditor();
-    for(int index = 0; index < frame.totalFrameVector.size(); index++)
-    {
-        QString fps = ui->fps->text();
-        int framesPerSecond = fps.toUInt();
-        int fpstime = 1000/framesPerSecond;
-
-        //QTimer::singleShot(fpstime, this, &View::playAnimation(index));
-    }
+{    //frame.updateCurrentEditor();
+    playAnimation();
 }
 

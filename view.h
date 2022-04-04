@@ -33,6 +33,7 @@ private:
     int currentFrameIndex;
     void updateViewCanvas(const QImage&, QPoint);
     void updateViewPalette(const QVector<QString>&, QSize);
+    int animindex = 0;
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -50,7 +51,6 @@ signals:
     void colorSelected(QColor);
     void selectNewFrame(int newIndex, int oldIndex);
     void updateCurrentEditor(int index);
-    void playSpriteAnimation();
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
@@ -58,7 +58,7 @@ private slots:
     void on_frameslist_itemClicked(QListWidgetItem *item);
     void setColor(QTableWidgetItem *item);
     void updatePreview();
-    void playAnimation(int index);
     void on_playButton_pressed();
+    void playAnimation();
 };
 #endif // VIEW_H
