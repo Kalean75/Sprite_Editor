@@ -24,18 +24,20 @@ void Serialization::set(Key k, QJsonValue v)
     config.insert(configDefaults.at(static_cast<int>(k)).first, v);
 }
 
-void Serialization::SaveAsFile(bool checked){
-    emit saveFileDialog();
+void Serialization::SaveAsFile(bool){
+    QJsonDocument document;
+    document.setObject(config);
+    emit saveFileDialog(document.toJson( QJsonDocument::Indented ));
 }
 
-void Serialization::NewFile(bool checked){
+void Serialization::NewFile(bool){
 
 }
 
-void Serialization::OpenFile(bool checked){
+void Serialization::OpenFile(bool){
     emit openFileExplorer();
 }
 
-void Serialization::SaveFile(bool checked){
+void Serialization::SaveFile(bool){
 
 }

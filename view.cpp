@@ -278,14 +278,13 @@ void View::openFileExplorer(){
     }
 }
 
-void View::saveFileDialog(){
-//    QFileDialog dialog(this);
-//    dialog.setFileMode(QFileDialog::AnyFile);
+void View::saveFileDialog(QByteArray jsonBytes){
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "/sprite", tr("Sprite File (*.ssp"));
     if (fileName != ""){
         QFile file(QFileInfo(fileName).absoluteFilePath());
         if (file.open(QIODevice::WriteOnly)){
-            //TODO add info to file here
+            QTextStream iStream( &file );
+            iStream << jsonBytes;
             file.close();
         }
         else {

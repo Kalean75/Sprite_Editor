@@ -34,7 +34,7 @@ private:
     void updateViewCanvas(const QImage&, QPoint);
     void updateViewPalette(const QVector<QString>&, QSize);
     void openFileExplorer();
-    void saveFileDialog();
+    void saveFileDialog(QByteArray);
     int animIndex = 0;
     bool startAnimate = false;
 protected:
