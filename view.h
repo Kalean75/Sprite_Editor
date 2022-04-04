@@ -48,6 +48,7 @@ signals:
     void mouseReleased(QMouseEvent*);
     void mouseMoved(QMouseEvent*);
     void canvasAnchorChanged(QPoint);
+    void canvasOffsetChanged(QPoint);
     void pressedAddFrame(int atIndex, int oldIndex);
     void pressedRemoveFrame(int index);
     void colorSelected(QColor);

@@ -20,6 +20,7 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(&palettePanel, &Palette::updateViewPalette, this, &View::updateViewPalette);
     connect(ui->zoomSlider, &QSlider::valueChanged, &(frame.currentFrame), &Editor::canvasScaleChanged);
     connect(this, &View::canvasAnchorChanged, &(frame.currentFrame), &Editor::canvasAnchorChanged);
+    connect(this, &View::canvasOffsetChanged, &(frame.currentFrame), &Editor::canvasOffsetChanged);
     connect(this, &View::mousePressed, &(frame.currentFrame), &Editor::mousePressed);
     connect(this, &View::mouseReleased, &(frame.currentFrame), &Editor::mouseReleased);
     connect(this, &View::mouseMoved, &(frame.currentFrame), &Editor::mouseMoved);
@@ -145,6 +146,7 @@ void View::on_addFrameButton_pressed()
 
     // Update canvas view
     emit canvasAnchorChanged(calculateViewCanvasAnchor());
+    emit canvasOffsetChanged(viewCanvasOffset);
     frame.currentFrame.refreshCanvas();
 }
 
@@ -160,6 +162,7 @@ void View::on_removeFrameButton_pressed()
         emit pressedRemoveFrame(index);
         //remove
         emit canvasAnchorChanged(calculateViewCanvasAnchor());
+        emit canvasOffsetChanged(viewCanvasOffset);
        ui->frameslist->takeItem(index);
        frame.currentFrameIndex = ui->frameslist->currentRow();
        //change this to signal to refresh
@@ -181,6 +184,7 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
    emit selectNewFrame(newIndex, oldIndex);
    //remove
    emit canvasAnchorChanged(calculateViewCanvasAnchor());
+   emit canvasOffsetChanged(viewCanvasOffset);
    //change this to signal to refresh
    frame.currentFrame.refreshCanvas();
 }

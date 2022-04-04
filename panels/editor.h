@@ -70,6 +70,7 @@ public slots:
     void canvasWidthChanged(int);
     void canvasHeightChanged(int);
     void canvasAnchorChanged(QPoint);
+    void canvasOffsetChanged(QPoint);
     void toolSelected();
     void mousePressed(QMouseEvent*);
     void mouseReleased(QMouseEvent*);

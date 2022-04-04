@@ -80,6 +80,11 @@ void Editor::canvasAnchorChanged(QPoint area)
     canvasAnchor = area;
 }
 
+void Editor::canvasOffsetChanged(QPoint offset)
+{
+    canvasOffset = offset;
+}
+
 void Editor::toolSelected()
 {
     // Toolbar actions are of the form "action___" e.g. actionPencil. We can't pass this through the signal, so we
