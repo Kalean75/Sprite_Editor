@@ -1,6 +1,7 @@
 #include "view.h"
 #include "ui_view.h"
 #include <QGraphicsPixmapItem>
+#include <Qtimer>
 
 View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent)
     : QMainWindow(parent)
@@ -26,6 +27,9 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
     connect(this,&View::selectNewFrame,&frame,&Frame::selectNewFrame);
     connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreview);
+
+    //set FPS box to only accept number between 0 - 100
+    ui->fps->setValidator( new QIntValidator(0, 60, this) );
 
     // Set pen color
     connect(ui->paletteTable, &QTableWidget::itemClicked, this, &View::setColor);
@@ -208,6 +212,56 @@ void View::updatePreview()
     QGraphicsScene* scene = new QGraphicsScene;
     scene->addItem(pixmapItem);
     ui->preview->setScene(scene);
+}
+//Improve this. Rough test
+void View::playAnimation()
+{
+    //disable elements
+    ui->frameslist->setEnabled(false);
+    ui->addFrameButton->setEnabled(false);
+    ui->removeFrameButton->setEnabled(false);
+    ui->playButton->setEnabled(false);
+    ui->fps->setEnabled(false);
+
+    //grabs number from fps box and sets it to proper time
+    QString fps = ui->fps->text();
+    int framesPerSecond = fps.toUInt();
+    int fpstime = 1000/framesPerSecond;
+
+    Editor currentPreview = frame.totalFrameVector[animIndex];
+    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
+    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QGraphicsScene* scene = new QGraphicsScene;
+    scene->addItem(pixmapItem);
+    ui->preview->setScene(scene);
+    if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
+    {
+        QTimer::singleShot(fpstime,this, &View::playAnimation);
+        animIndex++;
+    }
+    else
+    {
+        ui->frameslist->setEnabled(true);
+        ui->addFrameButton->setEnabled(true);
+        ui->removeFrameButton->setEnabled(true);
+        ui->playButton->setEnabled(true);
+        ui->fps->setEnabled(true);
+        startAnimate = false;
+    }
+
+}
+
+void View::on_playButton_pressed()
+{    //frame.updateCurrentEditor();
+    animIndex = 0;
+    startAnimate = true;
+    Editor currentPreview = frame.totalFrameVector[animIndex];
+    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
+    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QGraphicsScene* scene = new QGraphicsScene;
+    scene->addItem(pixmapItem);
+    ui->preview->setScene(scene);
+    playAnimation();
 }
 
 void View::openFileExplorer(){

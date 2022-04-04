@@ -270,7 +270,7 @@
          <property name="geometry">
           <rect>
            <x>130</x>
-           <y>420</y>
+           <y>500</y>
            <width>111</width>
            <height>41</height>
           </rect>
@@ -292,7 +292,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>420</y>
+           <y>500</y>
            <width>121</width>
            <height>41</height>
           </rect>
@@ -305,7 +305,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>240</y>
+           <y>320</y>
            <width>231</width>
            <height>181</height>
           </rect>
@@ -327,7 +327,7 @@
           </rect>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="playButton">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -338,6 +338,47 @@
          </property>
          <property name="text">
           <string>Play Animation</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>240</y>
+           <width>49</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>FPS</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="fps">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>240</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>60</string>
          </property>
         </widget>
        </widget>
