@@ -27,7 +27,7 @@ void Serialization::set(Key k, QJsonValue v)
 void Serialization::SaveAsFile(bool){
     QJsonDocument document;
     document.setObject(config);
-    emit saveFileDialog(document.toJson( QJsonDocument::Indented ));
+    emit saveFileDialog(document.toJson(QJsonDocument::Indented));
 }
 
 void Serialization::NewFile(bool){
@@ -40,4 +40,13 @@ void Serialization::OpenFile(bool){
 
 void Serialization::SaveFile(bool){
 
+}
+
+void Serialization::loadedSerializedValues(QJsonObject loaded)
+{
+    config = loaded;
+    for (int i = 0; i < (int) configDefaults.size(); i++)
+    {
+        emit updateViewValue(static_cast<Key>(i), loaded.value(configDefaults.at(i).first));
+    }
 }

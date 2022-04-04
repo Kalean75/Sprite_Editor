@@ -57,6 +57,8 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(ui->actionNew, &QAction::triggered, &serialization, &Serialization::NewFile);
     connect(&serialization, &Serialization::openFileExplorer, this, &View::openFileExplorer);
     connect(&serialization, &Serialization::saveFileDialog, this, &View::saveFileDialog);
+    connect(&serialization, &Serialization::updateViewValue, this, &View::updateViewValue);
+    connect(this, &View::loadedSerializedValues, &serialization, &Serialization::loadedSerializedValues);
 }
 
 View::~View()
@@ -95,6 +97,16 @@ void View::updateViewPalette(const QVector<QString>& palette, QSize paletteSize)
             table->removeCellWidget(i, j);
             table->setItem(i, j, item);
         }
+    }
+}
+
+void View::updateViewValue(Serialization::Key k, QJsonValue v)
+{
+    switch(k)
+    {
+    case Serialization::ZoomScale:
+        ui->zoomSlider->setValue(v.toInt());
+        break;
     }
 }
 
@@ -270,17 +282,28 @@ void View::on_playButton_pressed()
 }
 
 void View::openFileExplorer(){
-    QFileDialog dialog(this);
-    dialog.setNameFilter("Sprite Files (*.ssp)");
-    dialog.setWindowTitle("Open Sprite");
-    if (dialog.exec()){
-        //TODO read the file
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home/sprite", tr("Sprite File (*.ssp)"));
+    if (!fileName.isEmpty()){
+        QFile file(QFileInfo(fileName).absoluteFilePath());
+        if (file.open(QIODevice::ReadOnly)){
+            QByteArray bytes = file.readAll();
+            QJsonParseError jsonError;
+            QJsonDocument document = QJsonDocument::fromJson(bytes, &jsonError);
+            if (jsonError.error == QJsonParseError::NoError && document.isObject())
+            {
+                emit loadedSerializedValues(document.object());
+            }
+            file.close();
+        }
+        else {
+            QMessageBox::information(this, tr("Opening File"), tr("Could not open sprite file"));
+        }
     }
 }
 
 void View::saveFileDialog(QByteArray jsonBytes){
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "/sprite", tr("Sprite File (*.ssp"));
-    if (fileName != ""){
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/sprite", tr("Sprite File (*.ssp)"));
+    if (!fileName.isEmpty()){
         QFile file(QFileInfo(fileName).absoluteFilePath());
         if (file.open(QIODevice::WriteOnly)){
             QTextStream iStream( &file );

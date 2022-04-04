@@ -33,6 +33,7 @@ private:
     int currentFrameIndex;
     void updateViewCanvas(const QImage&, QPoint);
     void updateViewPalette(const QVector<QString>&, QSize);
+    void updateViewValue(Serialization::Key, QJsonValue);
     void openFileExplorer();
     void saveFileDialog(QByteArray);
     int animIndex = 0;
@@ -54,6 +55,7 @@ signals:
     void colorSelected(QColor);
     void selectNewFrame(int newIndex, int oldIndex);
     void updateCurrentEditor(int index);
+    void loadedSerializedValues(QJsonObject);
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
