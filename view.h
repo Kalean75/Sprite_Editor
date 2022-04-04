@@ -11,6 +11,7 @@
 #include <QListWidget>
 #include <QTableWidgetItem>
 #include <Serialization.h>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class View; }
@@ -49,6 +50,7 @@ signals:
     void colorSelected(QColor);
     void selectNewFrame(int newIndex, int oldIndex);
     void updateCurrentEditor(int index);
+    void playSpriteAnimation();
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
@@ -56,5 +58,7 @@ private slots:
     void on_frameslist_itemClicked(QListWidgetItem *item);
     void setColor(QTableWidgetItem *item);
     void updatePreview();
+    void playAnimation(int index);
+    void on_playButton_pressed();
 };
 #endif // VIEW_H

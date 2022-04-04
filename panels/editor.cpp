@@ -4,11 +4,13 @@
 
 Editor::Editor(QWidget* parent) : QWidget(parent)
 {
+    //set initial width and height
     canvasSize.setHeight(32);
     canvasSize.setWidth(32);
+    //make sure all pixels are "transparent"
     pixelBuffer.clear();
     pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
-     QPoint canvasOrigin = canvasAnchor + canvasOffset - canvas.rect().center();
+    QPoint canvasOrigin = canvasAnchor + canvasOffset - canvas.rect().center();
 }
 
 //destructor
@@ -227,6 +229,7 @@ void Editor::colorSelected(QColor color)
     toolColor = color;
 }
 
-QImage Editor::getImage() {
+QImage Editor::getImage()
+{
     return canvas;
 }

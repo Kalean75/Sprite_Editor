@@ -34,6 +34,7 @@ public:
     int gettotalFrames();
     void settotalFrames();
     void updateCurrentEditor();
+    void playSpriteAnimation();
 
 
 public slots:

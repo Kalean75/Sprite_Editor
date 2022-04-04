@@ -57,11 +57,13 @@ void Frame:: removeOldFrame(int atIndex)
 {
     auto it = totalFrameVector.begin();
 
-    if (atIndex < totalFrameVector.size()-1) {
+    if (atIndex < totalFrameVector.size()-1)
+    {
 //        it = it + atIndex + 1;
         currentFrame = totalFrameVector[atIndex+1];
     }
-    else {
+    else
+    {
         currentFrame = totalFrameVector[atIndex-1];
     }
 
@@ -124,5 +126,10 @@ int Frame::gettotalFrames()
 void Frame::updateCurrentEditor()
 {
     totalFrameVector[currentFrameIndex] = currentFrame;
+}
+
+void Frame::playSpriteAnimation()
+{
+
 }
 

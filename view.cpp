@@ -1,6 +1,8 @@
 #include "view.h"
 #include "ui_view.h"
 #include <QGraphicsPixmapItem>
+#include <unistd.h>
+#include <QTimer>
 
 View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent)
     : QMainWindow(parent)
@@ -21,12 +23,15 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(this, &View::mousePressed, &(frame.currentFrame), &Editor::mousePressed);
     connect(this, &View::mouseReleased, &(frame.currentFrame), &Editor::mouseReleased);
     connect(this, &View::mouseMoved, &(frame.currentFrame), &Editor::mouseMoved);
+
     //Frame related
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
     connect(this,&View::selectNewFrame,&frame,&Frame::selectNewFrame);
     connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreview);
 
+    //play animation
+    //connect(&(frame.currentFrame), &Editor::playSpriteAnimation, this, &Frame::playSpriteAnimation);
     // Set pen color
     connect(ui->paletteTable, &QTableWidget::itemClicked, this, &View::setColor);
     connect(this, &View::colorSelected, &(frame.currentFrame), &Editor::colorSelected);
@@ -44,6 +49,8 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     ui->frameslist->setCurrentRow(0);
     frame.currentFrameIndex = 0;
     frame.frameNameCounter = 0;
+    //set box to only accept number between 0 - 100
+    ui->fps->setValidator( new QIntValidator(0, 60, this) );
 
     connect(ui->actionSaveAs, &QAction::triggered, &serialization, &Serialization::SaveAsFile);
 }
@@ -203,5 +210,32 @@ void View::updatePreview()
     QGraphicsScene* scene = new QGraphicsScene;
     scene->addItem(pixmapItem);
     ui->preview->setScene(scene);
+}
+
+
+void View::playAnimation(int index)
+{
+    frame.updateCurrentEditor() ;
+    Editor currentPreview = frame.totalFrameVector[index];
+    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
+    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QGraphicsScene* scene = new QGraphicsScene;
+    scene->addItem(pixmapItem);
+    ui->preview->setScene(scene);
+
+}
+
+
+void View::on_playButton_pressed()
+{
+    //frame.updateCurrentEditor();
+    for(int index = 0; index < frame.totalFrameVector.size(); index++)
+    {
+        QString fps = ui->fps->text();
+        int framesPerSecond = fps.toUInt();
+        int fpstime = 1000/framesPerSecond;
+
+        //QTimer::singleShot(fpstime, this, &View::playAnimation(index));
+    }
 }
 
