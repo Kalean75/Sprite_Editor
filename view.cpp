@@ -17,6 +17,7 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
         connect(action, &QAction::triggered, &(frame.currentFrame), &Editor::toolSelected);
     }
     connect(&(frame.currentFrame), &Editor::updateViewCanvas, this, &View::updateViewCanvas);
+    connect(&(frame.currentFrame), &Editor::serializeValue, &serialization, &Serialization::set);
     connect(&palettePanel, &Palette::updateViewPalette, this, &View::updateViewPalette);
     connect(ui->zoomSlider, &QSlider::valueChanged, &(frame.currentFrame), &Editor::canvasScaleChanged);
     connect(this, &View::canvasAnchorChanged, &(frame.currentFrame), &Editor::canvasAnchorChanged);
@@ -39,11 +40,11 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     // Establish default values for various components
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
-    ui->zoomSlider->setValue(16); // canvas.setCanvasScale(8)
-    //frame.currentFrame.canvasWidthChanged(32);
-    //frame.currentFrame.canvasHeightChanged(32);
-    palettePanel.paletteColumnsChanged(5);
-    palettePanel.paletteRowsChanged(5);
+    ui->zoomSlider->setValue(serialization.getInt(Serialization::ZoomScale)); // canvas.setCanvasScale(8)
+    frame.currentFrame.canvasWidthChanged(serialization.getInt(Serialization::Width));
+    frame.currentFrame.canvasHeightChanged(serialization.getInt(Serialization::Height));
+    palettePanel.paletteColumnsChanged(serialization.getInt(Serialization::PaletteColumnCount));
+    palettePanel.paletteRowsChanged(serialization.getInt(Serialization::PaletteRowCount));
 
     ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
     ui->frameslist->setCurrentRow(0);

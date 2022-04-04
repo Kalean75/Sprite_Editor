@@ -1,6 +1,7 @@
 #include <QApplication>
 #include "panels/editor.h"
 #include "panels/palette.h"
+#include "Serialization.h"
 #include "view.h"
 
 int main(int argc, char *argv[])

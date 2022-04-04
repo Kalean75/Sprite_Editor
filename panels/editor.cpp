@@ -55,12 +55,14 @@ void Editor::canvasScaleChanged(int scale)
 {
     canvasScale = scale;
     refreshCanvas();
+    emit serializeValue(Serialization::ZoomScale, scale);
 }
 
 void Editor::canvasWidthChanged(int width)
 {
     canvasSize.setWidth(width);
     refreshCanvas();
+    emit serializeValue(Serialization::Width, width);
 }
 
 void Editor::canvasHeightChanged(int height)
@@ -69,6 +71,7 @@ void Editor::canvasHeightChanged(int height)
     // TODO: proper logic for resizing (preserve data when expanded, clip according to new dimensions)
     pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
     refreshCanvas();
+    emit serializeValue(Serialization::Height, height);
 }
 
 void Editor::canvasAnchorChanged(QPoint area)

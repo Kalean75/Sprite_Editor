@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QImage>
 #include <QMouseEvent>
+#include "Serialization.h"
 
 class Editor : public QWidget
 {
@@ -78,6 +79,7 @@ public slots:
 signals:
     void updateViewCanvas(const QImage&, QPoint);
     void updatePreview();
+    void serializeValue(Serialization::Key, QJsonValue);
 };
 
 #endif // EDITOR_H
