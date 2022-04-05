@@ -20,6 +20,8 @@ public:
     //change to private
     void refreshCanvas();
     QImage getImage();
+    int getHeight();
+    int getWidth();
 private:
     int index;
     const QRgb transparentPixel = qRgba(0, 0, 0, 0);

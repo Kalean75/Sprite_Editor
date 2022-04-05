@@ -41,6 +41,8 @@ private:
     void enableUiElements();
     void disableUiElements();
     void updatePreviewPanel(int index);
+    bool actualSize;
+    void setWidthHeightBoxValue(int height, int width);
 protected:
     void paintEvent(QPaintEvent*);
     void resizeEvent(QResizeEvent*);
@@ -68,9 +70,8 @@ private slots:
     void updatePreviewOnFrameChange();
     void on_playButton_pressed();
     void playAnimation();
-    void on_spriteHeight_textChanged(const QString &arg1);
-    void on_spriteWidth_textChanged(const QString &arg1);
     void on_spriteHeight_valueChanged(int arg1);
     void on_spriteWidth_valueChanged(int arg1);
+    void on_actualSizeToggle_toggled(bool checked);
 };
 #endif // VIEW_H

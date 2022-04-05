@@ -165,6 +165,8 @@ void View::on_addFrameButton_pressed()
     emit canvasAnchorChanged(calculateViewCanvasAnchor());
     emit canvasOffsetChanged(viewCanvasOffset);
     frame.currentFrame.refreshCanvas();
+    //refactor
+    setWidthHeightBoxValue(32,32);
 }
 
 //when clicked, removes the selected frame
@@ -184,6 +186,7 @@ void View::on_removeFrameButton_pressed()
        frame.currentFrameIndex = ui->frameslist->currentRow();
        //change this to signal to refresh
        frame.currentFrame.refreshCanvas();
+       setWidthHeightBoxValue(frame.currentFrame.getHeight(),frame.currentFrame.getWidth());
     }
 
 }
@@ -204,6 +207,7 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
    emit canvasOffsetChanged(viewCanvasOffset);
    //change this to signal to refresh
    frame.currentFrame.refreshCanvas();
+   setWidthHeightBoxValue(frame.currentFrame.getHeight(),frame.currentFrame.getWidth());
 }
 
 //when item in frames list is clicked, displays that frame in preview
@@ -211,7 +215,11 @@ void View::on_frameslist_itemClicked(QListWidgetItem *item)
 {
     updatePreviewOnFrameChange();
 }
-
+void View::setWidthHeightBoxValue(int height, int width)
+{
+    ui->spriteWidth->setValue(width);
+    ui->spriteHeight->setValue(height);
+}
 //sets color of brush/paintbucket to color selected in pallette
 void View::setColor(QTableWidgetItem *item)
 {
@@ -222,34 +230,12 @@ void View::setColor(QTableWidgetItem *item)
 //updates the preview panel when swapping active frames
 void View::updatePreviewOnFrameChange()
 {
-    frame.updateCurrentEditor();
-    int index = ui->frameslist->currentRow();
-    updatePreviewPanel(index);
-}
-//plays the sprite animation in the preview panel
-//Improve this. Rough test
-void View::playAnimation()
-{
-
-    //grabs number from fps box and sets it to proper time
-    QString fps = ui->fps->text();
-    int framesPerSecond = fps.toUInt();
-    //frames per second calculated by 1 second(1000 ms)/frames
-    int fpstime = 1000/framesPerSecond;
-   //update preview panel
-   updatePreviewPanel(animIndex);
-
-    if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
+    if(!startAnimate)
     {
-        QTimer::singleShot(fpstime,this, &View::playAnimation);
-        animIndex++;
+        frame.updateCurrentEditor();
+        int index = ui->frameslist->currentRow();
+        updatePreviewPanel(index);
     }
-    else
-    {
-        enableUiElements();
-        startAnimate = false;
-    }
-
 }
 
 //enables various UI elements
@@ -284,13 +270,46 @@ void View::on_playButton_pressed()
     disableUiElements();
     playAnimation();
 }
+//plays the sprite animation in the preview panel
+//Improve this. Rough test
+void View::playAnimation()
+{
+
+    //grabs number from fps box and sets it to proper time
+    QString fps = ui->fps->text();
+    int framesPerSecond = fps.toUInt();
+    //frames per second calculated by 1 second(1000 ms)/frames
+    int fpstime = 1000/framesPerSecond;
+   //update preview panel
+   updatePreviewPanel(animIndex);
+
+    if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
+    {
+        QTimer::singleShot(fpstime,this, &View::playAnimation);
+        animIndex++;
+    }
+    else
+    {
+        enableUiElements();
+        startAnimate = false;
+    }
+
+}
 
 //updates the displayed image within the preview panel
 //used for animation and previewing other frames
 void View::updatePreviewPanel(int index)
 {
     Editor currentPreview = frame.totalFrameVector[index];
-    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
+    QImage image;
+    if(actualSize)
+    {
+        image = currentPreview.getImage();
+    }
+    else
+    {
+       image = currentPreview.getImage().scaledToHeight(ui->preview->height());
+    }
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     QGraphicsScene* scene = new QGraphicsScene;
     scene->addItem(pixmapItem);
@@ -347,5 +366,18 @@ void View::on_spriteWidth_valueChanged(int arg1)
 {
     int newWidth = ui->spriteWidth->value();
     frame.currentFrame.canvasWidthChanged(newWidth);
+}
+
+
+void View::on_actualSizeToggle_toggled(bool checked)
+{
+    if(checked)
+    {
+        actualSize = true;
+    }
+    else
+    {
+        actualSize = false;
+    }
 }
 

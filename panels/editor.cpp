@@ -243,3 +243,12 @@ QImage Editor::getImage()
 {
     return canvas;
 }
+int Editor::getWidth()
+{
+    return canvasSize.width();
+}
+
+int Editor::getHeight()
+{
+    return canvasSize.height();
+}
