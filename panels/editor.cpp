@@ -40,12 +40,13 @@ Editor& Editor:: operator=( Editor other)
    std::swap(pixelBuffer, other.pixelBuffer);
     return *this;
 }
-
+//gets the index of the current frame within the vector
+//returns index
 int Editor:: getIndex()
 {
     return index;
 }
-
+//sets the index of the current frame in the vector
 void Editor::setIndex(int index)
 {
     this->index = index;
@@ -236,7 +237,7 @@ void Editor::colorSelected(QColor color)
 {
     toolColor = color;
 }
-
+//returns the image on the canvas
 QImage Editor::getImage()
 {
     return canvas;

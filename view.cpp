@@ -7,7 +7,6 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     : QMainWindow(parent)
     , ui(new Ui::View)
 {
-    //replace (frame.currentFrame) to editorPanel to change it to old way
     ui->setupUi(this);
     toolActionGroup = new QActionGroup(ui->toolbar);
     foreach(QAction* action, ui->toolbar->actions())
@@ -24,11 +23,12 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(this, &View::mousePressed, &(frame.currentFrame), &Editor::mousePressed);
     connect(this, &View::mouseReleased, &(frame.currentFrame), &Editor::mouseReleased);
     connect(this, &View::mouseMoved, &(frame.currentFrame), &Editor::mouseMoved);
-    //Frame related
+
+    //Frame related connections
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
     connect(this,&View::selectNewFrame,&frame,&Frame::selectNewFrame);
-    connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreview);
+    connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreviewonFrameChange);
 
     //set FPS box to only accept number between 0 - 100
     ui->fps->setValidator( new QIntValidator(0, 60, this) );
@@ -65,7 +65,7 @@ View::~View()
 {
     delete ui;
 }
-
+//calculates the anchor for the canvas used in drawing
 QPoint View::calculateViewCanvasAnchor()
 {
     return ui->canvasAnchor->mapTo(this, ui->canvasAnchor->geometry().center());
@@ -109,15 +109,15 @@ void View::updateViewValue(Serialization::Key k, QJsonValue v)
         break;
     }
 }
-
+//handles paint Events
 void View::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     QPoint origin = (calculateViewCanvasAnchor() - viewCanvas.rect().center()) + viewCanvasOffset;
     painter.drawImage(origin.x(), origin.y(), viewCanvas, 0, 0, 0, 0);
-    updatePreview();
+    updatePreviewonFrameChange();
 }
-
+//handles resize events
 void View::resizeEvent(QResizeEvent*)
 {
     // First resize event won't get the correct layout geometry unless forcibly updated
@@ -125,22 +125,25 @@ void View::resizeEvent(QResizeEvent*)
     ui->leftLayout->activate();
     emit canvasAnchorChanged(calculateViewCanvasAnchor());
 }
-
+//handles mouse pressed events
 void View::mousePressEvent(QMouseEvent* e)
 {
     emit mousePressed(e);
 }
 
+//handles mouse released events
 void View::mouseReleaseEvent(QMouseEvent* e)
 {
     emit mouseReleased(e);
 }
 
+//handles mouse move events
 void View::mouseMoveEvent(QMouseEvent* e)
 {
     emit mouseMoved(e);
 }
 
+//when clicked, adds a new frame
 void View::on_addFrameButton_pressed()
 {
     //TODO
@@ -162,7 +165,7 @@ void View::on_addFrameButton_pressed()
     frame.currentFrame.refreshCanvas();
 }
 
-
+//when clicked, removes the selected frame
 void View::on_removeFrameButton_pressed()
 {
 
@@ -183,7 +186,7 @@ void View::on_removeFrameButton_pressed()
 
 }
 
-
+//when frame in frame list is double clicked, make that frame the active frame
 void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 {
     //TODO
@@ -192,7 +195,7 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
    int newIndex = ui->frameslist->currentRow();
    int oldIndex = frame.currentFrameIndex;
    frame.currentFrameIndex = newIndex;
-   std::cout << "index of item: " << newIndex << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
+   //std::cout << "index of item: " << newIndex << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
    emit selectNewFrame(newIndex, oldIndex);
    //remove
    emit canvasAnchorChanged(calculateViewCanvasAnchor());
@@ -201,56 +204,39 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
    frame.currentFrame.refreshCanvas();
 }
 
-
+//when item in frames list is clicked, displays that frame in preview
 void View::on_frameslist_itemClicked(QListWidgetItem *item)
 {
-    updatePreview();
-//    int index = ui->frameslist->row(item);
-
-//    frame.currentFrameIndex = index;
-//    std::cout << "index of item: " << index << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
-    //TODO
-    //Change image in preview label to selected frame
-    //(double click will actually change current frame to that frame)
+    updatePreviewonFrameChange();
 }
 
-void View::setColor(QTableWidgetItem *item) {
+//sets color of brush/paintbucket to color selected in pallette
+void View::setColor(QTableWidgetItem *item)
+{
     QBrush brush = item->background();
     emit colorSelected(brush.color());
 }
 
-void View::updatePreview()
+//updates the preview panel when swapping active frames
+void View::updatePreviewonFrameChange()
 {
     frame.updateCurrentEditor();
     int index = ui->frameslist->currentRow();
-    Editor currentPreview = frame.totalFrameVector[index];
-    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
-    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-    QGraphicsScene* scene = new QGraphicsScene;
-    scene->addItem(pixmapItem);
-    ui->preview->setScene(scene);
+    updatePreviewPanel(index);
 }
+//plays the sprite animation in the preview panel
 //Improve this. Rough test
 void View::playAnimation()
 {
-    //disable elements
-    ui->frameslist->setEnabled(false);
-    ui->addFrameButton->setEnabled(false);
-    ui->removeFrameButton->setEnabled(false);
-    ui->playButton->setEnabled(false);
-    ui->fps->setEnabled(false);
 
     //grabs number from fps box and sets it to proper time
     QString fps = ui->fps->text();
     int framesPerSecond = fps.toUInt();
+    //frames per second calculated by 1 second(1000 ms)/frames
     int fpstime = 1000/framesPerSecond;
+   //update preview panel
+   updatePreviewPanel(animIndex);
 
-    Editor currentPreview = frame.totalFrameVector[animIndex];
-    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
-    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-    QGraphicsScene* scene = new QGraphicsScene;
-    scene->addItem(pixmapItem);
-    ui->preview->setScene(scene);
     if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
     {
         QTimer::singleShot(fpstime,this, &View::playAnimation);
@@ -258,27 +244,55 @@ void View::playAnimation()
     }
     else
     {
-        ui->frameslist->setEnabled(true);
-        ui->addFrameButton->setEnabled(true);
-        ui->removeFrameButton->setEnabled(true);
-        ui->playButton->setEnabled(true);
-        ui->fps->setEnabled(true);
+        enableUiElements();
         startAnimate = false;
     }
 
 }
 
+//enables various UI elements
+void View::enableUiElements()
+{
+    ui->frameslist->setEnabled(true);
+    ui->addFrameButton->setEnabled(true);
+    ui->removeFrameButton->setEnabled(true);
+    ui->playButton->setEnabled(true);
+    ui->fps->setEnabled(true);
+}
+//disables Various UI elements
+void View::disableUiElements()
+{
+    ui->frameslist->setEnabled(false);
+    ui->addFrameButton->setEnabled(false);
+    ui->removeFrameButton->setEnabled(false);
+    ui->playButton->setEnabled(false);
+    ui->fps->setEnabled(false);
+}
+
+//when play button is preseed, begins animation
 void View::on_playButton_pressed()
-{    //frame.updateCurrentEditor();
+{
+    //set displayed frame index to the first index(0)
     animIndex = 0;
+    //start animation
     startAnimate = true;
-    Editor currentPreview = frame.totalFrameVector[animIndex];
+    //update preview to first frame
+    updatePreviewPanel(0);
+    //disable elements
+    disableUiElements();
+    playAnimation();
+}
+
+//updates the displayed image within the preview panel
+//used for animation and previewing other frames
+void View::updatePreviewPanel(int index)
+{
+    Editor currentPreview = frame.totalFrameVector[index];
     QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     QGraphicsScene* scene = new QGraphicsScene;
     scene->addItem(pixmapItem);
     ui->preview->setScene(scene);
-    playAnimation();
 }
 
 void View::openFileExplorer(){
@@ -303,14 +317,17 @@ void View::openFileExplorer(){
 
 void View::saveFileDialog(QByteArray jsonBytes){
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/sprite", tr("Sprite File (*.ssp)"));
-    if (!fileName.isEmpty()){
+    if (!fileName.isEmpty())
+    {
         QFile file(QFileInfo(fileName).absoluteFilePath());
-        if (file.open(QIODevice::WriteOnly)){
+        if (file.open(QIODevice::WriteOnly))
+        {
             QTextStream iStream( &file );
             iStream << jsonBytes;
             file.close();
         }
-        else {
+        else
+        {
             QMessageBox::information(this, tr("Saving File"), tr("Could not save sprite file"));
         }
     }

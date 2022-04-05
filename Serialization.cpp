@@ -30,7 +30,8 @@ void Serialization::SaveAsFile(bool){
     emit saveFileDialog(document.toJson(QJsonDocument::Indented));
 }
 
-void Serialization::NewFile(bool){
+void Serialization::NewFile(bool)
+{
 
 }
 

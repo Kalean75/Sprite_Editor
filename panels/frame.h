@@ -23,7 +23,6 @@ public:
     ~Frame();
     // = operator
     Frame& operator=(const Frame other);
-    void startingFrameEditor();
     void setframeNumber(int number);
     int getframeNumber();
     Editor currentFrame;
@@ -34,8 +33,6 @@ public:
     int gettotalFrames();
     void settotalFrames();
     void updateCurrentEditor();
-    void playSpriteAnimation();
-
 
 public slots:
 

@@ -38,6 +38,9 @@ private:
     void saveFileDialog(QByteArray);
     int animIndex = 0;
     bool startAnimate = false;
+    void enableUiElements();
+    void disableUiElements();
+    void updatePreviewPanel(int index);
 protected:
     void paintEvent(QPaintEvent*);
     void resizeEvent(QResizeEvent*);
@@ -62,7 +65,7 @@ private slots:
     void on_frameslist_itemDoubleClicked(QListWidgetItem *item);
     void on_frameslist_itemClicked(QListWidgetItem *item);
     void setColor(QTableWidgetItem *item);
-    void updatePreview();
+    void updatePreviewonFrameChange();
     void on_playButton_pressed();
     void playAnimation();
 };
