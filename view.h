@@ -45,6 +45,8 @@ private:
     void setWidthHeightBoxValue(int height, int width);
     //find a better way
     int origFrameIndex;
+    void openNewFile();
+
 protected:
     void paintEvent(QPaintEvent*);
     void resizeEvent(QResizeEvent*);

@@ -28,12 +28,34 @@ void Serialization::SaveAsFile(bool)
 {
     QJsonDocument document;
     document.setObject(config);
+    saved = true;
     emit saveFileDialog(document.toJson(QJsonDocument::Indented));
 }
 
 void Serialization::NewFile(bool)
 {
-
+    if (saved == true){
+        //open a new file
+    }
+    else {
+        QMessageBox msgBox;
+        msgBox.setText("Open a New Sprite");
+        msgBox.setInformativeText("The current sprite has not been saved. Are you sure you want to open a new sprite?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        int result = msgBox.exec();
+        switch(result){
+            case QMessageBox::Yes:
+                // open new file
+                emit openNewFile();
+                break;
+            case QMessageBox::No:
+                // do nothing
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 void Serialization::OpenFile(bool){
@@ -41,7 +63,6 @@ void Serialization::OpenFile(bool){
 }
 
 void Serialization::SaveFile(bool){
-
 }
 
 void Serialization::loadedSerializedValues(QJsonObject loaded)
