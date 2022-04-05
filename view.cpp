@@ -1,7 +1,8 @@
 #include "view.h"
 #include "ui_view.h"
 #include <QGraphicsPixmapItem>
-#include <Qtimer>
+#include <QTimer>
+#include <QTextStream>
 
 View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent)
     : QMainWindow(parent)

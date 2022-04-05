@@ -28,16 +28,7 @@ public:
     int getInt(Key);
 private:
     // Would use map, but need iteration to respect insertion order to match up with key enum
-    QVector<QPair<QString, QJsonValue>> configDefaults =
-    {
-        qMakePair("width", 32),
-        qMakePair("height", 32),
-        qMakePair("frames", QJsonObject()),
-        qMakePair("numberOfFrames", 1),
-        qMakePair("numberOfPaletteColumns", 5),
-        qMakePair("numberOfPaletteRows", 5),
-        qMakePair("zoomScale", 16)
-    };
+    QVector<QPair<QString, QJsonValue>> configDefaults;
     QJsonObject config;
     bool saved;
 

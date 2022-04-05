@@ -3,6 +3,13 @@
 
 Serialization::Serialization(QObject* parent) : QObject(parent)
 {
+    configDefaults.append(qMakePair(QString("width"), QJsonValue(32)));
+    configDefaults.append(qMakePair(QString("height"), QJsonValue(32)));
+    configDefaults.append(qMakePair(QString("frames"), QJsonValue(QJsonObject())));
+    configDefaults.append(qMakePair(QString("numberOfFrames"), QJsonValue(1)));
+    configDefaults.append(qMakePair(QString("numberOfPaletteColumns"), QJsonValue(5)));
+    configDefaults.append(qMakePair(QString("numberOfPaletteRows"), QJsonValue(5)));
+    configDefaults.append(qMakePair(QString("zoomScale"), QJsonValue(16)));
     for (int i = 0; i < (int) configDefaults.size(); i++)
     {
         set(static_cast<Key>(i), configDefaults.at(i).second);
