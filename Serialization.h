@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QFileDialog>
+#include <QMessageBox>
 
 class Serialization : public QObject {
     Q_OBJECT
@@ -38,6 +39,7 @@ private:
         qMakePair("zoomScale", 16)
     };
     QJsonObject config;
+    bool saved;
 
 public slots:
     void SaveAsFile(bool checked);
@@ -49,6 +51,7 @@ signals:
     void openFileExplorer();
     void saveFileDialog(QByteArray);
     void updateViewValue(Serialization::Key, QJsonValue);
+    void openNewFile();
 };
 
 #endif // SERIALIZATION_H

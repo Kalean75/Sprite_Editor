@@ -62,6 +62,8 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(&serialization, &Serialization::saveFileDialog, this, &View::saveFileDialog);
     connect(&serialization, &Serialization::updateViewValue, this, &View::updateViewValue);
     connect(this, &View::loadedSerializedValues, &serialization, &Serialization::loadedSerializedValues);
+    connect(&serialization, &Serialization::openNewFile, this, &View::openNewFile);
+
 }
 
 View::~View()
@@ -394,5 +396,9 @@ void View::on_actualSizeToggle_toggled(bool checked)
     {
         actualSize = false;
     }
+}
+
+void View::openNewFile(){
+    //TODO open a new file
 }
 
