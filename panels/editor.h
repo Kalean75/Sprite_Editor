@@ -32,25 +32,25 @@ private:
     QPoint canvasAnchor;
     QImage canvas;
     QVector<QRgb> pixelBuffer;
-    enum Tool
+    enum tool
     {
-        Pencil,
-        Eraser,
-        Bucket,
-        Eyedrop,
-        Select,
-        Move
+        pencil,
+        eraser,
+        bucket,
+        eyedrop,
+        select,
+        move
     };
-    std::map<std::string, Tool> toolResolve =
+    std::map<std::string, tool> toolResolve =
     {
-        {"pencil", Pencil},
-        {"eraser", Eraser},
-        {"bucket", Bucket},
-        {"eyedrop", Eyedrop},
-        {"select", Select},
-        {"move", Move}
+        {"pencil", pencil},
+        {"eraser", eraser},
+        {"bucket", bucket},
+        {"eyedrop", eyedrop},
+        {"select", select},
+        {"move", move}
     };
-    Tool activeTool = Pencil;
+    tool activeTool = pencil;
     QPoint toolPoint;
     // TODO: load toolColor from palette panel
     QColor toolColor = Qt::black;

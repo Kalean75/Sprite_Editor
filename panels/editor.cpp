@@ -152,28 +152,28 @@ void Editor::mousePressed(QMouseEvent* e)
     QRgb& pixelColor = pixelBuffer[pixelIndex];
     switch (activeTool)
     {
-    case Pencil:
+    case pencil:
         pixelColor = toolColor.rgba();
         refreshCanvas();
         break;
-    case Eraser:
+    case eraser:
         pixelColor = transparentPixel;
         refreshCanvas();
         break;
-    case Bucket:
+    case bucket:
         // TODO: when color selection logic is ready, replace "QColor(Qt::darkGray)" with "toolColor"
         bucketFill(pixelColor, toolColor.rgba(), pixelIndex);
         refreshCanvas();
         break;
-    case Eyedrop:
+    case eyedrop:
         if (pixelColor != transparentPixel)
         {
             toolColor = pixelColor;
         }
         break;
-    case Select:
+    case select:
         break;
-    case Move:
+    case move:
         canvasOffset = e->pos() - canvasOffset;
     }
 }
@@ -182,17 +182,17 @@ void Editor::mouseReleased(QMouseEvent* e)
 {
     switch (activeTool)
     {
-    case Pencil:
+    case pencil:
         break;
-    case Eraser:
+    case eraser:
         break;
-    case Bucket:
+    case bucket:
         break;
-    case Eyedrop:
+    case eyedrop:
         break;
-    case Select:
+    case select:
         break;
-    case Move:
+    case move:
         canvasOffset = e->pos() - canvasOffset;
         emit updateViewCanvas(canvas, canvasOffset);
 //        emit updatePreview();
@@ -214,21 +214,21 @@ void Editor::mouseMoved(QMouseEvent* e)
         QRgb& pixelColor = pixelBuffer[currentPixelIndex()];
         switch (activeTool)
         {
-        case Pencil:
+        case pencil:
             pixelColor = toolColor.rgba();
             refreshCanvas();
             break;
-        case Eraser:
+        case eraser:
             pixelColor = transparentPixel;
             refreshCanvas();
             break;
-        case Bucket:
+        case bucket:
             break;
-        case Eyedrop:
+        case eyedrop:
             break;
-        case Select:
+        case select:
             break;
-        case Move:
+        case move:
             emit updateViewCanvas(canvas, e->pos() - canvasOffset);
         }
     }
