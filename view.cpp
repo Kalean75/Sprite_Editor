@@ -109,12 +109,6 @@ void View::updateViewValue(Serialization::Key k, QJsonValue v)
 {
     switch(k)
     {
-    case Serialization::Width:
-        frame.currentFrame.canvasWidthChanged(v.toInt());
-        break;
-    case Serialization::Height:
-        frame.currentFrame.canvasHeightChanged(v.toInt());
-        break;
     case Serialization::Frames:
         {
             QJsonObject frameObject = v.toObject();
