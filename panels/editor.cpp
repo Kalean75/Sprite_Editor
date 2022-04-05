@@ -1,7 +1,11 @@
 #include <QDebug>
 #include <regex>
 #include "panels/editor.h"
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 Editor::Editor(QWidget* parent) : QWidget(parent)
 {
     //set initial width and height
@@ -37,7 +41,7 @@ Editor& Editor:: operator=( Editor other)
     std::swap(canvasSize, other.canvasSize);
     std::swap(canvasOffset, other.canvasOffset);
     std::swap(canvasAnchor, other.canvasAnchor);
-   std::swap(pixelBuffer, other.pixelBuffer);
+    std::swap(pixelBuffer, other.pixelBuffer);
     return *this;
 }
 //gets the index of the current frame within the vector
@@ -238,7 +242,7 @@ void Editor::mouseReleased(QMouseEvent* e)
     case move:
         canvasOffset = e->pos() - canvasOffset;
         emit updateViewCanvas(canvas, canvasOffset);
-//        emit updatePreview();
+        //        emit updatePreview();
     }
 }
 

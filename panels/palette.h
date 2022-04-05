@@ -4,7 +4,11 @@
 #include <QObject>
 #include <QSize>
 #include <QVector>
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 class Palette : public QObject
 {
     Q_OBJECT

@@ -7,7 +7,11 @@
 #include <QMouseEvent>
 #include <QJsonArray>
 #include "Serialization.h"
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 class Editor : public QWidget
 {
     Q_OBJECT

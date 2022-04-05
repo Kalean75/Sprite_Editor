@@ -1,6 +1,10 @@
 #include <QDebug>
 #include "panels/palette.h"
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 Palette::Palette(QObject* parent) : QObject(parent)
 {
     defaultPalette = {
@@ -19,7 +23,16 @@ Palette::Palette(QObject* parent) : QObject(parent)
         "f4f4f4",
         "94b0c2",
         "566c86",
-        "333c57"
+        "333c57",
+        "577A3A",
+        "8B4789",
+        "CD7054",
+        "CDAD00",
+        "D0FAEE",
+        "FCB514",
+        "33FF33",
+        "EAB5C5",
+        "3E7A5E"
     };
 }
 

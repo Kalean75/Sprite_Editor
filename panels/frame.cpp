@@ -1,7 +1,11 @@
 #include "frame.h"
 #include <QtDebug>
 #include <QFileDialog>
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 //constructor
 //sets initial frames
 Frame::Frame(QObject *parent)
@@ -79,7 +83,7 @@ void Frame:: selectNewFrame(int newIndex, int oldIndex)
 }
 void Frame::moveToNextFrame(int index)
 {
-  currentFrame = totalFrameVector[index];
+    currentFrame = totalFrameVector[index];
 }
 //getter for total frames
 //returns the total number of frames in the vector

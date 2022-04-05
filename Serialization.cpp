@@ -1,6 +1,10 @@
 #include <Serialization.h>
 #include <QDebug>
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 Serialization::Serialization(QObject* parent) : QObject(parent)
 {
     configDefaults.append(qMakePair(QString("width"), QJsonValue(32)));
@@ -65,15 +69,15 @@ void Serialization::NewFile(bool)
         msgBox.setDefaultButton(QMessageBox::Yes);
         int result = msgBox.exec();
         switch(result){
-            case QMessageBox::Yes:
-                // open new file
-                emit openNewFile();
-                break;
-            case QMessageBox::No:
-                // do nothing
-                break;
-            default:
-                break;
+        case QMessageBox::Yes:
+            // open new file
+            emit openNewFile();
+            break;
+        case QMessageBox::No:
+            // do nothing
+            break;
+        default:
+            break;
         }
     }
 }

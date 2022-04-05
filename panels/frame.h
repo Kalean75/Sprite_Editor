@@ -5,7 +5,11 @@
 #include <QPainter>
 #include "editor.h"
 #include <iostream>
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 class Frame : public QObject
 {
     Q_OBJECT

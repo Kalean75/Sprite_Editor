@@ -3,7 +3,11 @@
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QTextStream>
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::View)
@@ -111,17 +115,17 @@ void View::updateViewValue(Serialization::Key k, QJsonValue v)
     switch(k)
     {
     case Serialization::Frames:
+    {
+        QJsonObject frameObject = v.toObject();
+        frame.resetState();
+        ui->frameslist->clear();
+        for (int i = 0; i < frameObject.size(); i++)
         {
-            QJsonObject frameObject = v.toObject();
-            frame.resetState();
-            ui->frameslist->clear();
-            for (int i = 0; i < frameObject.size(); i++)
-            {
-                QString frameKey = QString("frame").append(QString::number(i));
-                on_addFrameButton_pressed();
-                frame.currentFrame.loadSerializedFrame(frameObject.value(frameKey).toArray());
-            }
+            QString frameKey = QString("frame").append(QString::number(i));
+            on_addFrameButton_pressed();
+            frame.currentFrame.loadSerializedFrame(frameObject.value(frameKey).toArray());
         }
+    }
         break;
     case Serialization::ZoomScale:
         ui->zoomSlider->setValue(v.toInt());
@@ -179,7 +183,7 @@ void View::on_addFrameButton_pressed()
     ui->frameslist->insertItem(nextIndex , "Frame " + QString::number(latestIndex));
     ui->frameslist->setCurrentRow(nextIndex);
     frame.currentFrameIndex = nextIndex ;
-//    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
+    //    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
 
     // Update canvas view
     emit canvasAnchorChanged(calculateViewCanvasAnchor());
@@ -203,11 +207,11 @@ void View::on_removeFrameButton_pressed()
         //remove
         emit canvasAnchorChanged(calculateViewCanvasAnchor());
         emit canvasOffsetChanged(viewCanvasOffset);
-       ui->frameslist->takeItem(index);
-       frame.currentFrameIndex = ui->frameslist->currentRow();
-       //change this to signal to refresh
-       frame.currentFrame.refreshCanvas();
-       setWidthHeightBoxValue(frame.currentFrame.getHeight(),frame.currentFrame.getWidth());
+        ui->frameslist->takeItem(index);
+        frame.currentFrameIndex = ui->frameslist->currentRow();
+        //change this to signal to refresh
+        frame.currentFrame.refreshCanvas();
+        setWidthHeightBoxValue(frame.currentFrame.getHeight(),frame.currentFrame.getWidth());
     }
 
 }
@@ -217,18 +221,18 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 {
     //TODO
     // Change editor to current Frame
-//   int index = ui->frameslist->row(item);
-   int newIndex = ui->frameslist->currentRow();
-   int oldIndex = frame.currentFrameIndex;
-   frame.currentFrameIndex = newIndex;
-   //std::cout << "index of item: " << newIndex << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
-   emit selectNewFrame(newIndex, oldIndex);
-   //remove
-   emit canvasAnchorChanged(calculateViewCanvasAnchor());
-   emit canvasOffsetChanged(viewCanvasOffset);
-   //change this to signal to refresh
-   frame.currentFrame.refreshCanvas();
-   setWidthHeightBoxValue(frame.currentFrame.getHeight(),frame.currentFrame.getWidth());
+    //   int index = ui->frameslist->row(item);
+    int newIndex = ui->frameslist->currentRow();
+    int oldIndex = frame.currentFrameIndex;
+    frame.currentFrameIndex = newIndex;
+    //std::cout << "index of item: " << newIndex << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
+    emit selectNewFrame(newIndex, oldIndex);
+    //remove
+    emit canvasAnchorChanged(calculateViewCanvasAnchor());
+    emit canvasOffsetChanged(viewCanvasOffset);
+    //change this to signal to refresh
+    frame.currentFrame.refreshCanvas();
+    setWidthHeightBoxValue(frame.currentFrame.getHeight(),frame.currentFrame.getWidth());
 }
 
 //when item in frames list is clicked, displays that frame in preview

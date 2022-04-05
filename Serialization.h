@@ -7,7 +7,11 @@
 #include <QJsonArray>
 #include <QFileDialog>
 #include <QMessageBox>
-
+// Authors
+// Devin White
+// Xuyen Nguyen
+// Taylor Adamson
+// Ansam Al Sharif
 class Serialization : public QObject {
     Q_OBJECT
 public:
