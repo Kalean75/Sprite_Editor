@@ -47,7 +47,7 @@ public slots:
 signals:
     void openFileExplorer();
     void saveFileDialog(QByteArray);
-    void updateViewValue(Key, QJsonValue);
+    void updateViewValue(Serialization::Key, QJsonValue);
 };
 
 #endif // SERIALIZATION_H
