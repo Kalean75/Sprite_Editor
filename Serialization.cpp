@@ -21,14 +21,27 @@ int Serialization::getInt(Key k)
 
 void Serialization::set(Key k, QJsonValue v)
 {
-    config.insert(configDefaults.at(static_cast<int>(k)).first, v);
+    QString resolvedKey = configDefaults.at(static_cast<int>(k)).first;
+    if (k == Frames)
+    {
+        QJsonArray frameData = v.toArray();
+        QJsonObject frameObject = get(Frames).toObject();
+        // In the editor panel, the frame index is temporarily put in the frame array since a QPair cannot be passed to set
+        int frameIndex = frameData.takeAt(0).toInt();
+        frameObject.insert(QString("frame").append(QString::number(frameIndex)), frameData);
+        config.insert(resolvedKey, frameObject);
+    }
+    else
+    {
+        config.insert(resolvedKey, v);
+    }
 }
 
 void Serialization::SaveAsFile(bool)
 {
     QJsonDocument document;
     document.setObject(config);
-    emit saveFileDialog(document.toJson(QJsonDocument::Indented));
+    emit saveFileDialog(document.toJson(QJsonDocument::Compact));
 }
 
 void Serialization::NewFile(bool)

@@ -116,6 +116,7 @@ void Editor::refreshCanvas()
             }
         }
         emit updateViewCanvas(canvas, canvasOffset);
+        emit serializeValue(Serialization::Frames, getSerializedFrame());
     }
 }
 
@@ -144,6 +145,23 @@ void Editor::bucketFill(QRgb color, QRgb newColor, int pixelIndex)
     bucketFill(color, newColor, pixelIndex - rowShift);
     bucketFill(color, newColor, pixelIndex + 1);
     bucketFill(color, newColor, pixelIndex - 1);
+}
+
+QJsonArray Editor::getSerializedFrame()
+{
+    QJsonArray frameData = {index};
+    for (int y = 0; y < canvasSize.height(); y++)
+    {
+        QJsonArray row;
+        for (int x = 0; x < canvasSize.width(); x++)
+        {
+            QColor pixel = QColor::fromRgba(pixelBuffer.at(canvasSize.width() * y + x));
+            QJsonArray pixelData = {pixel.red(), pixel.green(), pixel.blue(), pixel.alpha()};
+            row.append(pixelData);
+        }
+        frameData.append(row);
+    }
+    return frameData;
 }
 
 void Editor::mousePressed(QMouseEvent* e)

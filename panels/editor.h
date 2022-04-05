@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QImage>
 #include <QMouseEvent>
+#include <QJsonArray>
 #include "Serialization.h"
 
 class Editor : public QWidget
@@ -57,6 +58,7 @@ private:
     //void refreshCanvas();
     int currentPixelIndex();
     void bucketFill(QRgb, QRgb, int);
+    QJsonArray getSerializedFrame();
 
 //    // Current pen settings
 //    int currentPenWidth;

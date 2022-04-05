@@ -48,6 +48,7 @@ void Frame:: addNewFrame(int atIndex, int oldIndex)
     currentFrame = nextFrame;
     totalFrameVector.insert(it+atIndex, currentFrame);
     totalFrames++;
+    currentFrame.setIndex(totalFrameVector.size() - 1);
 
 }
 //removes a frame from the vector of frames(editors)

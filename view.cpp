@@ -107,8 +107,16 @@ void View::updateViewValue(Serialization::Key k, QJsonValue v)
 {
     switch(k)
     {
+    case Serialization::Width:
+        frame.currentFrame.canvasWidthChanged(v.toInt());
+        break;
+    case Serialization::Height:
+        frame.currentFrame.canvasHeightChanged(v.toInt());
+        break;
     case Serialization::ZoomScale:
         ui->zoomSlider->setValue(v.toInt());
+        break;
+    default:
         break;
     }
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonArray>
 #include <QFileDialog>
 
 class Serialization : public QObject {
