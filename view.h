@@ -43,6 +43,8 @@ private:
     void updatePreviewPanel(int index);
     bool actualSize;
     void setWidthHeightBoxValue(int height, int width);
+    //find a better way
+    int origFrameIndex;
 protected:
     void paintEvent(QPaintEvent*);
     void resizeEvent(QResizeEvent*);
@@ -59,6 +61,7 @@ signals:
     void pressedRemoveFrame(int index);
     void colorSelected(QColor);
     void selectNewFrame(int newIndex, int oldIndex);
+    void moveToNextFrame(int index);
     void updateCurrentEditor(int index);
     void loadedSerializedValues(QJsonObject);
 private slots:

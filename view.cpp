@@ -28,6 +28,7 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
     connect(this,&View::selectNewFrame,&frame,&Frame::selectNewFrame);
+    connect(this,&View::moveToNextFrame,&frame,&Frame::moveToNextFrame);
     connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreviewOnFrameChange);
 
     //set FPS box to only accept number between 0 - 100
@@ -232,7 +233,7 @@ void View::updatePreviewOnFrameChange()
 {
     if(!startAnimate)
     {
-        frame.updateCurrentEditor();
+        frame.saveCurrentFrame();
         int index = ui->frameslist->currentRow();
         updatePreviewPanel(index);
     }
@@ -262,6 +263,7 @@ void View::on_playButton_pressed()
 {
     //set displayed frame index to the first index(0)
     animIndex = 0;
+    origFrameIndex = frame.currentFrameIndex;
     //start animation
     startAnimate = true;
     //update preview to first frame
@@ -281,10 +283,10 @@ void View::playAnimation()
     //frames per second calculated by 1 second(1000 ms)/frames
     int fpstime = 1000/framesPerSecond;
     //update Canvas View
-    emit selectNewFrame(animIndex, frame.currentFrameIndex);
-    frame.currentFrame.refreshCanvas();
+    emit moveToNextFrame(animIndex);
     //update preview panel
     updatePreviewPanel(animIndex);
+    frame.currentFrame.refreshCanvas();
 
     if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
     {
@@ -293,6 +295,8 @@ void View::playAnimation()
     }
     else
     {
+        emit moveToNextFrame(origFrameIndex);
+        frame.currentFrame.refreshCanvas();
         enableUiElements();
         startAnimate = false;
     }

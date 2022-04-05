@@ -73,6 +73,10 @@ void Frame:: selectNewFrame(int newIndex, int oldIndex)
     totalFrameVector[oldIndex] = currentFrame;
     currentFrame = totalFrameVector[newIndex];
 }
+void Frame::moveToNextFrame(int index)
+{
+  currentFrame = totalFrameVector[index];
+}
 //getter for total frames
 //returns the total number of frames in the vector
 int Frame::gettotalFrames()
@@ -80,7 +84,7 @@ int Frame::gettotalFrames()
     return totalFrames;
 }
 //saves the current editor window into the frame vector
-void Frame::updateCurrentEditor()
+void Frame::saveCurrentFrame()
 {
     totalFrameVector[currentFrameIndex] = currentFrame;
 }

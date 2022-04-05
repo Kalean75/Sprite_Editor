@@ -32,7 +32,8 @@ public:
     void selectNewFrame(int newIndex, int oldIndex);
     int gettotalFrames();
     void settotalFrames();
-    void updateCurrentEditor();
+    void saveCurrentFrame();
+    void moveToNextFrame(int index);
 
 public slots:
 
