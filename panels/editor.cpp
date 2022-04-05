@@ -62,7 +62,7 @@ void Editor::canvasScaleChanged(int scale)
 void Editor::canvasWidthChanged(int width)
 {
     canvasSize.setWidth(width);
-    //pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
+    pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
     refreshCanvas();
     emit serializeValue(Serialization::Width, width);
 }
@@ -71,7 +71,7 @@ void Editor::canvasHeightChanged(int height)
 {
     canvasSize.setHeight(height);
     // TODO: proper logic for resizing (preserve data when expanded, clip according to new dimensions)
-    //pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
+    pixelBuffer.fill(transparentPixel, canvasSize.width() * canvasSize.height());
     refreshCanvas();
     emit serializeValue(Serialization::Height, height);
 }

@@ -344,14 +344,10 @@ void View::playAnimation()
 void View::updatePreviewPanel(int index)
 {
     Editor currentPreview = frame.totalFrameVector[index];
-    QImage image;
+    QImage image = currentPreview.getImage().scaledToHeight(ui->preview->height());;
     if(actualSize)
     {
-        image = currentPreview.getImage();
-    }
-    else
-    {
-       image = currentPreview.getImage().scaledToHeight(ui->preview->height());
+        image = currentPreview.getImage().scaled(frame.currentFrame.getWidth(), frame.currentFrame.getHeight());
     }
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     QGraphicsScene* scene = new QGraphicsScene;

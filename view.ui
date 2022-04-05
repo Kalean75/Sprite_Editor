@@ -394,10 +394,10 @@
           </rect>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>2</number>
          </property>
          <property name="maximum">
-          <number>32</number>
+          <number>256</number>
          </property>
          <property name="singleStep">
           <number>2</number>
@@ -416,10 +416,10 @@
           </rect>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>2</number>
          </property>
          <property name="maximum">
-          <number>32</number>
+          <number>256</number>
          </property>
          <property name="singleStep">
           <number>2</number>
