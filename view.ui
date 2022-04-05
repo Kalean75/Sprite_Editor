@@ -397,7 +397,7 @@
           <number>2</number>
          </property>
          <property name="maximum">
-          <number>256</number>
+          <number>128</number>
          </property>
          <property name="singleStep">
           <number>2</number>
@@ -419,7 +419,7 @@
           <number>2</number>
          </property>
          <property name="maximum">
-          <number>256</number>
+          <number>128</number>
          </property>
          <property name="singleStep">
           <number>2</number>
