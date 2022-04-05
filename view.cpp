@@ -115,6 +115,19 @@ void View::updateViewValue(Serialization::Key k, QJsonValue v)
     case Serialization::Height:
         frame.currentFrame.canvasHeightChanged(v.toInt());
         break;
+    case Serialization::Frames:
+        {
+            QJsonObject frameObject = v.toObject();
+            frame.resetState();
+            ui->frameslist->clear();
+            for (int i = 0; i < frameObject.size(); i++)
+            {
+                QString frameKey = QString("frame").append(QString::number(i));
+                on_addFrameButton_pressed();
+                frame.currentFrame.loadSerializedFrame(frameObject.value(frameKey).toArray());
+            }
+        }
+        break;
     case Serialization::ZoomScale:
         ui->zoomSlider->setValue(v.toInt());
         break;
@@ -164,6 +177,7 @@ void View::on_addFrameButton_pressed()
     int nextIndex = ui->frameslist->currentRow() + 1;
     frame.frameNameCounter++;
     int latestIndex = frame.frameNameCounter;
+    QSize previousSize = QSize(frame.currentFrame.getWidth(), frame.currentFrame.getHeight());
     emit pressedAddFrame(nextIndex, frame.currentFrameIndex);
 
     // Add new item to frameslist and select the added item
@@ -175,9 +189,10 @@ void View::on_addFrameButton_pressed()
     // Update canvas view
     emit canvasAnchorChanged(calculateViewCanvasAnchor());
     emit canvasOffsetChanged(viewCanvasOffset);
-    frame.currentFrame.refreshCanvas();
+    frame.currentFrame.canvasWidthChanged(previousSize.width());
+    frame.currentFrame.canvasHeightChanged(previousSize.height());
     //refactor
-    setWidthHeightBoxValue(32,32);
+    setWidthHeightBoxValue(frame.currentFrame.getHeight(),frame.currentFrame.getWidth());
 }
 
 //when clicked, removes the selected frame

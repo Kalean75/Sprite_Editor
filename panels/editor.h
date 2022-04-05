@@ -23,6 +23,7 @@ public:
     QImage getImage();
     int getHeight();
     int getWidth();
+    void loadSerializedFrame(QJsonArray);
 private:
     int index;
     const QRgb transparentPixel = qRgba(0, 0, 0, 0);

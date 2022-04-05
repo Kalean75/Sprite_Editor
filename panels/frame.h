@@ -34,6 +34,7 @@ public:
     void settotalFrames();
     void saveCurrentFrame();
     void moveToNextFrame(int index);
+    void resetState();
 
 public slots:
 

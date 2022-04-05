@@ -150,18 +150,43 @@ void Editor::bucketFill(QRgb color, QRgb newColor, int pixelIndex)
 QJsonArray Editor::getSerializedFrame()
 {
     QJsonArray frameData = {index};
+    int width = canvasSize.width();
     for (int y = 0; y < canvasSize.height(); y++)
     {
         QJsonArray row;
-        for (int x = 0; x < canvasSize.width(); x++)
+        for (int x = 0; x < width; x++)
         {
-            QColor pixel = QColor::fromRgba(pixelBuffer.at(canvasSize.width() * y + x));
+            QColor pixel = QColor::fromRgba(pixelBuffer.at(width * y + x));
             QJsonArray pixelData = {pixel.red(), pixel.green(), pixel.blue(), pixel.alpha()};
             row.append(pixelData);
         }
         frameData.append(row);
     }
     return frameData;
+}
+
+void Editor::loadSerializedFrame(QJsonArray frameData)
+{
+    int width = frameData.at(0).toArray().size();
+    int height = frameData.size();
+    pixelBuffer.clear();
+    pixelBuffer.resize(width * height);
+    canvasSize.setWidth(width);
+    canvasSize.setHeight(height);
+    for (int y = 0; y < height; y++)
+    {
+        QJsonArray row = frameData.at(y).toArray();
+        for (int x = 0; x < width; x++)
+        {
+            QJsonArray pixelData = row.at(x).toArray();
+            int r = pixelData.takeAt(0).toInt();
+            int g = pixelData.takeAt(0).toInt();
+            int b = pixelData.takeAt(0).toInt();
+            int a = pixelData.takeAt(0).toInt();
+            pixelBuffer[width * y + x] = QColor(r, g, b, a).rgba();
+        }
+    }
+    refreshCanvas();
 }
 
 void Editor::mousePressed(QMouseEvent* e)

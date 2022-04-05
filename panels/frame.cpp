@@ -43,7 +43,10 @@ void Frame:: addNewFrame(int atIndex, int oldIndex)
 {
     //adds a frame to the vector and sets current frame to new one
     auto it = totalFrameVector.begin();
-    totalFrameVector[oldIndex] = currentFrame;
+    if (totalFrameVector.size() > 0)
+    {
+        totalFrameVector[oldIndex] = currentFrame;
+    }
     Editor nextFrame;
     currentFrame = nextFrame;
     totalFrameVector.insert(it+atIndex, currentFrame);
@@ -88,5 +91,13 @@ int Frame::gettotalFrames()
 void Frame::saveCurrentFrame()
 {
     totalFrameVector[currentFrameIndex] = currentFrame;
+}
+
+void Frame::resetState()
+{
+    totalFrames = 0;
+    totalFrameVector.clear();
+    currentFrameIndex = 0;
+    frameNameCounter = 0;
 }
 
