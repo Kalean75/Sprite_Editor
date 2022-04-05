@@ -24,7 +24,8 @@ void Serialization::set(Key k, QJsonValue v)
     config.insert(configDefaults.at(static_cast<int>(k)).first, v);
 }
 
-void Serialization::SaveAsFile(bool){
+void Serialization::SaveAsFile(bool)
+{
     QJsonDocument document;
     document.setObject(config);
     emit saveFileDialog(document.toJson(QJsonDocument::Indented));

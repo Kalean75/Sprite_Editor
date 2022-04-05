@@ -65,8 +65,12 @@ private slots:
     void on_frameslist_itemDoubleClicked(QListWidgetItem *item);
     void on_frameslist_itemClicked(QListWidgetItem *item);
     void setColor(QTableWidgetItem *item);
-    void updatePreviewonFrameChange();
+    void updatePreviewOnFrameChange();
     void on_playButton_pressed();
     void playAnimation();
+    void on_spriteHeight_textChanged(const QString &arg1);
+    void on_spriteWidth_textChanged(const QString &arg1);
+    void on_spriteHeight_valueChanged(int arg1);
+    void on_spriteWidth_valueChanged(int arg1);
 };
 #endif // VIEW_H

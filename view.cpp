@@ -28,7 +28,7 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(this,&View::pressedAddFrame,&frame,&Frame::addNewFrame);
     connect(this,&View::pressedRemoveFrame,&frame,&Frame::removeOldFrame);
     connect(this,&View::selectNewFrame,&frame,&Frame::selectNewFrame);
-    connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreviewonFrameChange);
+    connect(&(frame.currentFrame),&Editor::updatePreview,this,&View::updatePreviewOnFrameChange);
 
     //set FPS box to only accept number between 0 - 100
     ui->fps->setValidator( new QIntValidator(0, 60, this) );
@@ -41,8 +41,14 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     // TODO: connect canvas methods to width and height sliders, move default values to serializer class
     ui->toolbar->setStyleSheet("QToolButton { margin: 5px; padding: 2px; }");
     ui->zoomSlider->setValue(serialization.getInt(Serialization::ZoomScale)); // canvas.setCanvasScale(8)
+
     frame.currentFrame.canvasWidthChanged(serialization.getInt(Serialization::Width));
     frame.currentFrame.canvasHeightChanged(serialization.getInt(Serialization::Height));
+
+    //set default width and height
+    ui->spriteHeight->setValue(32);
+    ui->spriteWidth->setValue(32);
+
     palettePanel.paletteColumnsChanged(serialization.getInt(Serialization::PaletteColumnCount));
     palettePanel.paletteRowsChanged(serialization.getInt(Serialization::PaletteRowCount));
 
@@ -115,7 +121,7 @@ void View::paintEvent(QPaintEvent*)
     QPainter painter(this);
     QPoint origin = (calculateViewCanvasAnchor() - viewCanvas.rect().center()) + viewCanvasOffset;
     painter.drawImage(origin.x(), origin.y(), viewCanvas, 0, 0, 0, 0);
-    updatePreviewonFrameChange();
+    updatePreviewOnFrameChange();
 }
 //handles resize events
 void View::resizeEvent(QResizeEvent*)
@@ -207,7 +213,7 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 //when item in frames list is clicked, displays that frame in preview
 void View::on_frameslist_itemClicked(QListWidgetItem *item)
 {
-    updatePreviewonFrameChange();
+    updatePreviewOnFrameChange();
 }
 
 //sets color of brush/paintbucket to color selected in pallette
@@ -218,7 +224,7 @@ void View::setColor(QTableWidgetItem *item)
 }
 
 //updates the preview panel when swapping active frames
-void View::updatePreviewonFrameChange()
+void View::updatePreviewOnFrameChange()
 {
     frame.updateCurrentEditor();
     int index = ui->frameslist->currentRow();
@@ -332,3 +338,18 @@ void View::saveFileDialog(QByteArray jsonBytes){
         }
     }
 }
+
+//update height of sprite when value of height box is changed
+void View::on_spriteHeight_valueChanged(int arg1)
+{
+    int newHeight = ui->spriteHeight->value();
+    frame.currentFrame.canvasHeightChanged(newHeight);
+}
+
+//update width of sprite when value of width box is changed
+void View::on_spriteWidth_valueChanged(int arg1)
+{
+    int newWidth = ui->spriteWidth->value();
+    frame.currentFrame.canvasWidthChanged(newWidth);
+}
+
