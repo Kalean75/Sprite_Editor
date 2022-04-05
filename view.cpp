@@ -282,7 +282,10 @@ void View::on_playButton_pressed()
 {
     //set displayed frame index to the first index(0)
     animIndex = 0;
-    origFrameIndex = frame.currentFrameIndex;
+    if(animOnCanvas)
+    {
+        origFrameIndex = frame.currentFrameIndex;
+    }
     //start animation
     startAnimate = true;
     //update preview to first frame
@@ -302,10 +305,13 @@ void View::playAnimation()
     //frames per second calculated by 1 second(1000 ms)/frames
     int fpstime = 1000/framesPerSecond;
     //update Canvas View
-    emit moveToNextFrame(animIndex);
+    if(animOnCanvas)
+    {
+        emit moveToNextFrame(animIndex);
+        frame.currentFrame.refreshCanvas();
+    }
     //update preview panel
     updatePreviewPanel(animIndex);
-    frame.currentFrame.refreshCanvas();
 
     if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
     {
@@ -314,10 +320,21 @@ void View::playAnimation()
     }
     else
     {
-        emit moveToNextFrame(origFrameIndex);
-        frame.currentFrame.refreshCanvas();
-        enableUiElements();
-        startAnimate = false;
+        if(!loopAnim)
+        {
+            if(animOnCanvas)
+            {
+                emit moveToNextFrame(origFrameIndex);
+                frame.currentFrame.refreshCanvas();
+            }
+            enableUiElements();
+            startAnimate = false;
+        }
+        else
+        {
+            animIndex = 0;
+            QTimer::singleShot(fpstime,this, &View::playAnimation);
+        }
     }
 
 }
@@ -409,5 +426,31 @@ void View::on_actualSizeToggle_toggled(bool checked)
 
 void View::openNewFile(){
     //TODO open a new file
+}
+
+
+void View::on_loopButton_toggled(bool checked)
+{
+    if(checked)
+    {
+        loopAnim = true;
+    }
+    else
+    {
+        loopAnim = false;
+    }
+}
+
+
+void View::on_radioButton_toggled(bool checked)
+{
+    if(checked)
+    {
+        animOnCanvas = true;
+    }
+    else
+    {
+        animOnCanvas = false;
+    }
 }
 

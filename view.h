@@ -38,10 +38,12 @@ private:
     void saveFileDialog(QByteArray);
     int animIndex = 0;
     bool startAnimate = false;
+    bool loopAnim = false;
+    bool animOnCanvas = false;
     void enableUiElements();
     void disableUiElements();
     void updatePreviewPanel(int index);
-    bool actualSize;
+    bool actualSize = false;
     void setWidthHeightBoxValue(int height, int width);
     //find a better way
     int origFrameIndex;
@@ -78,5 +80,7 @@ private slots:
     void on_spriteHeight_valueChanged(int arg1);
     void on_spriteWidth_valueChanged(int arg1);
     void on_actualSizeToggle_toggled(bool checked);
+    void on_loopButton_toggled(bool checked);
+    void on_radioButton_toggled(bool checked);
 };
 #endif // VIEW_H
