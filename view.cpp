@@ -45,10 +45,6 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     frame.currentFrame.canvasWidthChanged(serialization.getInt(Serialization::Width));
     frame.currentFrame.canvasHeightChanged(serialization.getInt(Serialization::Height));
 
-    //set default width and height
-    ui->spriteHeight->setValue(32);
-    ui->spriteWidth->setValue(32);
-
     palettePanel.paletteColumnsChanged(serialization.getInt(Serialization::PaletteColumnCount));
     palettePanel.paletteRowsChanged(serialization.getInt(Serialization::PaletteRowCount));
 
