@@ -423,6 +423,12 @@ void View::on_actualSizeToggle_toggled(bool checked)
 
 void View::openNewFile(){
     //TODO open a new file
+    for(int index = 0; index < frame.totalFrameVector.size() - 1; index++)
+    {
+        ui->frameslist->takeItem(index);
+    }
+    updatePreviewOnFrameChange();
+
 }
 
 

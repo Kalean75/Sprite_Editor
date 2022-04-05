@@ -12,9 +12,10 @@ class Frame : public QObject
 
 private:
    int  totalFrames;
+   void setTotalFrames();
+   void setframeNumber(int number);
 public:
     explicit Frame(QObject *parent = nullptr);
-    int currentFrameIndex;
     int frameNameCounter;
     std::vector<Editor> totalFrameVector;
     //copy constructor
@@ -23,21 +24,18 @@ public:
     ~Frame();
     // = operator
     Frame& operator=(const Frame other);
-    void setframeNumber(int number);
     int getframeNumber();
     Editor currentFrame;
-    //signals?
+    int gettotalFrames();
+    void saveCurrentFrame();
+    void resetState();
+    int currentFrameIndex;
+
+public slots:
     void addNewFrame(int atIndex, int oldIndex);
     void removeOldFrame(int index);
     void selectNewFrame(int newIndex, int oldIndex);
-    int gettotalFrames();
-    void settotalFrames();
-    void saveCurrentFrame();
     void moveToNextFrame(int index);
-    void resetState();
-
-public slots:
-
 
 signals:
 
