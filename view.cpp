@@ -280,8 +280,11 @@ void View::playAnimation()
     int framesPerSecond = fps.toUInt();
     //frames per second calculated by 1 second(1000 ms)/frames
     int fpstime = 1000/framesPerSecond;
-   //update preview panel
-   updatePreviewPanel(animIndex);
+    //update Canvas View
+    emit selectNewFrame(animIndex, frame.currentFrameIndex);
+    frame.currentFrame.refreshCanvas();
+    //update preview panel
+    updatePreviewPanel(animIndex);
 
     if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
     {

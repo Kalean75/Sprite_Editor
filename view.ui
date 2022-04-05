@@ -340,7 +340,7 @@
           <string>Play Animation</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="fpsLabel">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -379,6 +379,9 @@
          </property>
          <property name="text">
           <string>60</string>
+         </property>
+         <property name="maxLength">
+          <number>60</number>
          </property>
         </widget>
         <widget class="QSpinBox" name="spriteHeight">
