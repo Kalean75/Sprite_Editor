@@ -42,6 +42,7 @@ public slots:
     void newFile(bool checked);
     void saveFile(bool checked);
     void loadedSerializedValues(QJsonObject);
+    void setSaved(bool saved);
 signals:
     void openFileExplorer();
     void saveFileDialog(QByteArray);

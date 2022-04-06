@@ -72,6 +72,7 @@ signals:
     void moveToNextFrame(int index);
     void updateCurrentEditor(int index);
     void loadedSerializedValues(QJsonObject);
+    void setSaved(bool saved);
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
