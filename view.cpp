@@ -21,6 +21,7 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     }
     connect(&(frame.currentFrame), &Editor::updateViewCanvas, this, &View::updateViewCanvas);
     connect(&(frame.currentFrame), &Editor::serializeValue, &serialization, &Serialization::set);
+    connect(&frame, &Frame::serializeValue, &serialization, &Serialization::set);
     connect(&palettePanel, &Palette::updateViewPalette, this, &View::updateViewPalette);
     connect(ui->zoomSlider, &QSlider::valueChanged, &(frame.currentFrame), &Editor::canvasScaleChanged);
     connect(this, &View::canvasAnchorChanged, &(frame.currentFrame), &Editor::canvasAnchorChanged);

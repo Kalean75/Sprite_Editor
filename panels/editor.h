@@ -28,6 +28,7 @@ public:
     int getHeight();
     int getWidth();
     void loadSerializedFrame(QJsonArray);
+    QJsonArray getSerializedFrame();
 private:
     int index;
     const QRgb transparentPixel = qRgba(0, 0, 0, 0);
@@ -63,7 +64,6 @@ private:
     //void refreshCanvas();
     int currentPixelIndex();
     void bucketFill(QRgb, QRgb, int);
-    QJsonArray getSerializedFrame();
 
 //    // Current pen settings
 //    int currentPenWidth;

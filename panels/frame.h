@@ -42,7 +42,7 @@ public slots:
     void moveToNextFrame(int index);
 
 signals:
-
+    void serializeValue(Serialization::Key, QJsonValue);
 };
 
 #endif // FRAME_H

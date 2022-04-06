@@ -51,11 +51,17 @@ void Frame:: addNewFrame(int atIndex, int oldIndex)
     {
         totalFrameVector[oldIndex] = currentFrame;
     }
+    for (int i = atIndex; i < (int) totalFrameVector.size(); i++)
+    {
+        currentFrame = totalFrameVector.at(i);
+        currentFrame.setIndex(i + 1);
+        emit serializeValue(Serialization::Frames, currentFrame.getSerializedFrame());
+    }
     Editor nextFrame;
     currentFrame = nextFrame;
     totalFrameVector.insert(it+atIndex, currentFrame);
     totalFrames++;
-    currentFrame.setIndex(totalFrameVector.size() - 1);
+    currentFrame.setIndex(atIndex);
 
 }
 //removes a frame from the vector of frames(editors)
