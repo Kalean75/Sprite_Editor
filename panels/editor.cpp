@@ -20,8 +20,8 @@ Editor::Editor(QWidget* parent) : QWidget(parent)
 //destructor
 Editor::~Editor()
 {
-    //TODO
-    //put stuff here
+    pixelBuffer.clear();
+    QVector<QRgb>().swap(pixelBuffer);
 }
 //copy constructor
 Editor::Editor(const Editor& other)

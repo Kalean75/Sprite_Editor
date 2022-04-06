@@ -48,7 +48,7 @@ void Serialization::set(Key k, QJsonValue v)
     }
 }
 
-void Serialization::SaveAsFile(bool)
+void Serialization::saveAsFile(bool)
 {
     QJsonDocument document;
     document.setObject(config);
@@ -56,7 +56,7 @@ void Serialization::SaveAsFile(bool)
     emit saveFileDialog(document.toJson(QJsonDocument::Compact));
 }
 
-void Serialization::NewFile(bool)
+void Serialization::newFile(bool)
 {
     if (saved == true){
         //open a new file
@@ -82,11 +82,11 @@ void Serialization::NewFile(bool)
     }
 }
 
-void Serialization::OpenFile(bool){
+void Serialization::openFile(bool){
     emit openFileExplorer();
 }
 
-void Serialization::SaveFile(bool){
+void Serialization::saveFile(bool){
 }
 
 void Serialization::loadedSerializedValues(QJsonObject loaded)

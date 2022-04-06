@@ -37,10 +37,10 @@ private:
     bool saved;
 
 public slots:
-    void SaveAsFile(bool checked);
-    void OpenFile(bool checked);
-    void NewFile(bool checked);
-    void SaveFile(bool checked);
+    void saveAsFile(bool checked);
+    void openFile(bool checked);
+    void newFile(bool checked);
+    void saveFile(bool checked);
     void loadedSerializedValues(QJsonObject);
 signals:
     void openFileExplorer();

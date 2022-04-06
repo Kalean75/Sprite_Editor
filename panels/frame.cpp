@@ -24,21 +24,24 @@ Frame::Frame(const Frame& other)
 {
     totalFrames = other.totalFrames;
     totalFrameVector = other.totalFrameVector;
-
-    //TODO
-    //insert more if needed
+    currentFrameIndex = other.currentFrameIndex;
+    frameNameCounter = other.frameNameCounter;
 }
 //destructor
 Frame::~Frame()
 {
-    totalFrameVector.clear();
     totalFrames = 0;
+    totalFrameVector.clear();
+    currentFrameIndex = 0;
+    frameNameCounter = 0;
 }
 // = operator
 Frame& Frame::operator=(Frame other)
 {
     std::swap(totalFrames, other.totalFrames);
     std::swap(totalFrameVector, other.totalFrameVector);
+    std::swap(currentFrameIndex, other.currentFrameIndex);
+    std::swap(frameNameCounter, other.frameNameCounter);
     //Add in more as needed
     return *this;
 }
