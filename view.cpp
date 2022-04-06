@@ -269,6 +269,9 @@ void View::enableUiElements()
     ui->removeFrameButton->setEnabled(true);
     ui->playButton->setEnabled(true);
     ui->fps->setEnabled(true);
+    ui->actionNew->setEnabled(true);
+    ui->actionSaveAs->setEnabled(true);
+    ui->actionOpen->setEnabled(true);
 }
 //disables Various UI elements
 void View::disableUiElements()
@@ -278,6 +281,9 @@ void View::disableUiElements()
     ui->removeFrameButton->setEnabled(false);
     ui->playButton->setEnabled(false);
     ui->fps->setEnabled(false);
+    ui->actionNew->setEnabled(false);
+    ui->actionSaveAs->setEnabled(false);
+    ui->actionOpen->setEnabled(false);
 }
 
 //when play button is preseed, begins animation
@@ -425,7 +431,9 @@ void View::on_actualSizeToggle_toggled(bool checked)
 
 void View::openNewFile(){
     //TODO open a new file
-    ui->framesList->clear();
+    ui->canvasAnimButton->setChecked(false);
+    ui->loopButton->setChecked(false);
+    ui->actualSizeToggle->setChecked(false);
     for(int index = 0; index < ui->framesList->count(); index++)
     {
         ui->framesList->takeItem(index);
@@ -451,7 +459,7 @@ void View::on_loopButton_toggled(bool checked)
 }
 
 
-void View::on_radioButton_toggled(bool checked)
+void View::on_canvasAnimButton_toggled(bool checked)
 {
     if(checked)
     {

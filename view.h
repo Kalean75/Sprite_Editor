@@ -85,6 +85,6 @@ private slots:
     void on_spriteWidth_valueChanged(int arg1);
     void on_actualSizeToggle_toggled(bool checked);
     void on_loopButton_toggled(bool checked);
-    void on_radioButton_toggled(bool checked);
+    void on_canvasAnimButton_toggled(bool checked);
 };
 #endif // VIEW_H
