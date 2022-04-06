@@ -2,7 +2,12 @@
 Authors: Devin White, Xuyen Nguyen, Taylor Adamson, Ansam Al Sharif
 
 Features:
-
+  
+  Flexible, responsive layout:
+      
+      Resizing the window repositions UI elements accordingly.
+      Toolbar can be moved to different areas of the window or put in floating mode.
+  
   Open, Save, and New File:
 	
     Open: Allows the user to Open a sprite file with the format .ssp
