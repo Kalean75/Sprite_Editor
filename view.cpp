@@ -468,6 +468,7 @@ void View::openNewFile(){
     ui->canvasAnimButton->setChecked(false);
     ui->loopButton->setChecked(false);
     ui->actualSizeToggle->setChecked(false);
+    ui->framesList->clear();
     for(int index = 0; index < ui->framesList->count(); index++)
     {
         ui->framesList->takeItem(index);

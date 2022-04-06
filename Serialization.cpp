@@ -61,7 +61,8 @@ void Serialization::saveAsFile(bool)
 
 void Serialization::newFile(bool)
 {
-    if (saved == true){
+    if (saved == true)
+    {
         emit openNewFile();
     }
     else {
@@ -85,7 +86,8 @@ void Serialization::newFile(bool)
     }
 }
 
-void Serialization::openFile(bool){
+void Serialization::openFile(bool)
+{
     emit openFileExplorer();
 }
 
