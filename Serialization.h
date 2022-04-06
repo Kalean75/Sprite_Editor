@@ -35,6 +35,7 @@ private:
     QVector<QPair<QString, QJsonValue>> configDefaults;
     QJsonObject config;
     bool saved;
+    QString fileName;
 
 public slots:
     void saveAsFile(bool checked);
@@ -43,9 +44,11 @@ public slots:
     void saveFile(bool checked);
     void loadedSerializedValues(QJsonObject);
     void setSaved(bool saved);
+    void setFileName(QString fileName);
 signals:
     void openFileExplorer();
     void saveFileDialog(QByteArray);
+    void saveExistingFile(QByteArray, QString);
     void updateViewValue(Serialization::Key, QJsonValue);
     void openNewFile();
 };

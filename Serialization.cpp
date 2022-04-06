@@ -18,6 +18,8 @@ Serialization::Serialization(QObject* parent) : QObject(parent)
     {
         set(static_cast<Key>(i), configDefaults.at(i).second);
     }
+    saved = false;
+    fileName = nullptr;
 }
 
 QJsonValue Serialization::get(Key k)
@@ -32,6 +34,7 @@ int Serialization::getInt(Key k)
 
 void Serialization::set(Key k, QJsonValue v)
 {
+    saved = false;
     QString resolvedKey = configDefaults.at(static_cast<int>(k)).first;
     if (k == Frames)
     {
@@ -87,6 +90,17 @@ void Serialization::openFile(bool){
 }
 
 void Serialization::saveFile(bool){
+    QJsonDocument document;
+    document.setObject(config);
+    saved = true;
+    if (fileName != nullptr)
+    {
+        emit saveExistingFile(document.toJson(QJsonDocument::Compact), fileName);
+    }
+    else {
+        emit saveFileDialog(document.toJson(QJsonDocument::Compact));
+    }
+
 }
 
 void Serialization::loadedSerializedValues(QJsonObject loaded)
@@ -100,4 +114,9 @@ void Serialization::loadedSerializedValues(QJsonObject loaded)
 
 void Serialization::setSaved(bool saved){
     this->saved = saved;
+}
+
+void Serialization::setFileName(QString fileName)
+{
+    this->fileName = fileName;
 }

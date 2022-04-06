@@ -67,10 +67,12 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(ui->actionNew, &QAction::triggered, &serialization, &Serialization::newFile);
     connect(&serialization, &Serialization::openFileExplorer, this, &View::openFileExplorer);
     connect(&serialization, &Serialization::saveFileDialog, this, &View::saveFileDialog);
+    connect(&serialization, &Serialization::saveExistingFile, this, &View::saveExistingFile);
     connect(&serialization, &Serialization::updateViewValue, this, &View::updateViewValue);
     connect(this, &View::loadedSerializedValues, &serialization, &Serialization::loadedSerializedValues);
     connect(&serialization, &Serialization::openNewFile, this, &View::openNewFile);
     connect(this, &View::setSaved, &serialization, &Serialization::setSaved);
+    connect(this, &View::setFileName, &serialization, &Serialization::setFileName);
 }
 
 View::~View()
@@ -274,6 +276,8 @@ void View::enableUiElements()
     ui->actionNew->setEnabled(true);
     ui->actionSaveAs->setEnabled(true);
     ui->actionOpen->setEnabled(true);
+    ui->spriteHeight->setEnabled(true);
+    ui->spriteWidth->setEnabled(true);
 }
 //disables Various UI elements
 void View::disableUiElements()
@@ -286,6 +290,8 @@ void View::disableUiElements()
     ui->actionNew->setEnabled(false);
     ui->actionSaveAs->setEnabled(false);
     ui->actionOpen->setEnabled(false);
+    ui->spriteHeight->setEnabled(false);
+    ui->spriteWidth->setEnabled(false);
 }
 
 //when play button is preseed, begins animation
@@ -396,6 +402,29 @@ void View::saveFileDialog(QByteArray jsonBytes){
             QTextStream iStream( &file );
             iStream << jsonBytes;
             file.close();
+            emit setFileName(fileName);
+        }
+        else
+        {
+            QMessageBox::information(this, tr("Saving File"), tr("Could not save sprite file"));
+        }
+    }
+    else {
+        emit setSaved(false);
+    }
+}
+
+void View::saveExistingFile(QByteArray jsonBytes, QString fileName)
+{
+    if (!fileName.isEmpty() && !fileName.isNull())
+    {
+        QFile file(QFileInfo(fileName).absoluteFilePath());
+        if (file.open(QIODevice::WriteOnly))
+        {
+            QTextStream iStream( &file );
+            iStream << jsonBytes;
+            file.close();
+            emit setFileName(fileName);
         }
         else
         {

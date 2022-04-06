@@ -40,6 +40,7 @@ private:
     void updateViewValue(Serialization::Key, QJsonValue);
     void openFileExplorer();
     void saveFileDialog(QByteArray);
+    void saveExistingFile(QByteArray, QString);
     int animIndex = 0;
     bool startAnimate = false;
     bool loopAnim = false;
@@ -73,6 +74,7 @@ signals:
     void updateCurrentEditor(int index);
     void loadedSerializedValues(QJsonObject);
     void setSaved(bool saved);
+    void setFileName(QString fileName);
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
