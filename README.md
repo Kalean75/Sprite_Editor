@@ -1,5 +1,5 @@
 # A7 Sprite Editor
-Authors: Devin White, Xuyen Nguyen, Taylor Adamson, Ansam Al Sharif
+#Authors: Devin White, Xuyen Nguyen, Taylor Adamson, Ansam Al Sharif
 
 Features:
 
