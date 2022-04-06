@@ -65,7 +65,7 @@ void Frame:: addNewFrame(int atIndex, int oldIndex)
     totalFrameVector.insert(it+atIndex, currentFrame);
     totalFrames++;
     currentFrame.setIndex(atIndex);
-
+    emit serializeValue(Serialization::FramesCount, (int) totalFrameVector.size());
 }
 //removes a frame from the vector of frames(editors)
 void Frame:: removeOldFrame(int atIndex)
@@ -80,8 +80,8 @@ void Frame:: removeOldFrame(int atIndex)
     {
         currentFrame = totalFrameVector[atIndex-1];
     }
-
     totalFrameVector.erase(it+atIndex);
+    emit serializeValue(Serialization::FramesCount, (int) totalFrameVector.size());
 }
 
 //selects a new frame
