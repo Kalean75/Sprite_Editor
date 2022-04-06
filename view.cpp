@@ -59,10 +59,10 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     frame.currentFrameIndex = 0;
     frame.frameNameCounter = 0;
 
-    connect(ui->actionOpen, &QAction::triggered, &serialization, &Serialization::OpenFile);
-    connect(ui->actionSaveAs, &QAction::triggered, &serialization, &Serialization::SaveAsFile);
-    connect(ui->actionSave, &QAction::triggered, &serialization, &Serialization::SaveFile);
-    connect(ui->actionNew, &QAction::triggered, &serialization, &Serialization::NewFile);
+    connect(ui->actionOpen, &QAction::triggered, &serialization, &Serialization::openFile);
+    connect(ui->actionSaveAs, &QAction::triggered, &serialization, &Serialization::saveAsFile);
+    connect(ui->actionSave, &QAction::triggered, &serialization, &Serialization::saveFile);
+    connect(ui->actionNew, &QAction::triggered, &serialization, &Serialization::newFile);
     connect(&serialization, &Serialization::openFileExplorer, this, &View::openFileExplorer);
     connect(&serialization, &Serialization::saveFileDialog, this, &View::saveFileDialog);
     connect(&serialization, &Serialization::updateViewValue, this, &View::updateViewValue);
