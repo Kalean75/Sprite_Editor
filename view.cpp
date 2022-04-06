@@ -8,6 +8,7 @@
 // Xuyen Nguyen
 // Taylor Adamson
 // Ansam Al Sharif
+
 View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::View)
