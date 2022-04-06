@@ -590,7 +590,6 @@
    <addaction name="actionEraser"/>
    <addaction name="actionBucket"/>
    <addaction name="actionEyedrop"/>
-   <addaction name="actionSelect"/>
    <addaction name="actionMove"/>
   </widget>
   <action name="actionNew">
@@ -655,21 +654,6 @@
    </property>
    <property name="text">
     <string>Eyedrop</string>
-   </property>
-  </action>
-  <action name="actionSelect">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/res/selection.png</normaloff>:/res/selection.png</iconset>
-   </property>
-   <property name="text">
-    <string>Select</string>
    </property>
   </action>
   <action name="actionMove">
