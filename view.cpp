@@ -70,7 +70,7 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     connect(&serialization, &Serialization::updateViewValue, this, &View::updateViewValue);
     connect(this, &View::loadedSerializedValues, &serialization, &Serialization::loadedSerializedValues);
     connect(&serialization, &Serialization::openNewFile, this, &View::openNewFile);
-
+    connect(this, &View::setSaved, &serialization, &Serialization::setSaved);
 }
 
 View::~View()
@@ -388,7 +388,7 @@ void View::openFileExplorer(){
 
 void View::saveFileDialog(QByteArray jsonBytes){
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/sprite", tr("Sprite File (*.ssp)"));
-    if (!fileName.isEmpty())
+    if (!fileName.isEmpty() && !fileName.isNull())
     {
         QFile file(QFileInfo(fileName).absoluteFilePath());
         if (file.open(QIODevice::WriteOnly))
@@ -401,6 +401,9 @@ void View::saveFileDialog(QByteArray jsonBytes){
         {
             QMessageBox::information(this, tr("Saving File"), tr("Could not save sprite file"));
         }
+    }
+    else {
+        emit setSaved(false);
     }
 }
 

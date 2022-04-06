@@ -59,7 +59,7 @@ void Serialization::saveAsFile(bool)
 void Serialization::newFile(bool)
 {
     if (saved == true){
-        //open a new file
+        emit openNewFile();
     }
     else {
         QMessageBox msgBox;
@@ -96,4 +96,8 @@ void Serialization::loadedSerializedValues(QJsonObject loaded)
     {
         emit updateViewValue(static_cast<Key>(i), loaded.value(configDefaults.at(i).first));
     }
+}
+
+void Serialization::setSaved(bool saved){
+    this->saved = saved;
 }
