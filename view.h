@@ -75,8 +75,8 @@ signals:
 private slots:
     void on_addFrameButton_pressed();
     void on_removeFrameButton_pressed();
-    void on_frameslist_itemDoubleClicked(QListWidgetItem *item);
-    void on_frameslist_itemClicked(QListWidgetItem *item);
+    void on_framesList_itemDoubleClicked(QListWidgetItem *item);
+    void on_framesList_itemClicked(QListWidgetItem *item);
     void setColor(QTableWidgetItem *item);
     void updatePreviewOnFrameChange();
     void on_playButton_pressed();

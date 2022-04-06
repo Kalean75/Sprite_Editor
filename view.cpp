@@ -54,8 +54,8 @@ View::View( Palette& palettePanel, Serialization& serialization, QWidget *parent
     palettePanel.paletteColumnsChanged(serialization.getInt(Serialization::PaletteColumnCount));
     palettePanel.paletteRowsChanged(serialization.getInt(Serialization::PaletteRowCount));
 
-    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
-    ui->frameslist->setCurrentRow(0);
+    ui->framesList->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
+    ui->framesList->setCurrentRow(0);
     frame.currentFrameIndex = 0;
     frame.frameNameCounter = 0;
 
@@ -118,7 +118,7 @@ void View::updateViewValue(Serialization::Key k, QJsonValue v)
     {
         QJsonObject frameObject = v.toObject();
         frame.resetState();
-        ui->frameslist->clear();
+        ui->framesList->clear();
         for (int i = 0; i < frameObject.size(); i++)
         {
             QString frameKey = QString("frame").append(QString::number(i));
@@ -173,15 +173,15 @@ void View::on_addFrameButton_pressed()
 {
     //TODO
     //add stuff to signal add frame
-    int nextIndex = ui->frameslist->currentRow() + 1;
+    int nextIndex = ui->framesList->currentRow() + 1;
     frame.frameNameCounter++;
     int latestIndex = frame.frameNameCounter;
     QSize previousSize = QSize(frame.currentFrame.getWidth(), frame.currentFrame.getHeight());
     emit pressedAddFrame(nextIndex, frame.currentFrameIndex);
 
     // Add new item to frameslist and select the added item
-    ui->frameslist->insertItem(nextIndex , "Frame " + QString::number(latestIndex));
-    ui->frameslist->setCurrentRow(nextIndex);
+    ui->framesList->insertItem(nextIndex , "Frame " + QString::number(latestIndex));
+    ui->framesList->setCurrentRow(nextIndex);
     frame.currentFrameIndex = nextIndex ;
     //    ui->frameslist->addItem("Frame " + QString:: number(frame.currentFrame.getIndex()));
 
@@ -199,16 +199,16 @@ void View::on_removeFrameButton_pressed()
 {
 
     //removes from the list if total is above 1
-    if(ui->frameslist->count() > 1)
+    if(ui->framesList->count() > 1)
     {
         //removes current row
-        int index = ui->frameslist->currentRow();
+        int index = ui->framesList->currentRow();
         emit pressedRemoveFrame(index);
         //remove
         emit canvasAnchorChanged(calculateViewCanvasAnchor());
         emit canvasOffsetChanged(viewCanvasOffset);
-        ui->frameslist->takeItem(index);
-        frame.currentFrameIndex = ui->frameslist->currentRow();
+        ui->framesList->takeItem(index);
+        frame.currentFrameIndex = ui->framesList->currentRow();
         //change this to signal to refresh
         frame.currentFrame.refreshCanvas();
         setWidthHeightBoxValue(frame.currentFrame.getHeight(),frame.currentFrame.getWidth());
@@ -217,12 +217,10 @@ void View::on_removeFrameButton_pressed()
 }
 
 //when frame in frame list is double clicked, make that frame the active frame
-void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
+void View::on_framesList_itemDoubleClicked(QListWidgetItem *item)
 {
-    //TODO
     // Change editor to current Frame
-    //   int index = ui->frameslist->row(item);
-    int newIndex = ui->frameslist->currentRow();
+    int newIndex = ui->framesList->currentRow();
     int oldIndex = frame.currentFrameIndex;
     frame.currentFrameIndex = newIndex;
     //std::cout << "index of item: " << newIndex << ", current row selected: " << ui->frameslist->currentRow() << std::endl;
@@ -236,7 +234,7 @@ void View::on_frameslist_itemDoubleClicked(QListWidgetItem *item)
 }
 
 //when item in frames list is clicked, displays that frame in preview
-void View::on_frameslist_itemClicked(QListWidgetItem *item)
+void View::on_framesList_itemClicked(QListWidgetItem *item)
 {
     updatePreviewOnFrameChange();
 }
@@ -258,7 +256,7 @@ void View::updatePreviewOnFrameChange()
     if(!startAnimate)
     {
         frame.saveCurrentFrame();
-        int index = ui->frameslist->currentRow();
+        int index = ui->framesList->currentRow();
         updatePreviewPanel(index);
     }
 }
@@ -266,7 +264,7 @@ void View::updatePreviewOnFrameChange()
 //enables various UI elements
 void View::enableUiElements()
 {
-    ui->frameslist->setEnabled(true);
+    ui->framesList->setEnabled(true);
     ui->addFrameButton->setEnabled(true);
     ui->removeFrameButton->setEnabled(true);
     ui->playButton->setEnabled(true);
@@ -275,7 +273,7 @@ void View::enableUiElements()
 //disables Various UI elements
 void View::disableUiElements()
 {
-    ui->frameslist->setEnabled(false);
+    ui->framesList->setEnabled(false);
     ui->addFrameButton->setEnabled(false);
     ui->removeFrameButton->setEnabled(false);
     ui->playButton->setEnabled(false);
@@ -318,7 +316,7 @@ void View::playAnimation()
     //update preview panel
     updatePreviewPanel(animIndex);
 
-    if(animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
+    if((uint) animIndex < frame.totalFrameVector.size() - 1 && startAnimate)
     {
         QTimer::singleShot(fpstime,this, &View::playAnimation);
         animIndex++;
@@ -399,16 +397,16 @@ void View::saveFileDialog(QByteArray jsonBytes){
 }
 
 //update height of sprite when value of height box is changed
-void View::on_spriteHeight_valueChanged(int arg1)
+void View::on_spriteHeight_valueChanged(int height)
 {
-    int newHeight = ui->spriteHeight->value();
+    int newHeight = height;
     frame.currentFrame.canvasHeightChanged(newHeight);
 }
 
 //update width of sprite when value of width box is changed
-void View::on_spriteWidth_valueChanged(int arg1)
+void View::on_spriteWidth_valueChanged(int width)
 {
-    int newWidth = ui->spriteWidth->value();
+    int newWidth = width;
     frame.currentFrame.canvasWidthChanged(newWidth);
 }
 
@@ -427,11 +425,15 @@ void View::on_actualSizeToggle_toggled(bool checked)
 
 void View::openNewFile(){
     //TODO open a new file
-    for(int index = 0; index < frame.totalFrameVector.size() - 1; index++)
+    ui->framesList->clear();
+    for(int index = 0; index < ui->framesList->count(); index++)
     {
-        ui->frameslist->takeItem(index);
+        ui->framesList->takeItem(index);
     }
-    updatePreviewOnFrameChange();
+    frame.resetState();
+    on_addFrameButton_pressed();
+    ui->spriteHeight->setValue(32);
+    ui->spriteWidth->setValue(32);
 
 }
 

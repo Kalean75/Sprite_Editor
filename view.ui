@@ -301,7 +301,7 @@
           <string>Add Frame</string>
          </property>
         </widget>
-        <widget class="QListWidget" name="frameslist">
+        <widget class="QListWidget" name="framesList">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -595,7 +595,7 @@
   </widget>
   <action name="actionNew">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>New</string>
@@ -660,6 +660,9 @@
   <action name="actionSelect">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="res.qrc">
