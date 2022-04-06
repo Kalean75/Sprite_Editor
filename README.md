@@ -6,6 +6,7 @@ Taylor Adamson,
 Ansam Al Sharif
 
 Features:
+
   Open, Save, and New File:
   
     Open: Allows the user to Open a sprite file with the format .ssp
