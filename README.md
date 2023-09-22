@@ -1,4 +1,4 @@
-# A7 Sprite Editor
+# prite Editor
 Authors: Devin White, Xuyen Nguyen, Taylor Adamson, Ansam Al Sharif
 
 Features:
