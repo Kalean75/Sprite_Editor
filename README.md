@@ -1,4 +1,4 @@
-# prite Editor
+# Sprite Editor
 Authors: Devin White, Xuyen Nguyen, Taylor Adamson, Ansam Al Sharif
 
 Features:
